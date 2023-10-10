@@ -28,4 +28,8 @@ public class Kuznechik_service {
 
         return mute_tabl;
     }
+
+    public int[] Get_Zero_Array(){
+        return new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    }
 }

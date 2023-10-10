@@ -1,5 +1,6 @@
 package Source.Crypto_Services.Kuznechik;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -12,10 +13,11 @@ public class Cipher {
     private List<Integer> Galua_Field_Mutable_Table = new ArrayList<>();
     private final List<int[]> Constants_Ci = new ArrayList<>();
     private final List<String> Constants_Ci_hex = new ArrayList<>();
-    private final int[] Current_Const_Ci = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    private int[] Current_Const_Ci = new int[]{ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     private final Kuznechik_service cryptoService = new Kuznechik_service();
 
+    //Генерация итерационных констант
     public void Generate_Constants_Ci() {
         int dec_result = 0;
         Galua_Field_Mutable_Table = cryptoService.Get_Mute_Table();
@@ -32,16 +34,8 @@ public class Cipher {
             }
 
             Write_Const_Ci(Current_Const_Ci);
-            String hex_ci = "";
-            for(int ij = 15; ij >= 0; ij--){
-                hex_ci+= Integer.toHexString(Current_Const_Ci[ij]);
-            }
-            for (int il = 0; il < 16; il++){
-                Current_Const_Ci[il] = 0;
-            }
+            Current_Const_Ci = cryptoService.Get_Zero_Array();
         }
-
-        int t = 0;
     }
 
     //Умножение в поле Галуа
