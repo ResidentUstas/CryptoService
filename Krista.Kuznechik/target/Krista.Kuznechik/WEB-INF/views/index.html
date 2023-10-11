@@ -6,8 +6,11 @@
 </head>
 <body>
 Hello Cryptography World!!!
-<div th:each="book: ${cipher}">
+<div th:each="book: ${grasshopperCipher}">
     <a th:text="${cipher}">book</a>
+</div>
+<div th:each="book: ${grasshopperDipher}">
+    <a th:text="${decipher}">book</a>
 </div>
 </body>
 </html>
