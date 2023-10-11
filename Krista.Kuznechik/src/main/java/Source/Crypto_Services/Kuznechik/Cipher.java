@@ -14,14 +14,18 @@ public class Cipher {
     private final char[] HEX_Alphabet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     private final List<int[]> RoundKeys = new LinkedList<>();
     private String Key = "8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef";
+
+    private String OpenText = "1122334455667700ffeeddccbbaa9988";
     private List<Integer> Galua_Field_Mutable_Table = new ArrayList<>();
     private final List<int[]> Constants_Ci = new ArrayList<>();
+
+    private final List<int[]> Rounds_OpenTXT = new ArrayList<>();
     private final List<String> Constants_Ci_hex = new ArrayList<>();
+    private final List<String> Rounds_Open_hex = new ArrayList<>();
     private final List<String> Round_Keys_hex = new ArrayList<>();
     private int[] Current_Const_Ci = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
-
-    public int Not_Linear_Transform_Table[] = new int[]{
+    private int Not_Linear_Transform_Table[] = new int[]{
             252, 238, 221, 17, 207, 110, 49, 22, 251, 196, 250, 218, 35, 197, 4, 77,
             233, 119, 240, 219, 147, 46, 153, 186, 23, 54, 241, 187, 20, 205, 95, 193,
             249, 24, 101, 90, 226, 92, 239, 33, 129, 28, 60, 66, 139, 1, 142, 79, 5,
@@ -40,7 +44,30 @@ public class Cipher {
             244, 180, 192, 209, 102, 175, 194, 57, 75, 99, 182};
     private final Kuznechik_service cryptoService = new Kuznechik_service();
 
-    public void Generate_Round_Keys() {
+    public String Get_Cipher_Text() {
+        Generate_Constants_Ci();
+        Generate_Round_Keys();
+        int[] Open_text_bytes = cryptoService.Get_ByteRow_From_String(OpenText, 16);
+        String s1 = Get_hex_string(Open_text_bytes);
+        int[] period_result = new int[16];
+        int[] Key_i = RoundKeys.get(0);
+        String K1_str = Get_hex_string(Open_text_bytes);
+        String K2_str = Get_hex_string(Key_i);
+        for (int i = 0; i < 9; i++) {
+            cryptoService.SwapMass(Open_text_bytes, period_result);
+            Open_text_bytes = Feistel_Cell(Open_text_bytes, RoundKeys, i);
+            cryptoService.SwapMass(period_result, Key_i);
+            K1_str = Get_hex_string(Open_text_bytes);
+            K2_str = Get_hex_string(Key_i);
+        }
+
+        int[] Cipher_Byte_result = cryptoService.XOR(Open_text_bytes, RoundKeys.get(9));
+        String Cipher_result = Get_hex_string(Cipher_Byte_result);
+        return Cipher_result;
+    }
+
+    // генерация рауновых ключей
+    private void Generate_Round_Keys() {
         String Key_str = Key.substring(0, 64);
         int[] Key = cryptoService.Get_ByteRow_From_String(Key_str, 32);
         int[] K1 = Arrays.copyOfRange(Key, 16, 32);
@@ -53,7 +80,9 @@ public class Cipher {
         for (int i = 0; i < 4; i++) {
             for (int l = 0; l < 8; l++) {
                 cryptoService.SwapMass(K1, K_period);
-                K1 = Feistel_Cell(K1, K2, Constants_Ci, (8 * i) + l);
+                K1 = Feistel_Cell(K1, Constants_Ci, (8 * i) + l);
+                K1 = cryptoService.XOR(K2, K1);
+                String s4 = Get_hex_string(K1);
                 cryptoService.SwapMass(K_period, K2);
                 K1_str = Get_hex_string(K1);
                 K2_str = Get_hex_string(K2);
@@ -65,7 +94,7 @@ public class Cipher {
     }
 
     //Генерация итерационных констант
-    public void Generate_Constants_Ci() {
+    private void Generate_Constants_Ci() {
         Galua_Field_Mutable_Table = cryptoService.Get_Mute_Table();
         for (int i = 1; i < 33; i++) {
             Current_Const_Ci[0] = i;
@@ -107,9 +136,9 @@ public class Cipher {
         RoundHex.add(hex_row);
     }
 
-    private int[] Feistel_Cell(int[] Key_a, int[] Key_b, List<int[]> byteArray, int round_num) {
+    private int[] Feistel_Cell(int[] Key_a, List<int[]> byteArray, int round_num) {
         String ks1 = Get_hex_string(Key_a);
-        String ks2 = Get_hex_string(Key_b);
+
         int[] keyRow = cryptoService.XOR(Key_a, byteArray.get(round_num));
         String s1 = Get_hex_string(keyRow);
 
@@ -119,10 +148,7 @@ public class Cipher {
         Linear_Transform();
         String s3 = Get_hex_string(Current_Const_Ci);
 
-        keyRow = cryptoService.XOR(Key_b, Current_Const_Ci);
-        String s4 = Get_hex_string(keyRow);
-
-        return keyRow;
+        return Current_Const_Ci;
     }
 
     private void Linear_Transform() {
