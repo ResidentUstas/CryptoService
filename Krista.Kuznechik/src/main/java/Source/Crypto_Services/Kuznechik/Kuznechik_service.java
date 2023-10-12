@@ -268,7 +268,7 @@ public class Kuznechik_service {
         String ks = Get_hex_string(byteArray);
         for (int l = 0; l < 16; l++) {
             for (int j = 0; j < 16; j++) {
-                dec_result = dec_result ^ Galua_Mute(LinearTransformRow[j], byteArray[j]);
+                dec_result = dec_result ^ Galua_Mute(LinearTransformRow[15-j], byteArray[j]);
             }
 
             Right_Shift(byteArray);
@@ -276,6 +276,7 @@ public class Kuznechik_service {
             dec_result = 0;
         }
 
+        String ks1 = Get_hex_string(byteArray);
         return byteArray;
     }
 

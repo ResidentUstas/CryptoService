@@ -3,6 +3,7 @@ package Source.Crypto_Services.Kuznechik;
 public class GrasshopperCipher {
     private final Kuznechik_service cryptoService = new Kuznechik_service();
 
+    //Шифрует
     public String Get_Cipher_Text() {
         //генерируем итерационные константы
         cryptoService.Generate_Constants_Ci();
@@ -14,6 +15,7 @@ public class GrasshopperCipher {
         return cryptoService.Make_Cipher_Text();
     }
 
+    // Дешифрует
     public String Get_Open_Text(){
         return cryptoService.Make_Open_Text();
     }
