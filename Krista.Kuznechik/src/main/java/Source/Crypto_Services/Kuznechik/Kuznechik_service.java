@@ -12,7 +12,7 @@ public class Kuznechik_service {
     private final int[] LinearTransformRow = new int[] {1, 148, 32, 133, 16, 194, 192, 1, 251, 1, 192, 194, 16, 133, 32, 148};
     private final char[] HEX_Alphabet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     public final List<int[]> RoundKeys = new LinkedList<>();
-    private String Key = "8899aabbccddeeff0011223344556677fedcba98765432100123456789abcdef";
+    private String Key = "163d0c959837ceed037d1c5ffd5e6a0f9c399a4621d69fd699673433b6dc047a";
 
     private String OpenText = "1122334455667700ffeeddccbbaa9988";
     private String CipherText = "7f679d90bebc24305a468d42b9d4edcd";
@@ -95,10 +95,11 @@ public class Kuznechik_service {
         return Cipher_result;
     }
 
-    public String Make_Open_Text(){
+    public String Make_Open_Text(String CipherText){
         int[] Cipher_text_bytes = Get_ByteRow_From_String(CipherText, 16);
         int[] period_result = new int[16];
-        int[] Key_i = RoundKeys.get(9);
+        int[] Key_i = new int[16];
+        SwapMass(RoundKeys.get(9), Key_i);
         Cipher_text_bytes = XOR(Key_i, Cipher_text_bytes);
         String s1 = Get_hex_string(Cipher_text_bytes);
         for (int i = 9; i > 0; i--) {
@@ -301,7 +302,11 @@ public class Kuznechik_service {
     public String Get_hex_string(int[] byteRow) {
         String hex_ci = "";
         for (int i = byteRow.length - 1; i >= 0; i--) {
-            hex_ci += Integer.toHexString(byteRow[i]);
+            String line = Integer.toHexString(byteRow[i]);
+            if (line.length() < 2) {
+                line = "0" + line;
+            }
+            hex_ci += line;
         }
 
         return hex_ci;
