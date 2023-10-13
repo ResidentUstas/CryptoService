@@ -12,7 +12,7 @@ public class Kuznechik_service {
     private final int[] LinearTransformRow = new int[] {1, 148, 32, 133, 16, 194, 192, 1, 251, 1, 192, 194, 16, 133, 32, 148};
     private final char[] HEX_Alphabet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     public final List<int[]> RoundKeys = new LinkedList<>();
-    private String Key = "163d0c959837ceed037d1c5ffd5e6a0f9c399a4621d69fd699673433b6dc047a";
+    private String Key = "3d04182a5bb8d979973d6ba37ac18435cd829c3106daa964793ecf7547a67a15";
 
     private String OpenText = "1122334455667700ffeeddccbbaa9988";
     private String CipherText = "7f679d90bebc24305a468d42b9d4edcd";
@@ -77,7 +77,7 @@ public class Kuznechik_service {
         return mute_tabl;
     }
 
-    public String Make_Cipher_Text(){
+    public String Make_Cipher_Text(String OpenText){
         int[] Open_text_bytes = Get_ByteRow_From_String(OpenText, 16);
         int[] period_result = new int[16];
         int[] Key_i = new int[16];
