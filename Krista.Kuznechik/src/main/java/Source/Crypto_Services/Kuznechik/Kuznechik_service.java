@@ -80,7 +80,8 @@ public class Kuznechik_service {
     public String Make_Cipher_Text(){
         int[] Open_text_bytes = Get_ByteRow_From_String(OpenText, 16);
         int[] period_result = new int[16];
-        int[] Key_i = RoundKeys.get(0);
+        int[] Key_i = new int[16];
+        SwapMass(RoundKeys.get(0), Key_i);
 
         for (int i = 0; i < 9; i++) {
             SwapMass(Open_text_bytes, period_result);
@@ -98,11 +99,11 @@ public class Kuznechik_service {
         int[] Cipher_text_bytes = Get_ByteRow_From_String(CipherText, 16);
         int[] period_result = new int[16];
         int[] Key_i = RoundKeys.get(9);
-        Cipher_text_bytes = XOR(Cipher_text_bytes, Key_i);
+        Cipher_text_bytes = XOR(Key_i, Cipher_text_bytes);
         String s1 = Get_hex_string(Cipher_text_bytes);
-        for (int i = 9; i >= 0; i--) {
+        for (int i = 9; i > 0; i--) {
             SwapMass(Cipher_text_bytes, period_result);
-            Cipher_text_bytes = Feistel_Cell_Reverse(Cipher_text_bytes, RoundKeys, i);
+            Cipher_text_bytes = Feistel_Cell_Reverse(Cipher_text_bytes, RoundKeys, i - 1);
             String s2 = Get_hex_string(Cipher_text_bytes);
             SwapMass(period_result, Key_i);
         }
@@ -268,7 +269,7 @@ public class Kuznechik_service {
         String ks = Get_hex_string(byteArray);
         for (int l = 0; l < 16; l++) {
             for (int j = 0; j < 16; j++) {
-                dec_result = dec_result ^ Galua_Mute(LinearTransformRow[15-j], byteArray[j]);
+                dec_result = dec_result ^ Galua_Mute(LinearTransformRow[15 - j], byteArray[j]);
             }
 
             Right_Shift(byteArray);
