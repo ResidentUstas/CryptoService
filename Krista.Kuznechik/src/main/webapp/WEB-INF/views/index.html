@@ -5,12 +5,12 @@
     <title>Title</title>
 </head>
 <body>
-Hello Cryptography World!!!
-<div>
-    <a th:text="${cipher}">book</a>
-</div>
-<div>
-    <a th:text="${decipher}">book</a>
-</div>
+GSGSoft cryptography engines
+<br>
+<form th:method="POST" th:action="@{/algorithm}" th:object="${cipher}">
+    <p><label>Enter cipher Text: </label></p>
+    <p><textarea rows="10" cols="45" th:field="${cipher.Cipher}"></textarea></p>
+    <button type="submit">Register</button>
+</form>
 </body>
 </html>

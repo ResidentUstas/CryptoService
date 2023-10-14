@@ -35,13 +35,12 @@ public class GrasshopperCipher {
     }
 
     // Дешифрует
-    public String Get_Open_Text() throws DecoderException, IOException {
+    public String Get_Open_Text(String CipherText) throws DecoderException, IOException {
         //генерируем итерационные константы
         cryptoService.Generate_Constants_Ci();
 
         //генерируем раундовые ключи
         cryptoService.Generate_Round_Keys();
-        String CipherText = ReadFile();
         String result = "";
         while (CipherText.length() > 0) {
             String cipherBlock = CipherText.substring(0, 32);
