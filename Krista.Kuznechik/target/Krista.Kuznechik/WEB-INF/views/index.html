@@ -5,12 +5,17 @@
     <title>Title</title>
 </head>
 <body>
-GSGSoft cryptography engines
+<div align="center">
+    <p style="font-weight:bold">GSGSoft cryptography engines</p>
 <br>
 <form th:method="POST" th:action="@{/algorithm}" th:object="${cipher}">
-    <p><label>Enter cipher Text: </label></p>
-    <p><textarea rows="10" cols="45" th:field="${cipher.Cipher}"></textarea></p>
-    <button type="submit">Register</button>
+    <p><label>Введите текст: </label></p>
+    <p><textarea rows="50" cols="100" th:field="${cipher.Cipher}"></textarea></p>
+    <select th:object="${cipher}" th:field="*{Mode}">
+        <option th:each="operation:${Operation}" th:value="${operation.getOperation()}" th:text="${operation.getName()}"></option>
+    </select>
+    <button type="submit">Выполнить</button>
 </form>
+</div>
 </body>
 </html>
