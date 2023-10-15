@@ -10,19 +10,10 @@ import java.util.List;
 public class Kuznechik_service {
 
     private final int[] LinearTransformRow = new int[] {1, 148, 32, 133, 16, 194, 192, 1, 251, 1, 192, 194, 16, 133, 32, 148};
-    private final char[] HEX_Alphabet = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f'};
     public final List<int[]> RoundKeys = new LinkedList<>();
     private String Key = "3d04182a5bb8d979973d6ba37ac18435cd829c3106daa964793ecf7547a67a15";
-
-    private String OpenText = "1122334455667700ffeeddccbbaa9988";
-    private String CipherText = "7f679d90bebc24305a468d42b9d4edcd";
     private List<Integer> Galua_Field_Mutable_Table = new ArrayList<>();
     private final List<int[]> Constants_Ci = new ArrayList<>();
-
-    private final List<int[]> Rounds_OpenTXT = new ArrayList<>();
-    private final List<String> Constants_Ci_hex = new ArrayList<>();
-    private final List<String> Rounds_Open_hex = new ArrayList<>();
-    private final List<String> Round_Keys_hex = new ArrayList<>();
     private int[] Current_Const_Ci = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 
     private int Not_Linear_Transform_Table[] = new int[]{
@@ -48,6 +39,7 @@ public class Kuznechik_service {
         for (int i = 0; i < byteRow.length - 1; i++) {
             byteRow[i] = byteRow[i + 1];
         }
+
         byteRow[15] = value0;
         return byteRow;
     }
@@ -57,6 +49,7 @@ public class Kuznechik_service {
         for (int i = byteRow.length - 1; i > 0; i--) {
             byteRow[i] = byteRow[i - 1];
         }
+
         byteRow[0] = value0;
         return byteRow;
     }
@@ -78,13 +71,17 @@ public class Kuznechik_service {
     }
 
     public String Make_Cipher_Text(String OpenText){
+        //Получаем массив байт из строки
         int[] Open_text_bytes = Get_ByteRow_From_String(OpenText, 16);
         int[] period_result = new int[16];
         int[] Key_i = new int[16];
         SwapMass(RoundKeys.get(0), Key_i);
 
+        //Проходим сеть фейстеля
         for (int i = 0; i < 9; i++) {
             SwapMass(Open_text_bytes, period_result);
+
+            //Получаем результат одной ячейки фейстеля
             Open_text_bytes = Feistel_Cell(Open_text_bytes, RoundKeys, i);
             SwapMass(period_result, Key_i);
         }
@@ -96,16 +93,19 @@ public class Kuznechik_service {
     }
 
     public String Make_Open_Text(String CipherText){
+        //Получаем массив байт из строки
         int[] Cipher_text_bytes = Get_ByteRow_From_String(CipherText, 16);
         int[] period_result = new int[16];
         int[] Key_i = new int[16];
         SwapMass(RoundKeys.get(9), Key_i);
         Cipher_text_bytes = XOR(Key_i, Cipher_text_bytes);
-        String s1 = Get_hex_string(Cipher_text_bytes);
+
+        //Проходим сеть фейстеля
         for (int i = 9; i > 0; i--) {
             SwapMass(Cipher_text_bytes, period_result);
+
+            //Получаем результат одной ячейки фейстеля
             Cipher_text_bytes = Feistel_Cell_Reverse(Cipher_text_bytes, RoundKeys, i - 1);
-            String s2 = Get_hex_string(Cipher_text_bytes);
             SwapMass(period_result, Key_i);
         }
 
@@ -157,23 +157,19 @@ public class Kuznechik_service {
         int[] K1 = Arrays.copyOfRange(Key, 16, 32);
         int[] K2 = Arrays.copyOfRange(Key, 0, 16);
         int[] K_period = new int[16];
-        String K1_str = Get_hex_string(K1);
-        String K2_str = Get_hex_string(K2);
-        Write_Round_Row(K1, RoundKeys, Round_Keys_hex);
-        Write_Round_Row(K2, RoundKeys, Round_Keys_hex);
+
+        Write_Round_Row(K1, RoundKeys);
+        Write_Round_Row(K2, RoundKeys);
         for (int i = 0; i < 4; i++) {
             for (int l = 0; l < 8; l++) {
                 SwapMass(K1, K_period);
                 K1 = Feistel_Cell(K1, Constants_Ci, (8 * i) + l);
                 K1 = XOR(K2, K1);
-                String s4 = Get_hex_string(K1);
                 SwapMass(K_period, K2);
-                K1_str = Get_hex_string(K1);
-                K2_str = Get_hex_string(K2);
             }
 
-            Write_Round_Row(K1, RoundKeys, Round_Keys_hex);
-            Write_Round_Row(K2, RoundKeys, Round_Keys_hex);
+            Write_Round_Row(K1, RoundKeys);
+            Write_Round_Row(K2, RoundKeys);
         }
     }
 
@@ -183,7 +179,7 @@ public class Kuznechik_service {
         for (int i = 1; i < 33; i++) {
             Current_Const_Ci[0] = i;
             Linear_Transform(Current_Const_Ci);
-            Write_Round_Row(Current_Const_Ci, Constants_Ci, Constants_Ci_hex);
+            Write_Round_Row(Current_Const_Ci, Constants_Ci);
             Current_Const_Ci = Get_Zero_Array();
         }
 
@@ -205,7 +201,7 @@ public class Kuznechik_service {
         return Galua_Field_Mutable_Table.get(index_ab);
     }
 
-    private void Write_Round_Row(int[] byteArray, List<int[]> RoundRow, List<String> RoundHex) {
+    private void Write_Round_Row(int[] byteArray, List<int[]> RoundRow) {
         int[] round_row = new int[16];
 
         for (int i = 0; i < 16; i++) {
@@ -213,39 +209,26 @@ public class Kuznechik_service {
         }
 
         RoundRow.add(round_row);
-        String hex_row = "";
-        for (int i = 15; i >= 0; i--) {
-            hex_row += Integer.toHexString(byteArray[i]);
-        }
-        RoundHex.add(hex_row);
     }
 
     public int[] Feistel_Cell(int[] Key_a, List<int[]> byteArray, int round_num) {
-        String ks1 = Get_hex_string(Key_a);
 
         int[] keyRow = XOR(Key_a, byteArray.get(round_num));
-        String s1 = Get_hex_string(keyRow);
 
         keyRow = Make_NL_Transform(keyRow);
-        String s2 = Get_hex_string(keyRow);
 
         Linear_Transform(keyRow);
-        String s3 = Get_hex_string(keyRow);
 
         return keyRow;
     }
 
     public int[] Feistel_Cell_Reverse(int[] Key_a, List<int[]> byteArray, int round_num) {
-        String ks1 = Get_hex_string(Key_a);
 
         int[] keyRow = Linear_Transform_Revers(Key_a);
-        String s3 = Get_hex_string(Key_a);
 
         keyRow = Make_NL_Transform_Reverse(keyRow);
-        String s2 = Get_hex_string(keyRow);
 
         keyRow = XOR(keyRow, byteArray.get(round_num));
-        String s1 = Get_hex_string(keyRow);
 
         return keyRow;
     }
@@ -267,7 +250,6 @@ public class Kuznechik_service {
 
     private int[] Linear_Transform_Revers(int[] byteArray) {
         int dec_result = 0;
-        String ks = Get_hex_string(byteArray);
         for (int l = 0; l < 16; l++) {
             for (int j = 0; j < 16; j++) {
                 dec_result = dec_result ^ Galua_Mute(LinearTransformRow[15 - j], byteArray[j]);
@@ -278,7 +260,6 @@ public class Kuznechik_service {
             dec_result = 0;
         }
 
-        String ks1 = Get_hex_string(byteArray);
         return byteArray;
     }
 
@@ -299,6 +280,7 @@ public class Kuznechik_service {
 
         return NL_Row;
     }
+
     public String Get_hex_string(int[] byteRow) {
         String hex_ci = "";
         for (int i = byteRow.length - 1; i >= 0; i--) {
