@@ -39,7 +39,7 @@ public class CryptoController {
                 model.addAttribute("cipher", grasshopperCipher.Get_Cipher_Text(cipherText.getCipher()));
                 break;
             case 2:
-                model.addAttribute("decipher", grasshopperCipher.Get_Open_Text(cipherText.getCipher()));
+                model.addAttribute("cipher", grasshopperCipher.Get_Open_Text(cipherText.getCipher()));
                 break;
         }
 
