@@ -27,7 +27,7 @@ public class CryptoController {
         oper.add(new OperModel(2,"Расшифровать"));
         model.addAttribute("cipher", cipher);
         model.addAttribute("Operation", oper);
-        return "index";
+        return "kuznechick/index";
     }
 
     @PostMapping()
@@ -43,6 +43,6 @@ public class CryptoController {
                 break;
         }
 
-        return "ResultText";
+        return "kuznechick/ResultText";
     }
 }
