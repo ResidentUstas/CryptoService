@@ -6,7 +6,7 @@ public class IDEAcipher {
 
     public String Get_Cipher_Text(){
         ideaService.Generate_Keys();
-
+        ideaService.Make_Cipher_Text();
         return "hello_world";
     }
 }
