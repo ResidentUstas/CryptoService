@@ -36,10 +36,10 @@ public class IDEAController {
 
         switch (cipherText.getMode()){
             case 1:
-                model.addAttribute("cipher", ideaCipher.Get_Cipher_Text());
+                model.addAttribute("cipher", ideaCipher.Get_Cipher_Text(cipherText.getCipher()));
                 break;
             case 2:
-                model.addAttribute("cipher", ideaCipher.Get_Cipher_Text());
+                model.addAttribute("cipher", ideaCipher.Get_Open_Text(cipherText.getCipher()));
                 break;
         }
 

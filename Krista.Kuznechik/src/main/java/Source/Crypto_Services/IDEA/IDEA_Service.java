@@ -1,16 +1,20 @@
 package Source.Crypto_Services.IDEA;
 
+import org.apache.commons.lang3.ArrayUtils;
+
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
 public class IDEA_Service {
 
     public final List<Integer> RoundKeys = new LinkedList<>();
+    public final List<Integer> ReversKeys = new LinkedList<>();
     private String Key = "00010002000300040005000600070008";
-    private String Open = "0000000100020003";
 
-    public int[] Make_Cipher_Text() {
-        int[] KeyBytes = Get_ByteRow_From_String(Open, 8);
+    public String Make_Cipher_Text(String text, int mode) {
+        List<Integer> thisRoundKeys = mode == 1 ? RoundKeys : ReversKeys;
+        int[] KeyBytes = Get_ByteRow_From_String(text, 8);
         int[] D1 = new int[2];
         int[] D2 = new int[2];
         int[] D3 = new int[2];
@@ -25,38 +29,39 @@ public class IDEA_Service {
         int x3 = arrayToInt(D4);
         int p = 0;
         for (int round = 0; round < 8; round++) {
-            int y0 = mul(x0, RoundKeys.get(p++));
-            int y1 = add(x1, RoundKeys.get(p++));
-            int y2 = add(x2, RoundKeys.get(p++));
-            int y3 = mul(x3, RoundKeys.get(p++));
-            //
-            int t0 = mul(y0 ^ y2, RoundKeys.get(p++));
+            int y0 = mul(x0, thisRoundKeys.get(p++));
+            int y1 = add(x1, thisRoundKeys.get(p++));
+            int y2 = add(x2, thisRoundKeys.get(p++));
+            int y3 = mul(x3, thisRoundKeys.get(p++));
+
+            int t0 = mul(y0 ^ y2, thisRoundKeys.get(p++));
             int t1 = add(y1 ^ y3, t0);
-            int t2 = mul(t1, RoundKeys.get(p++));
+            int t2 = mul(t1, thisRoundKeys.get(p++));
             int t3 = add(t0, t2);
-            //
+
             x0 = y0 ^ t2;
             x1 = y2 ^ t2;
             x2 = y1 ^ t3;
             x3 = y3 ^ t3;
         }
 
-        int r0 = mul(x0, RoundKeys.get(p++));
-        int r1 = add(x2, RoundKeys.get(p++));
-        int r2 = add(x1, RoundKeys.get(p++));
-        int r3 = mul(x3, RoundKeys.get(p++));
+        int r0 = mul(x0, thisRoundKeys.get(p++));
+        int r1 = add(x2, thisRoundKeys.get(p++));
+        int r2 = add(x1, thisRoundKeys.get(p++));
+        int r3 = mul(x3, thisRoundKeys.get(p++));
 
         int[] data = new int[8];
-        data[0] = (byte)(r0 >> 8);
-        data[1] = (byte)r0;
-        data[2] = (byte)(r1 >> 8);
-        data[3] = (byte)r1;
-        data[4] = (byte)(r2 >> 8);
-        data[5] = (byte)r2;
-        data[6] = (byte)(r3 >> 8);
-        data[7] = (byte)r3;
+        data[0] = (byte) (r0 >> 8);
+        data[1] = (byte) r0;
+        data[2] = (byte) (r1 >> 8);
+        data[3] = (byte) r1;
+        data[4] = (byte) (r2 >> 8);
+        data[5] = (byte) r2;
+        data[6] = (byte) (r3 >> 8);
+        data[7] = (byte) r3;
 
-        return data;
+        String result = Get_hex_string(data);
+        return result;
     }
 
     private int mul(int a, int b) {
@@ -73,10 +78,10 @@ public class IDEA_Service {
     }
 
     private int arrayToInt(int[] arr) {
-       String bits = Get_Bit_View(arr);
-       int result = Integer.parseInt(bits, 2);
+        String bits = Get_Bit_View(arr);
+        int result = Integer.parseInt(bits, 2);
 
-       return result;
+        return result;
     }
 
     public void Generate_Keys() {
@@ -93,6 +98,43 @@ public class IDEA_Service {
         }
 
         RoundKeys.subList(52, 56).clear();
+        Generate_revers_keys();
+    }
+
+    private void Generate_revers_keys() {
+        for (int i = 0; i < 9; i++) {
+            int subkey1 = Extend_Alg_Evclida(RoundKeys.get((8 - i) * 6 + 0), 65537)[1];
+            int index2 = i == 0 || i == 8 ? ((8 - i) * 6) + 1 : ((8 - i) * 6) + 2;
+            int index3 = i == 0 || i == 8 ? ((8 - i) * 6) + 2 : ((8 - i) * 6) + 1;
+            int subkey2 = 65536 - RoundKeys.get(index2);
+            int subkey3 = 65536 - RoundKeys.get(index3);
+            int subkey4 = Extend_Alg_Evclida(RoundKeys.get((8 - i) * 6 + 3), 65537)[1];
+            ReversKeys.add(subkey1 < 0 ? subkey1 + 65537 : subkey1);
+            ReversKeys.add(subkey2);
+            ReversKeys.add(subkey3);
+            ReversKeys.add(subkey4 < 0 ? subkey4 + 65537 : subkey4);
+            if (i < 8) {
+                ReversKeys.add(RoundKeys.get((8 - i - 1) * 6 + 4));
+                ReversKeys.add(RoundKeys.get((8 - i - 1) * 6 + 5));
+            }
+        }
+    }
+
+    private int[] Extend_Alg_Evclida(int a, int b) {
+        int res[] = new int[3];
+        if (b == 0) {
+            res[0] = a;
+            res[1] = 1;
+            res[2] = 0;
+            return res;
+        }
+
+        res = Extend_Alg_Evclida(b, a % b);
+        int coeff = res[2];
+        res[2] = res[1] - (a / b) * res[2];
+        res[1] = coeff;
+
+        return res;
     }
 
     private int[] Get_Idea_Left_Shift(int[] Key) {
@@ -167,5 +209,23 @@ public class IDEA_Service {
         }
 
         return roundKeyRow;
+    }
+
+    public String Get_hex_string(int[] byteRow) {
+        String hex_ci = "";
+        ArrayUtils.reverse(byteRow);
+        for (int i = byteRow.length - 1; i >= 0; i--) {
+            if(byteRow[i] < 0){
+                byteRow[i] += 256;
+            }
+
+            String line = Integer.toHexString(byteRow[i]);
+            if (line.length() < 2) {
+                line = "0" + line;
+            }
+            hex_ci += line;
+        }
+
+        return hex_ci;
     }
 }
