@@ -1,5 +1,6 @@
 package CryptoService.Crypto_Services.Kuznechik;
 
+import CryptoService.Services.ConvertService;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ public class Kuznechik_service {
     private List<Integer> Galua_Field_Mutable_Table = new ArrayList<>();
     private final List<int[]> Constants_Ci = new ArrayList<>();
     private int[] Current_Const_Ci = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+    private ConvertService convertService = new ConvertService();
 
     private int Not_Linear_Transform_Table[] = new int[]{
             252, 238, 221, 17, 207, 110, 49, 22, 251, 196, 250, 218, 35, 197, 4, 77,
@@ -72,7 +74,7 @@ public class Kuznechik_service {
 
     public String Make_Cipher_Text(String OpenText){
         //Получаем массив байт из строки
-        int[] Open_text_bytes = Get_ByteRow_From_String(OpenText, 16);
+        int[] Open_text_bytes = convertService.Get_ByteRow_From_String(OpenText, 16);
         int[] period_result = new int[16];
         int[] Key_i = new int[16];
         SwapMass(RoundKeys.get(0), Key_i);
@@ -87,14 +89,14 @@ public class Kuznechik_service {
         }
 
         int[] Cipher_Byte_result = XOR(Open_text_bytes, RoundKeys.get(9));
-        String Cipher_result = Get_hex_string(Cipher_Byte_result);
+        String Cipher_result = convertService.Get_hex_string(Cipher_Byte_result);
 
         return Cipher_result;
     }
 
     public String Make_Open_Text(String CipherText){
         //Получаем массив байт из строки
-        int[] Cipher_text_bytes = Get_ByteRow_From_String(CipherText, 16);
+        int[] Cipher_text_bytes = convertService.Get_ByteRow_From_String(CipherText, 16);
         int[] period_result = new int[16];
         int[] Key_i = new int[16];
         SwapMass(RoundKeys.get(9), Key_i);
@@ -109,7 +111,7 @@ public class Kuznechik_service {
             SwapMass(period_result, Key_i);
         }
 
-        String Cipher_result = Get_hex_string(Cipher_text_bytes);
+        String Cipher_result = convertService.Get_hex_string(Cipher_text_bytes);
 
         return Cipher_result;
     }
@@ -121,23 +123,6 @@ public class Kuznechik_service {
         }
 
         return Xor_Result;
-    }
-
-    public int[] Get_ByteRow_From_String(String subKey, int length) {
-        int start_index = 0;
-        int end_index = 2;
-        int i = length - 1;
-        int[] roundKeyRow = new int[length];
-        while (end_index <= length * 2) {
-            String str_byte = subKey.substring(start_index, end_index);
-            int parsedResult = (int) Long.parseLong(str_byte, 16);
-            roundKeyRow[i] = parsedResult;
-            start_index += 2;
-            end_index += 2;
-            i--;
-        }
-
-        return roundKeyRow;
     }
 
     public void SwapMass(int[] mas_from, int[] mas_to){
@@ -153,7 +138,7 @@ public class Kuznechik_service {
     // генерация рауновых ключей
     public void Generate_Round_Keys() {
         String Key_str = Key.substring(0, 64);
-        int[] Key = Get_ByteRow_From_String(Key_str, 32);
+        int[] Key = convertService.Get_ByteRow_From_String(Key_str, 32);
         int[] K1 = Arrays.copyOfRange(Key, 16, 32);
         int[] K2 = Arrays.copyOfRange(Key, 0, 16);
         int[] K_period = new int[16];
@@ -279,18 +264,5 @@ public class Kuznechik_service {
         }
 
         return NL_Row;
-    }
-
-    public String Get_hex_string(int[] byteRow) {
-        String hex_ci = "";
-        for (int i = byteRow.length - 1; i >= 0; i--) {
-            String line = Integer.toHexString(byteRow[i]);
-            if (line.length() < 2) {
-                line = "0" + line;
-            }
-            hex_ci += line;
-        }
-
-        return hex_ci;
     }
 }

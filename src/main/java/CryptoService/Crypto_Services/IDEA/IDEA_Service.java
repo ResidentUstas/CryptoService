@@ -1,5 +1,6 @@
 package CryptoService.Crypto_Services.IDEA;
 
+import CryptoService.Services.ConvertService;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.LinkedList;
@@ -10,10 +11,11 @@ public class IDEA_Service {
     public final List<Integer> RoundKeys = new LinkedList<>();
     public final List<Integer> ReversKeys = new LinkedList<>();
     private String Key = "cca86c95d579197eec83352b066e933c";
+    private ConvertService convertService = new ConvertService();
 
     public String Make_Cipher_Text(String text, int mode) {
         List<Integer> thisRoundKeys = mode == 1 ? RoundKeys : ReversKeys;
-        int[] KeyBytes = Get_ByteRow_From_String(text, 8);
+        int[] KeyBytes = convertService.Get_ByteRow_From_String(text, 8);
         int[] D1 = new int[2];
         int[] D2 = new int[2];
         int[] D3 = new int[2];
@@ -59,7 +61,7 @@ public class IDEA_Service {
         data[6] = (byte) (r3 >> 8);
         data[7] = (byte) r3;
 
-        String result = Get_hex_string(data);
+        String result = convertService.Get_hex_string(data);
         return result;
     }
 
@@ -77,14 +79,14 @@ public class IDEA_Service {
     }
 
     private int arrayToInt(int[] arr) {
-        String bits = Get_Bit_View(arr);
+        String bits = convertService.Get_Bit_View(arr);
         int result = Integer.parseInt(bits, 2);
 
         return result;
     }
 
     public void Generate_Keys() {
-        int[] KeyBytes = Get_ByteRow_From_String(Key, 16);
+        int[] KeyBytes = convertService.Get_ByteRow_From_String(Key, 16);
         for (int j = 0; j < 7; j++) {
             for (int i = 0; i < 16; i++) {
                 int[] key_i = new int[2];
@@ -141,24 +143,10 @@ public class IDEA_Service {
             Key = Left_Shift(Key);
         }
 
-        String key_bit = Get_Bit_View(Key);
+        String key_bit = convertService.Get_Bit_View(Key);
         key_bit = Left_Shift_String(key_bit);
 
-        return Get_Bytes_From_Bits(key_bit);
-    }
-
-    private int[] Get_Bytes_From_Bits(String byteRow) {
-        int[] result = new int[16];
-        int index = 0;
-        while (byteRow.length() > 0) {
-            String byte0 = byteRow.substring(0, 8);
-            byteRow = byteRow.substring(8, byteRow.length());
-            int byte1 = Integer.parseInt(byte0, 2);
-            result[index] = byte1;
-            index++;
-        }
-
-        return result;
+        return convertService.Get_Bytes_From_Bits(key_bit);
     }
 
     private static int[] Left_Shift(int[] byteRow) {
@@ -171,60 +159,11 @@ public class IDEA_Service {
         return byteRow;
     }
 
-    private String Get_Bit_View(int[] byteRow) {
-        String result = "";
-        for (int b : byteRow) {
-            String binStr = Integer.toBinaryString(b & 0xFF);
-            while (binStr.length() < 8) {
-                binStr = "0" + binStr;
-            }
-
-            result += binStr;
-        }
-
-        return result;
-    }
-
     public String Left_Shift_String(String byteRow) {
         String value0 = byteRow.substring(0, 1);
         byteRow = byteRow.substring(1, byteRow.length());
         byteRow = byteRow + value0;
 
         return byteRow;
-    }
-
-    public int[] Get_ByteRow_From_String(String subKey, int length) {
-        int start_index = 0;
-        int end_index = 2;
-        int i = 0;
-        int[] roundKeyRow = new int[length];
-        while (end_index <= length * 2) {
-            String str_byte = subKey.substring(start_index, end_index);
-            int parsedResult = (int) Long.parseLong(str_byte, 16);
-            roundKeyRow[i] = parsedResult;
-            start_index += 2;
-            end_index += 2;
-            i++;
-        }
-
-        return roundKeyRow;
-    }
-
-    public String Get_hex_string(int[] byteRow) {
-        String hex_ci = "";
-        ArrayUtils.reverse(byteRow);
-        for (int i = byteRow.length - 1; i >= 0; i--) {
-            if(byteRow[i] < 0){
-                byteRow[i] += 256;
-            }
-
-            String line = Integer.toHexString(byteRow[i]);
-            if (line.length() < 2) {
-                line = "0" + line;
-            }
-            hex_ci += line;
-        }
-
-        return hex_ci;
     }
 }
