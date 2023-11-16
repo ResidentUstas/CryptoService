@@ -6,6 +6,12 @@ public class CipherModel {
 
     private int Mode;
 
+    private int Word;
+
+    private int Rounds;
+
+    private int KeyBits;
+
     private int BlockSize;
 
     private int NumRounds;
@@ -67,5 +73,29 @@ public class CipherModel {
 
     public void setKeySize(int keySize) {
         KeySize = keySize;
+    }
+
+    public int getWord() {
+        return Word;
+    }
+
+    public void setWord(int word) {
+        Word = word;
+    }
+
+    public int getRounds() {
+        return Rounds;
+    }
+
+    public void setRounds(int rounds) {
+        Rounds = rounds;
+    }
+
+    public int getKeyBits() {
+        return KeyBits;
+    }
+
+    public void setKeyBits(int keyBits) {
+        this.KeyBits = keyBits;
     }
 }

@@ -8,15 +8,28 @@
 <div align="center">
     <p style="font-weight:bold">GSGSoft cryptography engines</p>
     <br>
-    <form th:method="POST" th:action="@{/algorithm}" th:object="${cipher}">
+    <form th:method="POST" th:action="@{/rc5}" th:object="${cipher}">
         <p><label>Введите текст: </label></p>
         <p><textarea rows="50" cols="100" th:field="${cipher.Cipher}"></textarea></p>
         <select th:object="${cipher}" th:field="*{Mode}">
             <option th:each="operation:${Operation}" th:value="${operation.getOperation()}" th:text="${operation.getName()}"></option>
         </select>
-        <select th:object="${cipher}" th:field="*{Mode}">
-            <option th:each="operation:${Operation}" th:value="${operation.getOperation()}" th:text="${operation.getName()}"></option>
+        <br/>
+        <label>W (длина слова): </label>
+        <select th:object="${cipher}" th:field="*{Word}">
+            <option th:each="params:${Params}" th:value="${params.getIndex()}" th:text="${params.getParam()}"></option>
         </select>
+
+        <label>--- R число раундов: </label>
+        <select th:object="${cipher}" th:field="*{Rounds}">
+            <option th:each="params:${Parameters}" th:value="${params.getIndex()}" th:text="${params.getParam()}"></option>
+        </select>
+
+        <label>--- b длина ключа в байтах: </label>
+        <select th:object="${cipher}" th:field="*{KeyBits}">
+            <option th:each="params:${Parameters}" th:value="${params.getIndex()}" th:text="${params.getParam()}"></option>
+        </select>
+        <br/>
         <button type="submit">Выполнить</button>
     </form>
 </div>
