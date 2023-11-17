@@ -53,6 +53,15 @@ public class ConvertService {
         return result;
     }
 
+    public static int numeric_shift(int n, int k, boolean isLeftShift)
+    {
+        if (isLeftShift) {
+            return (n << k) | (n >> (Integer.SIZE - k));
+        }
+
+        return (n >> k) | (n << (Integer.SIZE - k));
+    }
+
     public static String Get_Bit_View(int[] byteRow) {
         String result = "";
         for (int b : byteRow) {

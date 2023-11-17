@@ -3,6 +3,7 @@ package CryptoService.Controllers;
 import CryptoService.Crypto_Services.IDEA.IDEAcipher;
 import CryptoService.Crypto_Services.RC5.RC5cipher;
 import CryptoService.Crypto_Services.RC5.types.params;
+import CryptoService.Crypto_Services.RC5.types.parameters;
 import CryptoService.Models.CipherModel;
 import CryptoService.Models.OperModel;
 import CryptoService.Models.paramModel;
@@ -22,7 +23,7 @@ import java.util.List;
 @RequestMapping("/rc5")
 public class RC5Controller {
     @GetMapping()
-    public String Index(Model model)  {
+    public String Index(Model model) {
         CipherModel cipher = new CipherModel();
         List<OperModel> oper = new ArrayList<>();
         List<paramModel> params = new ArrayList<>();
@@ -30,13 +31,13 @@ public class RC5Controller {
         params.add(new paramModel(16, 16));
         params.add(new paramModel(32, 32));
         params.add(new paramModel(64, 64));
-        oper.add(new OperModel(1,"Зашифровать"));
-        oper.add(new OperModel(2,"Расшифровать"));
+        oper.add(new OperModel(1, "Зашифровать"));
+        oper.add(new OperModel(2, "Расшифровать"));
         model.addAttribute("cipher", cipher);
         model.addAttribute("Operation", oper);
         model.addAttribute("Params", params);
 
-        for (int i = 0; i < 256; i++){
+        for (int i = 0; i < 256; i++) {
             dopParams.add(new paramModel(i, i));
         }
 
@@ -47,12 +48,11 @@ public class RC5Controller {
     @PostMapping()
     public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText) throws DecoderException, IOException {
         RC5cipher rc5Cipher = new RC5cipher();
-        switch (cipherText.getMode()){
+        switch (cipherText.getMode()) {
             case 1:
-                model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits()));
-                break;
+                model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord()));
             case 2:
-                model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits()));
+                model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord()));
                 break;
         }
 
