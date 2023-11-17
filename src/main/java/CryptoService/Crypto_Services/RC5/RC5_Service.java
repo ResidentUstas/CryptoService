@@ -9,8 +9,9 @@ import java.util.List;
 
 public class RC5_Service {
     private static String Key = "cca86c95d579197eec83352b066e933c";
-    public static final List<List<Integer>> RoundKeysWords = new LinkedList<>();
-    public static final List<List<Integer>> WideKeysTable = new LinkedList<>();
+    public static final List<BigInteger> RoundKeysWords = new LinkedList<>();
+    public static final List<String> RoundKeysWordsStr = new LinkedList<>();
+    public static final List<BigInteger> WideKeysTable = new LinkedList<>();
     private static ConvertService convertService = new ConvertService();
 
     private BigInteger t = new BigInteger("B7E151628AED2A6B", 16);
@@ -19,6 +20,7 @@ public class RC5_Service {
     private static int W;
     private static int R;
     private static int b;
+    private static int c;
 
     RC5_Service(int w, int r, int b, String p_const, String q_const) {
         this.W = w;
@@ -30,14 +32,25 @@ public class RC5_Service {
 
     public static String Get_Cipher_Text() {
         Split_Key_to_Words();
-
+        Get_Wide_Keys();
         return "ffff";
+    }
+
+    private static void Mixing(){
+        int N = 3 * c > 3 * 2 * (R + 1) ? 3 * c : 3 * 2 * (R + 1);
+        BigInteger G = new BigInteger("0"); BigInteger H = new BigInteger("0"); int i = 0; int j = 0;
+
+        for(int index = 0; index < N; index++){
+            G = WideKeysTable.get(i) = WideKeysTable.get(i).add(G) + G + H
+        }
     }
 
     private static void Get_Wide_Keys() {
         int index = 2 * (R + 1) - 1;
+        WideKeysTable.add(P_const);
         for(int i = 0; i < index; i++){
-
+            BigInteger key = WideKeysTable.get(i).add(Q_const);
+            WideKeysTable.add(key);
         }
     }
 
@@ -46,19 +59,18 @@ public class RC5_Service {
             Key += "0";
         }
 
-        int[] byteKey = convertService.Get_ByteRow_From_String(Key, Key.length() / 2);
-        List<Integer> keyRow = Arrays.stream(byteKey).boxed().toList();
-        b = byteKey.length;
+        b = Key.length() / 2;
         int u = W / 8;
         while (b % u != 0) {
-            keyRow.add(0);
+            Key += "00";
             b++;
         }
 
-        int c = b / u;
+        c = b / u;
         int len = b / c;
         for (int i = 0; i < c; i++) {
-            RoundKeysWords.add(keyRow.subList(i * len, i * len + len));
+            RoundKeysWords.add(new BigInteger(Key.substring(i * len * 2, i * len * 2 + len * 2), 16));
+            RoundKeysWordsStr.add(Key.substring(i * len * 2, i * len * 2 + len * 2));
         }
     }
 }
