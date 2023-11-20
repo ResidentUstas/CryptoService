@@ -17,6 +17,7 @@ public class RC5_Service {
     private BigInteger t = new BigInteger("B7E151628AED2A6B", 16);
     private static BigInteger P_const;
     private static BigInteger Q_const;
+    private static BigInteger Module;
     private static int W;
     private static int R;
     private static int b;
@@ -28,6 +29,7 @@ public class RC5_Service {
         this.b = b;
         this.P_const = new BigInteger(p_const, 16);
         this.Q_const = new BigInteger(q_const, 16);
+        this.Module = new BigInteger(String.valueOf(Math.round(Math.pow(2, W))));
     }
 
     public static String Get_Cipher_Text() {
@@ -37,7 +39,7 @@ public class RC5_Service {
         return "ffff";
     }
 
-    private static void Make_Cipher(){
+    private static void Make_Cipher() {
 
     }
 
@@ -66,7 +68,7 @@ public class RC5_Service {
             WideKeysTable.set(i, G);
             RoundKeysWords.set(j, H);
 
-            i = (i + 1) % 2 * (R + 1);
+            i = (i + 1) % (2 * (R + 1));
             j = (j + 1) % c;
         }
     }
@@ -94,7 +96,7 @@ public class RC5_Service {
         int index = 2 * (R + 1) - 1;
         WideKeysTable.add(P_const);
         for (int i = 0; i < index; i++) {
-            BigInteger key = WideKeysTable.get(i).add(Q_const);
+            BigInteger key = WideKeysTable.get(i).add(Q_const).mod(Module);
             WideKeysTable.add(key);
         }
     }
