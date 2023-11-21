@@ -1,4 +1,5 @@
 package CryptoService.Crypto_Services.RC5;
+import CryptoService.Services.IOService;
 import org.apache.commons.codec.DecoderException;
 import java.io.IOException;
 
@@ -16,14 +17,36 @@ public class RC5cipher {
     public String Get_Cipher_Text(String OpenText, int Rounds, int WordLength, int KeyBits, int word) throws IOException {
         String[] pq_choice = Get_PQ_Constants(word);
         RC5_Service rc5_service = new RC5_Service(WordLength, Rounds, KeyBits, pq_choice[0], pq_choice[1]);
-        String result = rc5_service.Get_Cipher_Text();
+
+        //Получаем шестнадцатиричное представление текста
+        //String OpenTextHex = IOService.ReadBytesFromString(OpenText);
+        String OpenTextHex = "0000000100020003";
+
+        String result = "";
+        while (OpenTextHex.length() > 0) {
+            String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 2);
+            OpenTextHex = OpenTextHex.substring((WordLength / 8) * 2, OpenTextHex.length());
+
+            //Дополним последний неполный блок
+            if (OpenTextHex.length() < (WordLength / 8) * 2 && OpenTextHex.length() > 0) {
+                while (OpenTextHex.length() < 16) {
+                    OpenTextHex += "0";
+                }
+            }
+
+            //Зашифруем полученный блок
+            String cipher_result = rc5_service.Get_Cipher_Text(openBlock);
+            result += cipher_result;
+        }
+
+        IOService.WriteStringToFile(result, "D:\\RC5_cipher_Res.txt");
         return result;
     }
 
     public String Get_Open_Text(String CipherText, int Rounds, int WordLength, int KeyBits, int word) throws IOException, DecoderException {
         String[] pq_choice = Get_PQ_Constants(word);
         RC5_Service rc5_service = new RC5_Service(WordLength, Rounds, KeyBits, pq_choice[0], pq_choice[1]);
-        String result = rc5_service.Get_Cipher_Text();
+        String result = rc5_service.Get_Open_Text(CipherText);
         return result;
     }
 

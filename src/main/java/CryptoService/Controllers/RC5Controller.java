@@ -52,7 +52,7 @@ public class RC5Controller {
             case 1:
                 model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord()));
             case 2:
-                model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord()));
+                model.addAttribute("cipher", rc5Cipher.Get_Open_Text(cipherText.getCipher(), cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord()));
                 break;
         }
 
