@@ -72,14 +72,14 @@ public class RC5_Service {
     }
 
     private static String Make_Cipher(String OpenBlock) {
-        OpenBlock = "EEDBA5216D8F4B15";
+        OpenBlock = "eedba5216d8f4b15";
         String A_str = OpenBlock.substring(0, (W / 8) * 2);
         String B_str = OpenBlock.substring((W / 8) * 2, OpenBlock.length());
         BigInteger A = new BigInteger(A_str, 16);
         BigInteger B = new BigInteger(B_str, 16);
 
-        A = A.add(WideKeysTable.get(0)).mod(Module);
-        B = B.add(WideKeysTable.get(1)).mod(Module);
+        A = (A.add(WideKeysTable.get(0))).mod(Module);
+        B = (B.add(WideKeysTable.get(1))).mod(Module);
 
         for (int i = 1; i <= R; i++) {
             A = A.xor(B);
@@ -107,8 +107,7 @@ public class RC5_Service {
             G = Left_Shift_String(G, new BigInteger("3"));
 
             H = ((RoundKeysWords.get(j).add(G)).add(H)).mod(Module);
-            H = Left_Shift_String(H, G.add(H));
-
+            H = Left_Shift_String(H, (G.add(H)).mod(Module));
 
             WideKeysTable.set(i, G);
             RoundKeysWords.set(j, H);
@@ -120,7 +119,6 @@ public class RC5_Service {
 
     public static BigInteger Left_Shift_String(BigInteger byteRowBG, BigInteger shiftBg) {
         int shift = shiftBg.mod(new BigInteger(String.valueOf(W))).intValue();
-        shift = Integer.parseInt("" + shift);
         String byteRow = Get_String_View(byteRowBG.toByteArray());
         for (int i = 0; i < shift; i++) {
             String value0 = byteRow.substring(0, 1);
