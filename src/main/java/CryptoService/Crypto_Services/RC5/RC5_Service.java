@@ -51,7 +51,7 @@ public class RC5_Service {
     }
 
     private static String Make_Open(String CipherBlock) {
-        CipherBlock = "9e45afac16dd7674";
+        CipherBlock = "c60662fc4d8b6424";
         String A_str = CipherBlock.substring(0, (W / 8) * 2);
         String B_str = CipherBlock.substring((W / 8) * 2, CipherBlock.length());
         BigInteger A = new BigInteger(A_str, 16);
@@ -59,11 +59,11 @@ public class RC5_Service {
 
         for (int i = R; i > 0; i--) {
             B = B.subtract(WideKeysTable.get((2 * i) + 1)).mod(Module);
-            B = Right_Shift_String(B, A).mod(Module);
+            B = Right_Shift_String(B, A);
             B = B.xor(A);
 
             A = A.subtract(WideKeysTable.get(2 * i)).mod(Module);
-            A = Right_Shift_String(A, B).mod(Module);
+            A = Right_Shift_String(A, B);
             A = A.xor(B);
         }
 
@@ -75,7 +75,7 @@ public class RC5_Service {
     }
 
     private static String Make_Cipher(String OpenBlock) {
-        OpenBlock = "eedba5216d8f4b15";
+        OpenBlock = "B7B3422F92FC6903";
         String A_str = OpenBlock.substring(0, (W / 8) * 2);
         String B_str = OpenBlock.substring((W / 8) * 2, OpenBlock.length());
         BigInteger A = new BigInteger(A_str, 16);
@@ -86,11 +86,11 @@ public class RC5_Service {
 
         for (int i = 1; i <= R; i++) {
             A = A.xor(B);
-            A = Left_Shift_String(A, B).mod(Module);
+            A = Left_Shift_String(A, B);
             A = (A.add(WideKeysTable.get(2 * i))).mod(Module);
 
             B = B.xor(A);
-            B = Left_Shift_String(B, A).mod(Module);
+            B = Left_Shift_String(B, A);
             B = (B.add(WideKeysTable.get((2 * i) + 1))).mod(Module);
         }
 
@@ -107,10 +107,10 @@ public class RC5_Service {
 
         for (int index = 0; index < N; index++) {
             G = ((WideKeysTable.get(i).add(G)).add(H)).mod(Module);
-            G = Left_Shift_String(G, new BigInteger("3")).mod(Module);
+            G = Left_Shift_String(G, new BigInteger("3"));
 
             H = ((RoundKeysWords.get(j).add(G)).add(H)).mod(Module);
-            H = Left_Shift_String(H, (G.add(H)).mod(Module)).mod(Module);
+            H = Left_Shift_String(H, (G.add(H)).mod(Module));
 
             WideKeysTable.set(i, G);
             RoundKeysWords.set(j, H);
