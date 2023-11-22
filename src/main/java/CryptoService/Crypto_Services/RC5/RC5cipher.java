@@ -18,6 +18,7 @@ public class RC5cipher {
         String[] pq_choice = Get_PQ_Constants(word);
         RC5_Service rc5_service = new RC5_Service(WordLength, Rounds, KeyBits, pq_choice[0], pq_choice[1]);
 
+        rc5_service.Setup_rc5();
         //Получаем шестнадцатиричное представление текста
         //String OpenTextHex = IOService.ReadBytesFromString(OpenText);
         String OpenTextHex = "0000000100020003";
@@ -25,7 +26,7 @@ public class RC5cipher {
         String result = "";
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 2);
-            OpenTextHex = OpenTextHex.substring((WordLength / 8) * 2, OpenTextHex.length());
+            OpenTextHex = OpenTextHex.substring((WordLength / 8) * 4, OpenTextHex.length());
 
             //Дополним последний неполный блок
             if (OpenTextHex.length() < (WordLength / 8) * 2 && OpenTextHex.length() > 0) {

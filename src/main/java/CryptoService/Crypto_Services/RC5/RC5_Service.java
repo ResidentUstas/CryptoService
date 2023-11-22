@@ -1,6 +1,7 @@
 package CryptoService.Crypto_Services.RC5;
 
 import CryptoService.Services.ConvertService;
+import CryptoService.Services.IOService;
 
 import java.math.BigInteger;
 import java.util.Arrays;
@@ -14,6 +15,7 @@ public class RC5_Service {
     public static final List<String> RoundKeysWordsStr = new LinkedList<>();
     public static final List<BigInteger> WideKeysTable = new LinkedList<>();
     private static ConvertService convertService = new ConvertService();
+    private static IOService ioService = new IOService();
 
     private BigInteger t = new BigInteger("B7E151628AED2A6B", 16);
     private static BigInteger P_const;
@@ -33,17 +35,17 @@ public class RC5_Service {
         this.Module = new BigInteger(String.valueOf(Math.round(Math.pow(2, W))));
     }
 
-    public static String Get_Cipher_Text(String OpenBlock) {
+    public static void Setup_rc5(){
         Split_Key_to_Words();
         Get_Wide_Keys();
         Mixing();
+    }
+
+    public static String Get_Cipher_Text(String OpenBlock) {
         return Make_Cipher(OpenBlock);
     }
 
     public static String Get_Open_Text(String CipherBlock) {
-        Split_Key_to_Words();
-        Get_Wide_Keys();
-        Mixing();
         return Make_Open(CipherBlock);
     }
 
@@ -55,12 +57,16 @@ public class RC5_Service {
         BigInteger B = new BigInteger(B_str, 16);
 
         for (int i = R; i > 0; i--) {
+            ioService.WriteStringToFile(WideKeysTable.get((2 * i) + 1).toString(), "D:\\rc5_Ologs.txt");
             B = B.subtract(WideKeysTable.get((2 * i) + 1)).mod(Module);
-            B = Right_Shift_String(B, A);
+            ioService.WriteStringToFile(B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16), "D:\\rc5_Ologs.txt");
+            B = Right_Shift_String(B, A).mod(Module);
+            ioService.WriteStringToFile(B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16), "D:\\rc5_Ologs.txt");
             B = B.xor(A);
+            ioService.WriteStringToFile(B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16), "D:\\rc5_Ologs.txt");
 
             A = A.subtract(WideKeysTable.get(2 * i)).mod(Module);
-            A = Right_Shift_String(A, B);
+            A = Right_Shift_String(A, B).mod(Module);
             A = A.xor(B);
         }
 
@@ -83,12 +89,15 @@ public class RC5_Service {
 
         for (int i = 1; i <= R; i++) {
             A = A.xor(B);
-            A = Left_Shift_String(A, B);
+            A = Left_Shift_String(A, B).mod(Module);
             A = (A.add(WideKeysTable.get(2 * i))).mod(Module);
 
             B = B.xor(A);
-            B = Left_Shift_String(B, A);
+            ioService.WriteStringToFile("XOR: " + B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16), "D:\\rc5_logs.txt");
+            B = Left_Shift_String(B, A).mod(Module);
+            ioService.WriteStringToFile("LeftShift: " + B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16), "D:\\rc5_logs.txt");
             B = (B.add(WideKeysTable.get((2 * i) + 1))).mod(Module);
+            ioService.WriteStringToFile("Add: " + B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16) + " " + WideKeysTable.get((2 * i) + 1).toString(), "D:\\rc5_logs.txt");
         }
 
         String result = A.toString(16) + B.toString(16);

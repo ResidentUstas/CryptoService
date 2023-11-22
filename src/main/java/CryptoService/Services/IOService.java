@@ -22,7 +22,7 @@ public class IOService {
     public static void WriteStringToFile(String text, String path) {
         try (FileWriter writer = new FileWriter(path, true)) {
 
-            writer.write(text);
+            writer.write(text + "\r\n");
 
             writer.flush();
         } catch (IOException ex) {
