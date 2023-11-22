@@ -13,12 +13,22 @@ public class RC5cipher {
 
     private String p_sixtyFour = "B7E151628AED2A6B";
     private String q_sixtyFour = "9E3779B97F4A7C15";
+    private int Rounds;
+    private int WordLength;
+    private int Word;
+    private int KeyBits;
+    private String[] pq_choice = new String[2];
+    private  RC5_Service rc5_service = new RC5_Service();
+    public RC5cipher(int rounds, int wordLength, int keyBits, int word){
+        this.Rounds = rounds;
+        this.WordLength = wordLength;
+        this.KeyBits = keyBits;
+        this.Word = word;
+        this.pq_choice = Get_PQ_Constants(this.Word);
+        this.rc5_service = new RC5_Service(WordLength, Rounds, KeyBits, pq_choice[0], pq_choice[1]);
+    }
 
-    public String Get_Cipher_Text(String OpenText, int Rounds, int WordLength, int KeyBits, int word) throws IOException {
-        String[] pq_choice = Get_PQ_Constants(word);
-        RC5_Service rc5_service = new RC5_Service(WordLength, Rounds, KeyBits, pq_choice[0], pq_choice[1]);
-
-        rc5_service.Setup_rc5();
+    public String Get_Cipher_Text(String OpenText) throws IOException {
         //Получаем шестнадцатиричное представление текста
         //String OpenTextHex = IOService.ReadBytesFromString(OpenText);
         String OpenTextHex = "0000000100020003";
@@ -44,9 +54,7 @@ public class RC5cipher {
         return result;
     }
 
-    public String Get_Open_Text(String CipherText, int Rounds, int WordLength, int KeyBits, int word) throws IOException, DecoderException {
-        String[] pq_choice = Get_PQ_Constants(word);
-        RC5_Service rc5_service = new RC5_Service(WordLength, Rounds, KeyBits, pq_choice[0], pq_choice[1]);
+    public String Get_Open_Text(String CipherText) throws IOException, DecoderException {
         String result = rc5_service.Get_Open_Text(CipherText);
         return result;
     }

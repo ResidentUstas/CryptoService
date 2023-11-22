@@ -26,6 +26,10 @@ public class RC5_Service {
     private static int b;
     private static int c;
 
+    RC5_Service(){
+
+    }
+
     RC5_Service(int w, int r, int b, String p_const, String q_const) {
         this.W = w;
         this.R = r;
@@ -33,9 +37,6 @@ public class RC5_Service {
         this.P_const = new BigInteger(p_const, 16);
         this.Q_const = new BigInteger(q_const, 16);
         this.Module = new BigInteger(String.valueOf(Math.round(Math.pow(2, W))));
-    }
-
-    public static void Setup_rc5(){
         Split_Key_to_Words();
         Get_Wide_Keys();
         Mixing();
@@ -50,20 +51,16 @@ public class RC5_Service {
     }
 
     private static String Make_Open(String CipherBlock) {
-        CipherBlock = "5c102d309a1b1c63";
+        CipherBlock = "9e45afac16dd7674";
         String A_str = CipherBlock.substring(0, (W / 8) * 2);
         String B_str = CipherBlock.substring((W / 8) * 2, CipherBlock.length());
         BigInteger A = new BigInteger(A_str, 16);
         BigInteger B = new BigInteger(B_str, 16);
 
         for (int i = R; i > 0; i--) {
-            ioService.WriteStringToFile(WideKeysTable.get((2 * i) + 1).toString(), "D:\\rc5_Ologs.txt");
             B = B.subtract(WideKeysTable.get((2 * i) + 1)).mod(Module);
-            ioService.WriteStringToFile(B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16), "D:\\rc5_Ologs.txt");
             B = Right_Shift_String(B, A).mod(Module);
-            ioService.WriteStringToFile(B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16), "D:\\rc5_Ologs.txt");
             B = B.xor(A);
-            ioService.WriteStringToFile(B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16), "D:\\rc5_Ologs.txt");
 
             A = A.subtract(WideKeysTable.get(2 * i)).mod(Module);
             A = Right_Shift_String(A, B).mod(Module);
@@ -93,14 +90,11 @@ public class RC5_Service {
             A = (A.add(WideKeysTable.get(2 * i))).mod(Module);
 
             B = B.xor(A);
-            ioService.WriteStringToFile("XOR: " + B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16), "D:\\rc5_logs.txt");
             B = Left_Shift_String(B, A).mod(Module);
-            ioService.WriteStringToFile("LeftShift: " + B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16), "D:\\rc5_logs.txt");
             B = (B.add(WideKeysTable.get((2 * i) + 1))).mod(Module);
-            ioService.WriteStringToFile("Add: " + B.toString() + " bin: " + B.toString(2) + " hex: " + B.toString(16) + " " + WideKeysTable.get((2 * i) + 1).toString(), "D:\\rc5_logs.txt");
         }
 
-        String result = A.toString(16) + B.toString(16);
+        String result = A.mod(Module).toString(16) + B.mod(Module).toString(16);
         return result;
     }
 
@@ -113,10 +107,10 @@ public class RC5_Service {
 
         for (int index = 0; index < N; index++) {
             G = ((WideKeysTable.get(i).add(G)).add(H)).mod(Module);
-            G = Left_Shift_String(G, new BigInteger("3"));
+            G = Left_Shift_String(G, new BigInteger("3")).mod(Module);
 
             H = ((RoundKeysWords.get(j).add(G)).add(H)).mod(Module);
-            H = Left_Shift_String(H, (G.add(H)).mod(Module));
+            H = Left_Shift_String(H, (G.add(H)).mod(Module)).mod(Module);
 
             WideKeysTable.set(i, G);
             RoundKeysWords.set(j, H);
@@ -140,7 +134,6 @@ public class RC5_Service {
 
     public static BigInteger Right_Shift_String(BigInteger byteRowBG, BigInteger shiftBg) {
         int shift = shiftBg.mod(new BigInteger(String.valueOf(W))).intValue();
-        shift = Integer.parseInt("" + shift);
         String byteRow = Get_String_View(byteRowBG.toByteArray());
         for (int i = 0; i < shift; i++) {
             String value0 = byteRow.substring(byteRow.length() - 1, byteRow.length());
@@ -157,7 +150,7 @@ public class RC5_Service {
             mas[i] = arr[i];
         }
 
-        return convertService.Get_Bit_View(mas);
+        return Get_Bit_Str_View(mas);
     }
 
     private static void Get_Wide_Keys() {
@@ -167,6 +160,32 @@ public class RC5_Service {
             BigInteger key = WideKeysTable.get(i).add(Q_const).mod(Module);
             WideKeysTable.add(key);
         }
+    }
+
+    public static String Get_Bit_Str_View(int[] byteRow) {
+        String result = "";
+        for (int b : byteRow) {
+            String binStr = Integer.toBinaryString(b & 0xFF);
+            while (binStr.length() < 8) {
+                binStr = "0" + binStr;
+            }
+
+            result += binStr;
+        }
+
+        int index = 0;
+        while(result.charAt(index) == '0'){
+            index++;
+        }
+
+        int len = result.length();
+        result = result.substring(index, len);
+
+        while(result.length() < 32){
+            result = "0" + result;
+        }
+
+        return result;
     }
 
     private static void Split_Key_to_Words() {

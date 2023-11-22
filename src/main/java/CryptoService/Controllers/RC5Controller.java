@@ -47,12 +47,13 @@ public class RC5Controller {
 
     @PostMapping()
     public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText) throws DecoderException, IOException {
-        RC5cipher rc5Cipher = new RC5cipher();
+        RC5cipher rc5Cipher = new RC5cipher(cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord());
         switch (cipherText.getMode()) {
             case 1:
-                model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord()));
+                model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher()));
+                break;
             case 2:
-                model.addAttribute("cipher", rc5Cipher.Get_Open_Text(cipherText.getCipher(), cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord()));
+                model.addAttribute("cipher", rc5Cipher.Get_Open_Text(cipherText.getCipher()));
                 break;
         }
 
