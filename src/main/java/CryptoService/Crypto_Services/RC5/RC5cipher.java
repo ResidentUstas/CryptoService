@@ -1,7 +1,10 @@
 package CryptoService.Crypto_Services.RC5;
 import CryptoService.Services.IOService;
 import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
+
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 public class RC5cipher {
 
@@ -30,16 +33,15 @@ public class RC5cipher {
 
     public String Get_Cipher_Text(String OpenText) throws IOException {
         //Получаем шестнадцатиричное представление текста
-        //String OpenTextHex = IOService.ReadBytesFromString(OpenText);
-        String OpenTextHex = "0000000100020003";
+        String OpenTextHex = IOService.ReadBytesFromString(OpenText);
 
         String result = "";
         while (OpenTextHex.length() > 0) {
-            String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 2);
+            String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 4);
             OpenTextHex = OpenTextHex.substring((WordLength / 8) * 4, OpenTextHex.length());
 
             //Дополним последний неполный блок
-            if (OpenTextHex.length() < (WordLength / 8) * 2 && OpenTextHex.length() > 0) {
+            if (OpenTextHex.length() < (WordLength / 8) * 4 && OpenTextHex.length() > 0) {
                 while (OpenTextHex.length() < 16) {
                     OpenTextHex += "0";
                 }
@@ -54,8 +56,30 @@ public class RC5cipher {
         return result;
     }
 
-    public String Get_Open_Text(String CipherText) throws IOException, DecoderException {
-        String result = rc5_service.Get_Open_Text(CipherText);
+    public String Get_Open_Text(String OpenTextHex) throws IOException, DecoderException {
+        String result = "";
+        while (OpenTextHex.length() > 0) {
+            String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 4);
+            OpenTextHex = OpenTextHex.substring((WordLength / 8) * 4, OpenTextHex.length());
+
+            //Дополним последний неполный блок
+            if (OpenTextHex.length() < (WordLength / 8) * 4 && OpenTextHex.length() > 0) {
+                while (OpenTextHex.length() < 16) {
+                    OpenTextHex += "0";
+                }
+            }
+
+            String openBlockHex = rc5_service.Get_Open_Text(openBlock);
+            //Представим шестнадцатиричный результат в десятичных байтах
+            byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
+
+            IOService.WriteFile(openBytes, "D:\\rc5open.txt");
+
+            String openBlockSTR = new String(openBytes, StandardCharsets.UTF_8);
+            result += openBlockSTR;
+        }
+
+        IOService.WriteStringToFile(result,"D:\\rc5openTXT.txt" );
         return result;
     }
 

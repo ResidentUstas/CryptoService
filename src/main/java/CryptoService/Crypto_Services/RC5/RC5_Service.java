@@ -51,7 +51,6 @@ public class RC5_Service {
     }
 
     private static String Make_Open(String CipherBlock) {
-        CipherBlock = "c60662fc4d8b6424";
         String A_str = CipherBlock.substring(0, (W / 8) * 2);
         String B_str = CipherBlock.substring((W / 8) * 2, CipherBlock.length());
         BigInteger A = new BigInteger(A_str, 16);
@@ -59,11 +58,11 @@ public class RC5_Service {
 
         for (int i = R; i > 0; i--) {
             B = B.subtract(WideKeysTable.get((2 * i) + 1)).mod(Module);
-            B = Right_Shift_String(B, A);
+            B = Right_Shift_String(B, A).mod(Module);
             B = B.xor(A);
 
             A = A.subtract(WideKeysTable.get(2 * i)).mod(Module);
-            A = Right_Shift_String(A, B);
+            A = Right_Shift_String(A, B).mod(Module);
             A = A.xor(B);
         }
 
@@ -71,11 +70,14 @@ public class RC5_Service {
         A = A.subtract(WideKeysTable.get(0)).mod(Module);
 
         String result = A.toString(16) + B.toString(16);
+        if(result.length()<16){
+            int t =0;
+        }
+
         return result;
     }
 
     private static String Make_Cipher(String OpenBlock) {
-        OpenBlock = "B7B3422F92FC6903";
         String A_str = OpenBlock.substring(0, (W / 8) * 2);
         String B_str = OpenBlock.substring((W / 8) * 2, OpenBlock.length());
         BigInteger A = new BigInteger(A_str, 16);
@@ -86,16 +88,23 @@ public class RC5_Service {
 
         for (int i = 1; i <= R; i++) {
             A = A.xor(B);
-            A = Left_Shift_String(A, B);
+            A = Left_Shift_String(A, B).mod(Module);
             A = (A.add(WideKeysTable.get(2 * i))).mod(Module);
 
             B = B.xor(A);
-            B = Left_Shift_String(B, A);
+            B = Left_Shift_String(B, A).mod(Module);
             B = (B.add(WideKeysTable.get((2 * i) + 1))).mod(Module);
         }
 
-        String result = A.mod(Module).toString(16) + B.mod(Module).toString(16);
-        return result;
+        String As = A.toString(16);
+        String Bs = B.toString(16);
+        while (As.length()<8){
+            As = "0" + As;
+        }
+        while (Bs.length()<8){
+            Bs = "0" + Bs;
+        }
+        return As + Bs;
     }
 
     private static void Mixing() {
@@ -107,10 +116,10 @@ public class RC5_Service {
 
         for (int index = 0; index < N; index++) {
             G = ((WideKeysTable.get(i).add(G)).add(H)).mod(Module);
-            G = Left_Shift_String(G, new BigInteger("3"));
+            G = Left_Shift_String(G, new BigInteger("3")).mod(Module);
 
             H = ((RoundKeysWords.get(j).add(G)).add(H)).mod(Module);
-            H = Left_Shift_String(H, (G.add(H)).mod(Module));
+            H = Left_Shift_String(H, (G.add(H)).mod(Module)).mod(Module);
 
             WideKeysTable.set(i, G);
             RoundKeysWords.set(j, H);
@@ -154,10 +163,11 @@ public class RC5_Service {
     }
 
     private static void Get_Wide_Keys() {
+        WideKeysTable.clear();
         int index = 2 * (R + 1) - 1;
         WideKeysTable.add(P_const);
         for (int i = 0; i < index; i++) {
-            BigInteger key = WideKeysTable.get(i).add(Q_const).mod(Module);
+            BigInteger key = WideKeysTable.get(i).add(Q_const);
             WideKeysTable.add(key);
         }
     }
@@ -189,6 +199,7 @@ public class RC5_Service {
     }
 
     private static void Split_Key_to_Words() {
+        RoundKeysWords.clear();
         if (Key.length() % 2 != 0) {
             Key += "0";
         }
