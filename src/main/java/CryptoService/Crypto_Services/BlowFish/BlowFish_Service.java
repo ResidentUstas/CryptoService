@@ -10,6 +10,7 @@ public class BlowFish_Service {
     private long sbox2[] = BF_Initials.sbox2;
     private long sbox3[] = BF_Initials.sbox3;
     private long P_array[] = BF_Initials.parray;
+    private long[] cellResult = new long[]{0, 0};
     private String Key = "3d04182a5bb8d979973d6ba37ac18435cd";
 
     private final ConvertService convertService = new ConvertService();
@@ -27,35 +28,23 @@ public class BlowFish_Service {
     }
 
     private void cipher_initials() {
-        long[] cellRes = new long[]{0, 0};
         for (int i = 0; i < 18; i++) {
-            cellRes = Cipher_cell(cellRes[0], cellRes[1]);
-            P_array[i] = cellRes[0];
-            P_array[++i] = cellRes[1];
+            cellResult = Cipher_cell(cellResult[0], cellResult[1]);
+            P_array[i] = cellResult[0];
+            P_array[++i] = cellResult[1];
         }
 
-        for (int j = 0; j < 256; j++) {
-            cellRes = Cipher_cell(cellRes[0], cellRes[1]);
-            sbox0[j] = cellRes[0];
-            sbox0[++j] = cellRes[1];
-        }
+        cipher_sbox(sbox0);
+        cipher_sbox(sbox1);
+        cipher_sbox(sbox2);
+        cipher_sbox(sbox3);
+    }
 
+    private void cipher_sbox(long[] sbox){
         for (int j = 0; j < 256; j++) {
-            cellRes = Cipher_cell(cellRes[0], cellRes[1]);
-            sbox1[j] = cellRes[0];
-            sbox1[++j] = cellRes[1];
-        }
-
-        for (int j = 0; j < 256; j++) {
-            cellRes = Cipher_cell(cellRes[0], cellRes[1]);
-            sbox2[j] = cellRes[0];
-            sbox2[++j] = cellRes[1];
-        }
-
-        for (int j = 0; j < 256; j++) {
-            cellRes = Cipher_cell(cellRes[0], cellRes[1]);
-            sbox3[j] = cellRes[0];
-            sbox3[++j] = cellRes[1];
+            cellResult = Cipher_cell(cellResult[0], cellResult[1]);
+            sbox[j] = cellResult[0];
+            sbox[++j] = cellResult[1];
         }
     }
 
