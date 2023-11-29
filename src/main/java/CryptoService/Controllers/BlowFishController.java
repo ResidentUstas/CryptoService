@@ -36,9 +36,9 @@ public class BlowFishController {
             case 1:
                 model.addAttribute("cipher", blowFishCipher.Get_Cipher_Text(cipherText.getCipher()));
                 break;
-//            case 2:
-//                model.addAttribute("cipher", blowFishCipher.Get_Open_Text(cipherText.getCipher()));
-//                break;
+            case 2:
+                model.addAttribute("cipher", blowFishCipher.Get_Open_Text(cipherText.getCipher()));
+                break;
         }
 
         return "views/idea/ResultText";
