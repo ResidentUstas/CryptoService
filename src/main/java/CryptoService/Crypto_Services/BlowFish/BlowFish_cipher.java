@@ -13,8 +13,7 @@ public class BlowFish_cipher {
         blowFishService.Setup();
 
         //Получаем шестнадцатиричное представление текста
-        //String OpenTextHex = IOService.ReadBytesFromString(OpenText);
-        String OpenTextHex = "123456abcd132536";
+        String OpenTextHex = IOService.ReadBytesFromString(OpenText);
 
         String result = "";
         while (OpenTextHex.length() > 0) {
@@ -33,7 +32,7 @@ public class BlowFish_cipher {
             result += cipher_result;
         }
 
-        IOService.WriteStringToFile(result, "D:\\CipherIdeaRes.txt");
+        IOService.WriteStringToFile(result, "D:\\CipherBlowFishRes.txt");
         return result;
     }
 
@@ -57,7 +56,7 @@ public class BlowFish_cipher {
             //Представим шестнадцатиричный результат в десятичных байтах
             byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
 
-            IOService.WriteFile(openBytes, "D:\\decipherIdea1.txt");
+            IOService.WriteFile(openBytes, "D:\\decipheBlowFish.txt");
 
             String openBlockSTR = new String(openBytes, StandardCharsets.UTF_8);
             result += openBlockSTR;
