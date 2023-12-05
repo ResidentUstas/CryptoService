@@ -7,8 +7,9 @@
 <body>
 <div align="center">
     <p style="font-weight:bold">GSGSoft cryptography engines</p>
+    <p style="font-weight:bold">GrassHopper</p>
 <br>
-<form th:method="POST" th:action="@{/algorithm}" th:object="${cipher}">
+<form th:method="POST" th:action="@{/grassHop}" th:object="${cipher}">
     <p><label>Введите текст: </label></p>
     <p><textarea rows="50" cols="100" th:field="${cipher.Cipher}"></textarea></p>
     <select th:object="${cipher}" th:field="*{Mode}">

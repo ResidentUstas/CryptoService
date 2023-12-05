@@ -20,9 +20,9 @@ public class IOService {
     }
 
     public static void WriteStringToFile(String text, String path) {
-        try (FileWriter writer = new FileWriter(path, true)) {
+        try (FileWriter writer = new FileWriter(path, false)) {
 
-            writer.write(text + "\r\n");
+            writer.write(text);
 
             writer.flush();
         } catch (IOException ex) {

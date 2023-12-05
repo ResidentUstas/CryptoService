@@ -22,6 +22,7 @@ public class GrasshopperCipher {
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
 
         String result = "";
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\Grasshopper\\decipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, 32);
             OpenTextHex = OpenTextHex.substring(32, OpenTextHex.length());
@@ -38,7 +39,7 @@ public class GrasshopperCipher {
             result += cipher_result;
         }
 
-        IOService.WriteStringToFile(result, "D:\\CipherRes.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\Grasshopper\\decipher_result.txt");
         return result;
     }
 
@@ -51,6 +52,7 @@ public class GrasshopperCipher {
         cryptoService.Generate_Round_Keys();
 
         String result = "";
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\Grasshopper\\decipher_result.txt");
         while (CipherText.length() > 0) {
             String cipherBlock = CipherText.substring(0, 32);
             CipherText = CipherText.substring(32, CipherText.length());
@@ -68,7 +70,7 @@ public class GrasshopperCipher {
             //Представим шестнадцатиричный результат в десятичных байтах
             byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
 
-            IOService.WriteFile(openBytes, "D:\\decipher1.txt");
+            IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\Grasshopper\\decipher_result.txt");
 
             String openBlockSTR = new String(openBytes, StandardCharsets.UTF_8);
             result += openBlockSTR;

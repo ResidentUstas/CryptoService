@@ -16,6 +16,7 @@ public class BlowFish_cipher {
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
 
         String result = "";
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\decipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, 16);
             OpenTextHex = OpenTextHex.substring(16, OpenTextHex.length());
@@ -32,7 +33,7 @@ public class BlowFish_cipher {
             result += cipher_result;
         }
 
-        IOService.WriteStringToFile(result, "D:\\CipherBlowFishRes.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\decipher_result.txt");
         return result;
     }
 
@@ -40,6 +41,7 @@ public class BlowFish_cipher {
         blowFishService.Setup();
 
         String result = "";
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\decipher_result.txt");
         while (CipherText.length() > 0) {
             String cipherBlock = CipherText.substring(0, 16);
             CipherText = CipherText.substring(16, CipherText.length());
@@ -56,7 +58,7 @@ public class BlowFish_cipher {
             //Представим шестнадцатиричный результат в десятичных байтах
             byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
 
-            IOService.WriteFile(openBytes, "D:\\decipheBlowFish.txt");
+            IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\decipher_result.txt");
 
             String openBlockSTR = new String(openBytes, StandardCharsets.UTF_8);
             result += openBlockSTR;

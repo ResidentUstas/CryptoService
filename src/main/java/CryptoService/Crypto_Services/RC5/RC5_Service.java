@@ -4,7 +4,6 @@ import CryptoService.Services.ConvertService;
 import CryptoService.Services.IOService;
 
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 

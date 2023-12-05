@@ -1,7 +1,6 @@
 package CryptoService.Services;
 
 import org.apache.commons.lang3.ArrayUtils;
-import java.math.BigInteger;
 public class ConvertService {
 
     public static int[] Get_ByteRow_From_String(String subKey, int length) {
