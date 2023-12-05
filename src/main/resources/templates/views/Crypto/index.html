@@ -3,14 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+    <link th:href="@{/styles/index.css}" rel="stylesheet" />
 </head>
 <body>
 <div align="center">
-    <p><a th:href="@{/des}">DES</a></p>
-    <p><a th:href="@{/blowfish}">BlowFish</a></p>
-    <p><a th:href="@{/rc5}">RC-5</a></p>
-    <p><a th:href="@{/idea}">IDEA</a></p>
-    <p><a th:href="@{/grassHop}">GrassHopper</a></p>
+    <div th:class="mouse-parallax">
+        <div th:class="mouse-parallax-bg">
+            <p style="font-weight:bold"><a th:href="@{/des}">DES</a></p>
+            <p style="font-weight:bold"><a th:href="@{/blowfish}">BlowFish</a></p>
+            <p style="font-weight:bold"><a th:href="@{/rc5}">RC-5</a></p>
+            <p style="font-weight:bold"><a th:href="@{/idea}">IDEA</a></p>
+            <p style="font-weight:bold"><a th:href="@{/grassHop}">GrassHopper</a></p>
+        </div>
+    </div>
 </div>
 </body>
 </html>
