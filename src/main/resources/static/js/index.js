@@ -1,5 +1,4 @@
 window.addEventListener('mousemove', function(e) {
-    debugger;
     let bg = document.querySelector('.mouse-parallax-bg');
     let x = e.clientX / window.innerWidth;
     let y = e.clientY / window.innerHeight;

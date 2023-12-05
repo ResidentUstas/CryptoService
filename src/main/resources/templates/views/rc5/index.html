@@ -3,36 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:href="@{/styles/algor.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
 </head>
 <body>
 <div align="center">
-    <p style="font-weight:bold">GSGSoft cryptography engines</p>
-    <p style="font-weight:bold">RC-5</p>
-    <br>
-    <form th:method="POST" th:action="@{/rc5}" th:object="${cipher}">
-        <p><label>Введите текст: </label></p>
-        <p><textarea rows="50" cols="100" th:field="${cipher.Cipher}"></textarea></p>
-        <select th:object="${cipher}" th:field="*{Mode}">
-            <option th:each="operation:${Operation}" th:value="${operation.getOperation()}" th:text="${operation.getName()}"></option>
-        </select>
-        <br/>
-        <label>W (длина слова): </label>
-        <select th:object="${cipher}" th:field="*{Word}">
-            <option th:each="params:${Params}" th:value="${params.getIndex()}" th:text="${params.getParam()}"></option>
-        </select>
+    <div th:class="mouse-parallax">
+        <div th:class="mouse-parallax-bg">
+            <p style="font-weight:bold; color: darkgrey">GSGSoft cryptography engines</p>
+            <p style="font-weight:bold; color: darkgrey">RC-5</p>
+            <form th:method="POST" th:action="@{/rc5}" th:object="${cipher}">
+                <p><label style="color: darkgrey">Введите текст: </label></p>
+                <p><textarea rows="40" cols="90" th:field="${cipher.Cipher}"></textarea></p>
+                <select th:object="${cipher}" th:field="*{Mode}">
+                    <option th:each="operation:${Operation}" th:value="${operation.getOperation()}"
+                            th:text="${operation.getName()}"></option>
+                </select>
+                <br/>
+                <br/>
+                <label style="color: darkgrey">W (длина слова): </label>
+                <select th:object="${cipher}" th:field="*{Word}">
+                    <option th:each="params:${Params}" th:value="${params.getIndex()}"
+                            th:text="${params.getParam()}"></option>
+                </select>
 
-        <label>--- R число раундов: </label>
-        <select th:object="${cipher}" th:field="*{Rounds}">
-            <option th:each="params:${Parameters}" th:value="${params.getIndex()}" th:text="${params.getParam()}"></option>
-        </select>
+                <label style="color: darkgrey">--- R число раундов: </label>
+                <select th:object="${cipher}" th:field="*{Rounds}">
+                    <option th:each="params:${Parameters}" th:value="${params.getIndex()}"
+                            th:text="${params.getParam()}"></option>
+                </select>
 
-        <label>--- b длина ключа в байтах: </label>
-        <select th:object="${cipher}" th:field="*{KeyBits}">
-            <option th:each="params:${Parameters}" th:value="${params.getIndex()}" th:text="${params.getParam()}"></option>
-        </select>
-        <br/>
-        <button type="submit">Выполнить</button>
-    </form>
+                <label style="color: darkgrey">--- b длина ключа в байтах: </label>
+                <select th:object="${cipher}" th:field="*{KeyBits}">
+                    <option th:each="params:${Parameters}" th:value="${params.getIndex()}"
+                            th:text="${params.getParam()}"></option>
+                </select>
+                <br/>
+                <br/>
+                <button type="submit">Выполнить</button>
+            </form>
+        </div>
+    </div>
 </div>
 </body>
 </html>

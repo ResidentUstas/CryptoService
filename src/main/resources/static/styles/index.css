@@ -1,15 +1,5 @@
-.mouse-parallax {
-    height: 1500px;
-    position: relative;
-    overflow: hidden;
-}
-.mouse-parallax-bg {
-    position: absolute;
-    background-image: url(fonq.jpg);
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    width: 110%;
-    height: 110%;
-    transition: all 0.1s ease;
+.Algorithms {
+    position: fixed;
+    top: 25%;
+    left: 40%;
 }

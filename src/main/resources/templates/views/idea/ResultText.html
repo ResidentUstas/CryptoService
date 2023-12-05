@@ -3,11 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link th:href="@{/styles/algor.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
 </head>
 <body>
 <div align="center">
-    <p style="font-weight: bold">Результат</p>
-    <p><textarea rows="100" cols="150" th:text="${cipher}"></textarea></p>
+    <div th:class="mouse-parallax">
+        <div th:class="mouse-parallax-bg">
+            <p style="font-weight: bold; color: darkgrey">Результат</p>
+            <p><textarea rows="40" cols="70" th:text="${cipher}"></textarea></p>
+        </div>
+    </div>
 </div>
 </body>
 </html>
