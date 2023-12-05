@@ -1,11 +1,7 @@
 package CryptoService.Crypto_Services.DES;
 
 import CryptoService.Services.ConvertService;
-import org.apache.commons.codec.binary.Hex;
 import org.apache.commons.lang3.ArrayUtils;
-
-import java.math.BigInteger;
-import java.nio.ByteBuffer;
 
 public class Des_Service {
     private String Key = "AABB09182736CCDD";
@@ -49,25 +45,57 @@ public class Des_Service {
     }
 
     public String Get_Cipher_Text(String Block) {
-        Block = "123456ABCD132536";
         int[] bytes = convertService.Get_ByteRow_From_String(Block, 8);
         ArrayUtils.reverse(bytes);
         Block = convertService.Get_Bit_View(bytes);
         Block = Permutation(IP, Block);
-        Block = Feistel_net(Block);
+        Block = Feistel_net(Block, 1); // 1-режим шифрования
         Block = Permutation(IPb, Block);
         Long result_L = Long.parseLong(Block.substring(0, 32), 2);
         Long result_R = Long.parseLong(Block.substring(32, Block.length()), 2);
-        Block = Long.toHexString(result_L) + Long.toHexString(result_R);
+        String L_str = Long.toHexString(result_L);
+        String R_str = Long.toHexString(result_R);
+        while (L_str.length() < 8) {
+            L_str = "0" + L_str;
+        }
+
+        while (R_str.length() < 8) {
+            R_str = "0" + R_str;
+        }
+
+        Block = L_str + R_str;
         return Block;
     }
 
-    private String Feistel_net(String OpenBlock) {
+    public String Get_Open_Text(String Block) {
+        int[] bytes = convertService.Get_ByteRow_From_String(Block, 8);
+        ArrayUtils.reverse(bytes);
+        Block = convertService.Get_Bit_View(bytes);
+        Block = Permutation(IP, Block);
+        Block = Feistel_net(Block, 0); // 0-режим расшифрования
+        Block = Permutation(IPb, Block);
+        Long result_L = Long.parseLong(Block.substring(0, 32), 2);
+        Long result_R = Long.parseLong(Block.substring(32, Block.length()), 2);
+        String L_str = Long.toHexString(result_L);
+        String R_str = Long.toHexString(result_R);
+        while (L_str.length() < 8) {
+            L_str = "0" + L_str;
+        }
+
+        while (R_str.length() < 8) {
+            R_str = "0" + R_str;
+        }
+
+        Block = L_str + R_str;
+        return Block;
+    }
+
+    private String Feistel_net(String OpenBlock, int mode) {
         String L = OpenBlock.substring(0, 32);
         String R = OpenBlock.substring(32, OpenBlock.length());
         String L0 = R;
         for (int i = 0; i < 16; i++) {
-            R = Des_Function(R, i);
+            R = Des_Function(R, mode == 1 ? i : 15 - i);
             R = XOR(R, L);
             L = L0;
             L0 = R;

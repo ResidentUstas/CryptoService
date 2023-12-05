@@ -30,11 +30,36 @@ public class Des_cipher {
             result += cipher_result;
         }
 
-        IOService.WriteStringToFile(result, "D:\\CipherBlowFishRes.txt");
+        IOService.WriteStringToFile(result, "D:\\CipherDES.txt");
         return result;
     }
 
     public String Get_Open_Text(String CipherText) throws IOException, DecoderException {
-      return "dfd";
+        des_service.KeyExtension();
+
+        String result = "";
+        while (CipherText.length() > 0) {
+            String cipherBlock = CipherText.substring(0, 16);
+            CipherText = CipherText.substring(16, CipherText.length());
+
+            //Дополним последний неполный блок
+            if (CipherText.length() < 16 && CipherText.length() > 0) {
+                while (CipherText.length() < 16) {
+                    CipherText += "0";
+                }
+            }
+
+            //расшифруем полученный блок
+            String openBlockHex = des_service.Get_Open_Text(cipherBlock);
+            //Представим шестнадцатиричный результат в десятичных байтах
+            byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
+
+            IOService.WriteFile(openBytes, "D:\\decipherDES.txt");
+
+            String openBlockSTR = new String(openBytes, StandardCharsets.UTF_8);
+            result += openBlockSTR;
+        }
+
+        return result;
     }
 }
