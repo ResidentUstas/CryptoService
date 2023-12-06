@@ -12,6 +12,10 @@
         <div th:class="mouse-parallax-bg">
             <p style="font-weight: bold; color: darkgrey">Результат</p>
             <p><textarea rows="40" cols="70" th:text="${cipher}"></textarea></p>
+            <form th:method="POST" th:action="@{/des/download}" th:object="${path}">
+                <input type="hidden" th:value="${path}" name="path">
+                <button type="submit">скачать файл</button>
+            </form>
         </div>
     </div>
 </div>

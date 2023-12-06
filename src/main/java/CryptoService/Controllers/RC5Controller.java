@@ -48,9 +48,11 @@ public class RC5Controller {
         switch (cipherText.getMode()) {
             case 1:
                 model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher()));
+                model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\RC-5\\rc5_cipher_result.txt");
                 break;
             case 2:
                 model.addAttribute("cipher", rc5Cipher.Get_Open_Text(cipherText.getCipher()));
+                model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
                 break;
         }
 

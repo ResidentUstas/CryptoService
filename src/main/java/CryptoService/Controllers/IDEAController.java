@@ -36,9 +36,11 @@ public class IDEAController {
         switch (cipherText.getMode()){
             case 1:
                 model.addAttribute("cipher", ideaCipher.Get_Cipher_Text(cipherText.getCipher()));
+                model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\IDEA\\idea_cipher_result.txt");
                 break;
             case 2:
                 model.addAttribute("cipher", ideaCipher.Get_Open_Text(cipherText.getCipher()));
+                model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
                 break;
         }
 

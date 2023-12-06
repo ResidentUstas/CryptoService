@@ -35,9 +35,11 @@ public class BlowFishController {
         switch (cipherText.getMode()){
             case 1:
                 model.addAttribute("cipher", blowFishCipher.Get_Cipher_Text(cipherText.getCipher()));
+                model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\BlowFish\\blowfish_cipher_result.txt");
                 break;
             case 2:
                 model.addAttribute("cipher", blowFishCipher.Get_Open_Text(cipherText.getCipher()));
+                model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
                 break;
         }
 
