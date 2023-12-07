@@ -56,13 +56,6 @@ public class GrasshopperCipher {
             String cipherBlock = CipherText.substring(0, 32);
             CipherText = CipherText.substring(32, CipherText.length());
 
-            //Дополним последний неполный блок
-            if (CipherText.length() < 32 && CipherText.length() > 0) {
-                while (CipherText.length() < 32) {
-                    CipherText += "0";
-                }
-            }
-
             //Расшифруем полученный блок
             String openBlockHex = cryptoService.Make_Open_Text(cipherBlock);
 

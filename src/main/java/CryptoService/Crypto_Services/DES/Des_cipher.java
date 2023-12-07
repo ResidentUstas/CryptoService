@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class Des_cipher {
     Des_Service des_service = new Des_Service();
+
     public String Get_Cipher_Text(String OpenText) throws IOException, DecoderException {
         des_service.KeyExtension();
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
@@ -38,24 +39,20 @@ public class Des_cipher {
         des_service.KeyExtension();
 
         String result = "";
-
         IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
         while (CipherText.length() > 0) {
             String cipherBlock = CipherText.substring(0, 16);
             CipherText = CipherText.substring(16, CipherText.length());
 
-            //Дополним последний неполный блок
-            if (CipherText.length() < 16 && CipherText.length() > 0) {
-                while (CipherText.length() < 16) {
-                    CipherText += "0";
-                }
-            }
-
             //расшифруем полученный блок
             String openBlockHex = des_service.Get_Open_Text(cipherBlock);
             //Представим шестнадцатиричный результат в десятичных байтах
             byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-            IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
+            if (CipherText.length() == 0) {
+                IOService.WriteLastBlock(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
+            } else {
+                IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
+            }
         }
 
         result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");

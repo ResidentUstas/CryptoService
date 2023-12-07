@@ -45,13 +45,6 @@ public class BlowFish_cipher {
             String cipherBlock = CipherText.substring(0, 16);
             CipherText = CipherText.substring(16, CipherText.length());
 
-            //Дополним последний неполный блок
-            if (CipherText.length() < 16 && CipherText.length() > 0) {
-                while (CipherText.length() < 16) {
-                    CipherText += "0";
-                }
-            }
-
             //расшифруем полученный блок
             String openBlockHex = blowFishService.Get_Open_Text(cipherBlock);
             //Представим шестнадцатиричный результат в десятичных байтах

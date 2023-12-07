@@ -63,13 +63,6 @@ public class RC5cipher {
             String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 4);
             OpenTextHex = OpenTextHex.substring((WordLength / 8) * 4, OpenTextHex.length());
 
-            //Дополним последний неполный блок
-            if (OpenTextHex.length() < (WordLength / 8) * 4 && OpenTextHex.length() > 0) {
-                while (OpenTextHex.length() < 16) {
-                    OpenTextHex += "0";
-                }
-            }
-
             String openBlockHex = rc5_service.Get_Open_Text(openBlock);
             //Представим шестнадцатиричный результат в десятичных байтах
             byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());

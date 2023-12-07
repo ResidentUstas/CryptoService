@@ -48,13 +48,6 @@ public class IDEAcipher {
             String cipherBlock = CipherText.substring(0, 16);
             CipherText = CipherText.substring(16, CipherText.length());
 
-            //Дополним последний неполный блок
-            if (CipherText.length() < 16 && CipherText.length() > 0) {
-                while (CipherText.length() < 16) {
-                    CipherText += "0";
-                }
-            }
-
             //расшифруем полученный блок
             String openBlockHex = ideaService.Make_Cipher_Text(cipherBlock, 0);
             //Представим шестнадцатиричный результат в десятичных байтах

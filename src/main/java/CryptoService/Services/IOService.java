@@ -14,6 +14,15 @@ import java.util.stream.IntStream;
 public class IOService {
 
     public static void WriteFile(byte[] buffer, String path) {
+        try (FileOutputStream fos = new FileOutputStream(path, true)) {
+            fos.write(buffer, 0, buffer.length);
+        } catch (IOException ex) {
+
+            System.out.println(ex.getMessage());
+        }
+    }
+
+    public static void WriteLastBlock(byte[] buffer, String path) {
         List<Byte> buff = new ArrayList<>();
         for (int i = 0; i < buffer.length; i++) {
             if (buffer[i] != 0) {

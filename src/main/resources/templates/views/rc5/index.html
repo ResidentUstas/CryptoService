@@ -13,9 +13,18 @@
         <div th:class="mouse-parallax-bg">
             <p style="font-weight:bolder; color: darkgrey">Блочные алгоритмы шифрования - реализация и исследование</p>
             <p style="font-weight:bold; color: darkgrey">RC-5</p>
+            <form th:method="post" th:action="@{/crypto/upload}" enctype="multipart/form-data">
+                <label class="input-file">
+                    <input type="hidden" th:name="Alg" value="rc5"/>
+                    <input type="file" th:name="file"/>
+                    <span>Выберите файл</span>
+                    <input type="submit" value="загрузить"/>
+                </label>
+            </form>
             <form th:method="POST" th:action="@{/rc5}" th:object="${cipher}">
                 <p><label style="color: darkgrey">Введите текст: </label></p>
-                <p><textarea class="textarea" rows="20" cols="80" placeholder="введите текст..." th:field="${cipher.Cipher}"></textarea></p>
+                <p><textarea class="textarea" rows="20" cols="80" placeholder="введите текст..."
+                             th:field="${cipher.Cipher}"></textarea></p>
                 <select th:object="${cipher}" th:field="*{Mode}">
                     <option th:each="operation:${Operation}" th:value="${operation.getOperation()}"
                             th:text="${operation.getName()}"></option>
