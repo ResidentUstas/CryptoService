@@ -5,7 +5,6 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class Des_cipher {
     Des_Service des_service = new Des_Service();
@@ -14,7 +13,7 @@ public class Des_cipher {
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
 
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\DES\\cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, 16);
             OpenTextHex = OpenTextHex.substring(16, OpenTextHex.length());
@@ -56,13 +55,10 @@ public class Des_cipher {
             String openBlockHex = des_service.Get_Open_Text(cipherBlock);
             //Представим шестнадцатиричный результат в десятичных байтах
             byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-
             IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
-
-            String openBlockSTR = new String(openBytes, StandardCharsets.UTF_8);
-            result += openBlockSTR;
         }
 
+        result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
         return result;
     }
 }

@@ -5,7 +5,6 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class BlowFish_cipher {
     BlowFish_Service blowFishService = new BlowFish_Service();
@@ -59,11 +58,9 @@ public class BlowFish_cipher {
             byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
 
             IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
-
-            String openBlockSTR = new String(openBytes, StandardCharsets.UTF_8);
-            result += openBlockSTR;
         }
 
+        result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
         return result;
     }
 }

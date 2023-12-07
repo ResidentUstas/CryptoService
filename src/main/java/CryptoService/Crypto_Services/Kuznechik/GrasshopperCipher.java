@@ -5,7 +5,6 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class GrasshopperCipher {
     private final Kuznechik_service cryptoService = new Kuznechik_service();
@@ -71,11 +70,9 @@ public class GrasshopperCipher {
             byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
 
             IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
-
-            String openBlockSTR = new String(openBytes, StandardCharsets.UTF_8);
-            result += openBlockSTR;
         }
 
+        result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
         return result;
     }
 }

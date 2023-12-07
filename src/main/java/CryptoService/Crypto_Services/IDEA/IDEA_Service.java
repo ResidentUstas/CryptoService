@@ -9,7 +9,7 @@ public class IDEA_Service {
 
     public final List<Integer> RoundKeys = new LinkedList<>();
     public final List<Integer> ReversKeys = new LinkedList<>();
-    private String Key = "cca86c95d579197eec83352b066e933c";
+    private String Key = "00010002000300040005000600070008";
     private ConvertService convertService = new ConvertService();
 
     public String Make_Cipher_Text(String text, int mode) {

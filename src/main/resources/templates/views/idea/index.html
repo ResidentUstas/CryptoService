@@ -15,7 +15,7 @@
             <p style="font-weight:bold;color: darkgrey">IDEA</p>
             <form th:method="POST" th:action="@{/idea}" th:object="${cipher}">
                 <p><label style="font-weight:bold; color: darkgrey">Введите текст: </label></p>
-                <p><textarea class="textarea" rows="40" cols="90" placeholder="введите текст..." th:field="${cipher.Cipher}"></textarea></p>
+                <p><textarea class="textarea" rows="25" cols="90" placeholder="введите текст..." th:field="${cipher.Cipher}"></textarea></p>
                 <select th:object="${cipher}" th:field="*{Mode}">
                     <option th:each="operation:${Operation}" th:value="${operation.getOperation()}"
                             th:text="${operation.getName()}"></option>

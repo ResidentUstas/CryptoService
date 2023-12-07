@@ -7,12 +7,27 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.IntStream;
 
 public class IOService {
 
     public static void WriteFile(byte[] buffer, String path) {
+        List<Byte> buff = new ArrayList<>();
+        for (int i = 0; i < buffer.length; i++) {
+            if (buffer[i] != 0) {
+                buff.add(buffer[i]);
+            }
+        }
+
+        byte[] result = new byte[buff.size()];
+        for (int i = 0; i < buff.size(); i++){
+            result[i] = buff.get(i);
+        }
+
         try (FileOutputStream fos = new FileOutputStream(path, true)) {
-            fos.write(buffer, 0, buffer.length);
+            fos.write(result, 0, result.length);
         } catch (IOException ex) {
 
             System.out.println(ex.getMessage());
@@ -53,11 +68,9 @@ public class IOService {
         Path path = Paths.get(pathStr);
 
         byte[] data = Files.readAllBytes(path);
-        String opentTextHex = Hex.encodeHexString(data);
-
         String openBlockSTR = new String(data, StandardCharsets.UTF_8);
 
-        return opentTextHex;
+        return openBlockSTR;
     }
 
     public static String ReadBytesFromString(String text) throws IOException {

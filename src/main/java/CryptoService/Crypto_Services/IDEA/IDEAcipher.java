@@ -5,7 +5,6 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class IDEAcipher {
 
@@ -15,8 +14,8 @@ public class IDEAcipher {
         ideaService.Generate_Keys();
 
         //Получаем шестнадцатиричное представление текста
-        String OpenTextHex = IOService.ReadBytesFromString(OpenText);
-        //String OpenTextHex = "0000000100020003";
+        //String OpenTextHex = IOService.ReadBytesFromString(OpenText);
+        String OpenTextHex = "0000000100020003";
 
         String result = "";
         IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\IDEA\\idea_cipher_result.txt");
@@ -62,11 +61,9 @@ public class IDEAcipher {
             byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
 
             IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
-
-            String openBlockSTR = new String(openBytes, StandardCharsets.UTF_8);
-            result += openBlockSTR;
         }
 
+        result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
         return result;
     }
 }

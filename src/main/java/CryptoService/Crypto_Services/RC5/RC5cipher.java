@@ -4,7 +4,6 @@ import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 public class RC5cipher {
 
@@ -36,7 +35,7 @@ public class RC5cipher {
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
 
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\decipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 4);
             OpenTextHex = OpenTextHex.substring((WordLength / 8) * 4, OpenTextHex.length());
@@ -59,7 +58,7 @@ public class RC5cipher {
 
     public String Get_Open_Text(String OpenTextHex) throws IOException, DecoderException {
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\r5_decipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 4);
             OpenTextHex = OpenTextHex.substring((WordLength / 8) * 4, OpenTextHex.length());
@@ -76,12 +75,9 @@ public class RC5cipher {
             byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
 
             IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
-
-            String openBlockSTR = new String(openBytes, StandardCharsets.UTF_8);
-            result += openBlockSTR;
         }
 
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
+        result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
         return result;
     }
 
