@@ -11,15 +11,16 @@
 <div align="center">
     <div th:class="mouse-parallax">
         <div th:class="mouse-parallax-bg">
-            <p style="font-weight:bold; color: darkgrey">GSGSoft cryptography engines</p>
+            <p style="font-weight: bolder; color: darkgrey">Блочные алгоритмы шифрования - реализация и исследование</p>
             <p style="font-weight:bold; color: darkgrey">DES</p>
             <form th:method="POST" th:action="@{/des}" th:object="${cipher}">
-                <p><label>Введите текст: </label></p>
-                <p><textarea rows="40" cols="90" th:field="${cipher.Cipher}"></textarea></p>
+                <p><label style="font-weight:bold; color: darkgrey">Введите текст: </label></p>
+                <p><textarea class="textarea" rows="40" cols="90" placeholder="введите текст..." th:field="${cipher.Cipher}"></textarea></p>
                 <select th:object="${cipher}" th:field="*{Mode}">
                     <option th:each="operation:${Operation}" th:value="${operation.getOperation()}"
                             th:text="${operation.getName()}"></option>
                 </select>
+                <br/>
                 <input type="submit" value="Выполнить"/>
             </form>
         </div>

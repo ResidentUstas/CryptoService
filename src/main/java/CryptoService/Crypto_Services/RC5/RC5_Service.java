@@ -1,8 +1,5 @@
 package CryptoService.Crypto_Services.RC5;
 
-import CryptoService.Services.ConvertService;
-import CryptoService.Services.IOService;
-
 import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,10 +10,6 @@ public class RC5_Service {
     public static final List<BigInteger> RoundKeysWords = new LinkedList<>();
     public static final List<String> RoundKeysWordsStr = new LinkedList<>();
     public static final List<BigInteger> WideKeysTable = new LinkedList<>();
-    private static ConvertService convertService = new ConvertService();
-    private static IOService ioService = new IOService();
-
-    private BigInteger t = new BigInteger("B7E151628AED2A6B", 16);
     private static BigInteger P_const;
     private static BigInteger Q_const;
     private static BigInteger Module;

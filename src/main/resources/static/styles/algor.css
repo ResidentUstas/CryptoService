@@ -13,3 +13,8 @@
     height: 110%;
     transition: all 0.1s ease;
 }
+
+.textarea{
+    background: url(fonts/fon_text1.png);
+    color: aliceblue;
+}
