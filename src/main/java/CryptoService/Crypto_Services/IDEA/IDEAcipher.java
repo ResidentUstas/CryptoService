@@ -14,8 +14,8 @@ public class IDEAcipher {
         ideaService.Generate_Keys();
 
         //Получаем шестнадцатиричное представление текста
-        //String OpenTextHex = IOService.ReadBytesFromString(OpenText);
-        String OpenTextHex = "0000000100020003";
+        String OpenTextHex = IOService.ReadBytesFromString(OpenText);
+        //String OpenTextHex = "0000000100020003";
 
         String result = "";
         IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\IDEA\\idea_cipher_result.txt");

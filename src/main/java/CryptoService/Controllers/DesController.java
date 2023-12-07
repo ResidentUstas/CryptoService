@@ -56,16 +56,4 @@ public class DesController {
 
         return "views/idea/ResultText";
     }
-
-    @PostMapping("/download")
-    public ResponseEntity<InputStreamResource> downloadFile(@RequestParam("path") String path) throws IOException {
-        File file = new File(path);
-        InputStreamResource resource = new InputStreamResource(new FileInputStream(file));
-
-        return ResponseEntity.ok()
-                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment;filename=" + file.getName())
-                .contentType(new MediaType("text","plain"))
-                .contentLength(file.length())
-                .body(resource);
-    }
 }

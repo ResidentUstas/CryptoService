@@ -1,6 +1,7 @@
 package CryptoService.Crypto_Services.IDEA;
 
 import CryptoService.Services.ConvertService;
+import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -15,6 +16,7 @@ public class IDEA_Service {
     public String Make_Cipher_Text(String text, int mode) {
         List<Integer> thisRoundKeys = mode == 1 ? RoundKeys : ReversKeys;
         int[] KeyBytes = convertService.Get_ByteRow_From_String(text, 8);
+        ArrayUtils.reverse(KeyBytes);
         int[] D1 = new int[2];
         int[] D2 = new int[2];
         int[] D3 = new int[2];
@@ -43,6 +45,7 @@ public class IDEA_Service {
             x1 = y2 ^ t2;
             x2 = y1 ^ t3;
             x3 = y3 ^ t3;
+            int t = 0;
         }
 
         int r0 = mul(x0, thisRoundKeys.get(p++));
@@ -86,6 +89,7 @@ public class IDEA_Service {
 
     public void Generate_Keys() {
         int[] KeyBytes = convertService.Get_ByteRow_From_String(Key, 16);
+        ArrayUtils.reverse(KeyBytes);
         for (int j = 0; j < 7; j++) {
             for (int i = 0; i < 16; i++) {
                 int[] key_i = new int[2];

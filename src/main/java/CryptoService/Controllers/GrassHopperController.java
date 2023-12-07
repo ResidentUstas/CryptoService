@@ -45,6 +45,6 @@ public class GrassHopperController {
                 break;
         }
 
-        return "views/kuznechick/ResultText";
+        return "views/idea/ResultText";
     }
 }

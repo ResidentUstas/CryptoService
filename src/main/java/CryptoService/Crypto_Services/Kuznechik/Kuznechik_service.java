@@ -75,6 +75,7 @@ public class Kuznechik_service {
     public String Make_Cipher_Text(String OpenText){
         //Получаем массив байт из строки
         int[] Open_text_bytes = convertService.Get_ByteRow_From_String(OpenText, 16);
+        ArrayUtils.reverse(Open_text_bytes);
         int[] period_result = new int[16];
         int[] Key_i = new int[16];
         SwapMass(RoundKeys.get(0), Key_i);
@@ -97,6 +98,7 @@ public class Kuznechik_service {
     public String Make_Open_Text(String CipherText){
         //Получаем массив байт из строки
         int[] Cipher_text_bytes = convertService.Get_ByteRow_From_String(CipherText, 16);
+        ArrayUtils.reverse(Cipher_text_bytes);
         int[] period_result = new int[16];
         int[] Key_i = new int[16];
         SwapMass(RoundKeys.get(9), Key_i);
@@ -139,6 +141,7 @@ public class Kuznechik_service {
     public void Generate_Round_Keys() {
         String Key_str = Key.substring(0, 64);
         int[] Key = convertService.Get_ByteRow_From_String(Key_str, 32);
+        ArrayUtils.reverse(Key);
         int[] K1 = Arrays.copyOfRange(Key, 16, 32);
         int[] K2 = Arrays.copyOfRange(Key, 0, 16);
         int[] K_period = new int[16];
