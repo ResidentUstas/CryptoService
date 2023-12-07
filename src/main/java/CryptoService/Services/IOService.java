@@ -14,6 +14,7 @@ import java.util.stream.IntStream;
 public class IOService {
 
     public static void WriteFile(byte[] buffer, String path) {
+
         try (FileOutputStream fos = new FileOutputStream(path, true)) {
             fos.write(buffer, 0, buffer.length);
         } catch (IOException ex) {

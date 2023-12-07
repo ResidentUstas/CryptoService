@@ -37,7 +37,7 @@ public class Des_cipher {
 
     public String Get_Open_Text(String CipherText) throws IOException, DecoderException {
         des_service.KeyExtension();
-
+        String openBlockHex = "";
         String result = "";
         IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
         while (CipherText.length() > 0) {
@@ -45,16 +45,11 @@ public class Des_cipher {
             CipherText = CipherText.substring(16, CipherText.length());
 
             //расшифруем полученный блок
-            String openBlockHex = des_service.Get_Open_Text(cipherBlock);
-            //Представим шестнадцатиричный результат в десятичных байтах
-            byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-            if (CipherText.length() == 0) {
-                IOService.WriteLastBlock(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
-            } else {
-                IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
-            }
+            openBlockHex += des_service.Get_Open_Text(cipherBlock);
         }
 
+        byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
+        IOService.WriteLastBlock(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
         result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
         return result;
     }
