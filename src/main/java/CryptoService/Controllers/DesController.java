@@ -23,25 +23,28 @@ import java.util.List;
 public class DesController {
     @Autowired
     private ServletContext servletContext;
+
     @GetMapping()
-    public String Index(Model model)  {
+    public String Index(Model model) {
         CipherModel cipher = new CipherModel();
         List<OperModel> oper = new ArrayList<>();
-        oper.add(new OperModel(1,"Зашифровать"));
-        oper.add(new OperModel(2,"Расшифровать"));
-        oper.add(new OperModel(3,"Расстояние Хемминга"));
+        oper.add(new OperModel(1, "Зашифровать"));
+        oper.add(new OperModel(2, "Расшифровать"));
+        oper.add(new OperModel(3, "Расстояние Хемминга"));
         model.addAttribute("cipher", cipher);
         model.addAttribute("Operation", oper);
         return "views/des/index";
     }
 
     @PostMapping()
-    public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText) throws DecoderException, IOException {
+    public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText, @ModelAttribute("fileName") String fileName) throws DecoderException, IOException {
         Des_cipher desCipher = new Des_cipher();
 
-        switch (cipherText.getMode()){
+        switch (cipherText.getMode()) {
             case 1:
-                model.addAttribute("cipher", desCipher.Get_Cipher_Text(cipherText.getCipher()));
+                String result = desCipher.Get_Cipher_Text(cipherText.getCipher());
+                model.addAttribute("cipher", result);
+                IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\DES\\Des_cipher_" + fileName);
                 model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
                 break;
             case 2:
