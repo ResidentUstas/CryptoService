@@ -37,14 +37,12 @@ public class DesController {
     }
 
     @PostMapping()
-    public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText, @ModelAttribute("fileName") String fileName) throws DecoderException, IOException {
+    public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText) throws DecoderException, IOException {
         Des_cipher desCipher = new Des_cipher();
 
         switch (cipherText.getMode()) {
             case 1:
-                String result = desCipher.Get_Cipher_Text(cipherText.getCipher());
-                model.addAttribute("cipher", result);
-                IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\DES\\Des_cipher_" + fileName);
+                model.addAttribute("cipher", desCipher.Get_Cipher_Text(cipherText.getCipher()));
                 model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
                 break;
             case 2:

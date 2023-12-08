@@ -44,9 +44,9 @@ public class CryptoController {
             try {
                 byte[] bytes = file[0].getBytes();
                 String text = new String(bytes, StandardCharsets.UTF_8);
-                return returnUpload(alg, model, text, file[0].getOriginalFilename());
+                return returnUpload(alg, model, text);
             } catch (Exception e) {
-                return returnUpload(alg, model, "Ошибка загрузки!!!", "none");
+                return returnUpload(alg, model, "Ошибка загрузки!!!");
             }
         } else {
             if (file.length == 2){
@@ -70,14 +70,13 @@ public class CryptoController {
         return "views/hemming/index";
     }
 
-    private String returnUpload(String alg, Model model, String text, String fileName) {
+    private String returnUpload(String alg, Model model, String text) {
         CipherModel cipher = new CipherModel();
         List<OperModel> oper = new ArrayList<>();
         oper.add(new OperModel(1, "Зашифровать"));
         oper.add(new OperModel(2, "Расшифровать"));
         oper.add(new OperModel(3,"Расстояние Хемминга"));
         cipher.setCipher(text);
-        cipher.setFileName(fileName);
         model.addAttribute("cipher", cipher);
         model.addAttribute("Operation", oper);
         switch (alg) {
