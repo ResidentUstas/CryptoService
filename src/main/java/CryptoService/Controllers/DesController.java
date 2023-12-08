@@ -43,11 +43,11 @@ public class DesController {
         switch (cipherText.getMode()) {
             case 1:
                 model.addAttribute("cipher", desCipher.Get_Cipher_Text(cipherText.getCipher()));
-                model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
+                model.addAttribute("path", "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
                 break;
             case 2:
                 model.addAttribute("cipher", desCipher.Get_Open_Text(cipherText.getCipher()));
-                model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
+                model.addAttribute("path", "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
                 break;
             case 3:
                 byte[] HemmingBytes0 = cipherText.getCipher().getBytes();
@@ -57,7 +57,7 @@ public class DesController {
                 String Hemming1 = ConvertService.Get_Bit_View_Bytes(HemmingBytes1);
                 int h_distance = IOService.FindHammingDistance(Hemming0, Hemming1);
                 model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + Hemming0.length());
-                model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\Hemming\\DES\\des_hemming_result.txt");
+                model.addAttribute("path", "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\Hemming\\DES\\des_hemming_result.txt");
                 break;
         }
 

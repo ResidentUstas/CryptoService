@@ -21,7 +21,7 @@ public class GrasshopperCipher {
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
 
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\Grasshopper\\grasshopper_cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\Grasshopper\\grasshopper_cipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, 32);
             OpenTextHex = OpenTextHex.substring(32, OpenTextHex.length());
@@ -38,7 +38,7 @@ public class GrasshopperCipher {
             result += cipher_result;
         }
 
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\Grasshopper\\grasshopper_cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\Grasshopper\\grasshopper_cipher_result.txt");
         return result;
     }
 
@@ -51,7 +51,7 @@ public class GrasshopperCipher {
         cryptoService.Generate_Round_Keys();
         String openBlockHex = "";
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
         while (CipherText.length() > 0) {
             String cipherBlock = CipherText.substring(0, 32);
             CipherText = CipherText.substring(32, CipherText.length());
@@ -61,8 +61,8 @@ public class GrasshopperCipher {
         }
         //Представим шестнадцатиричный результат в десятичных байтах
         byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
-        result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
+        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
+        result = IOService.ReadBytes("D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
         return result;
     }
 }

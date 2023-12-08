@@ -35,7 +35,7 @@ public class RC5cipher {
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
 
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 4);
             OpenTextHex = OpenTextHex.substring((WordLength / 8) * 4, OpenTextHex.length());
@@ -52,14 +52,14 @@ public class RC5cipher {
             result += cipher_result;
         }
 
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\RC-5\\rc5_cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\RC-5\\rc5_cipher_result.txt");
         return result;
     }
 
     public String Get_Open_Text(String OpenTextHex) throws IOException, DecoderException {
         String result = "";
         String openBlockHex = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 4);
             OpenTextHex = OpenTextHex.substring((WordLength / 8) * 4, OpenTextHex.length());
@@ -68,8 +68,8 @@ public class RC5cipher {
         }
         //Представим шестнадцатиричный результат в десятичных байтах
         byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
-        result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
+        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
+        result = IOService.ReadBytes("D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
         return result;
     }
 

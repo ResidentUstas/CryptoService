@@ -16,7 +16,7 @@ public class BlowFish_cipher {
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
 
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\BlowFish\\blowfish_cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\BlowFish\\blowfish_cipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, 16);
             OpenTextHex = OpenTextHex.substring(16, OpenTextHex.length());
@@ -33,7 +33,7 @@ public class BlowFish_cipher {
             result += cipher_result;
         }
 
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\BlowFish\\blowfish_cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\BlowFish\\blowfish_cipher_result.txt");
         return result;
     }
 
@@ -42,7 +42,7 @@ public class BlowFish_cipher {
 
         String result = "";
         String openBlockHex = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
         while (CipherText.length() > 0) {
             String cipherBlock = CipherText.substring(0, 16);
             CipherText = CipherText.substring(16, CipherText.length());
@@ -52,8 +52,8 @@ public class BlowFish_cipher {
         }
         //Представим шестнадцатиричный результат в десятичных байтах
         byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
-        result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
+        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
+        result = IOService.ReadBytes("D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
         return result;
     }
 }
