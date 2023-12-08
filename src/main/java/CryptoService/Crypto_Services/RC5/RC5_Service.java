@@ -61,12 +61,15 @@ public class RC5_Service {
         B = B.subtract(WideKeysTable.get(1)).mod(Module);
         A = A.subtract(WideKeysTable.get(0)).mod(Module);
 
-        String result = A.toString(16) + B.toString(16);
-        if(result.length()<16){
-            int t =0;
+        String As = A.toString(16);
+        String Bs = B.toString(16);
+        while (As.length()<8){
+            As = "0" + As;
         }
-
-        return result;
+        while (Bs.length()<8){
+            Bs = "0" + Bs;
+        }
+        return As + Bs;
     }
 
     private static String Make_Cipher(String OpenBlock) {

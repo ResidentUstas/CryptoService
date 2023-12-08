@@ -12,7 +12,6 @@ public class Des_cipher {
     public String Get_Cipher_Text(String OpenText) throws IOException, DecoderException {
         des_service.KeyExtension();
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
-
         String result = "";
         IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
         while (OpenTextHex.length() > 0) {
@@ -49,7 +48,7 @@ public class Des_cipher {
         }
 
         byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-        IOService.WriteLastBlock(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
+        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
         result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
         return result;
     }

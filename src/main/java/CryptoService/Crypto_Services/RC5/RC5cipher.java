@@ -58,18 +58,17 @@ public class RC5cipher {
 
     public String Get_Open_Text(String OpenTextHex) throws IOException, DecoderException {
         String result = "";
+        String openBlockHex = "";
         IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, (WordLength / 8) * 4);
             OpenTextHex = OpenTextHex.substring((WordLength / 8) * 4, OpenTextHex.length());
 
-            String openBlockHex = rc5_service.Get_Open_Text(openBlock);
-            //Представим шестнадцатиричный результат в десятичных байтах
-            byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-
-            IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
+            openBlockHex += rc5_service.Get_Open_Text(openBlock);
         }
-
+        //Представим шестнадцатиричный результат в десятичных байтах
+        byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
+        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
         result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
         return result;
     }

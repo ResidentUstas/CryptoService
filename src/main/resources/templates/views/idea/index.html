@@ -16,7 +16,7 @@
             <form th:method="post" th:action="@{/crypto/upload}" enctype="multipart/form-data">
                 <label class="input-file">
                     <input type="hidden" th:name="Alg" value="idea"/>
-                    <input type="file" th:name="file"/>
+                    <input class="input_file" type="file" th:name="file"/>
                     <span>Выберите файл</span>
                     <input type="submit" value="загрузить"/>
                 </label>

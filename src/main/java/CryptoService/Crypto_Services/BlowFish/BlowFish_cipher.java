@@ -8,6 +8,7 @@ import java.io.IOException;
 
 public class BlowFish_cipher {
     BlowFish_Service blowFishService = new BlowFish_Service();
+
     public String Get_Cipher_Text(String OpenText) throws IOException, DecoderException {
         blowFishService.Setup();
 
@@ -40,19 +41,18 @@ public class BlowFish_cipher {
         blowFishService.Setup();
 
         String result = "";
+        String openBlockHex = "";
         IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
         while (CipherText.length() > 0) {
             String cipherBlock = CipherText.substring(0, 16);
             CipherText = CipherText.substring(16, CipherText.length());
 
             //расшифруем полученный блок
-            String openBlockHex = blowFishService.Get_Open_Text(cipherBlock);
-            //Представим шестнадцатиричный результат в десятичных байтах
-            byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-
-            IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
+            openBlockHex += blowFishService.Get_Open_Text(cipherBlock);
         }
-
+        //Представим шестнадцатиричный результат в десятичных байтах
+        byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
+        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
         result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\BlowFish\\blowfish_decipher_result.txt");
         return result;
     }

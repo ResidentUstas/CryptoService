@@ -4,7 +4,10 @@ import CryptoService.Crypto_Services.RC5.RC5cipher;
 import CryptoService.Models.CipherModel;
 import CryptoService.Models.OperModel;
 import CryptoService.Models.paramModel;
+import CryptoService.Services.ConvertService;
+import CryptoService.Services.IOService;
 import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +33,7 @@ public class RC5Controller {
         params.add(new paramModel(64, 64));
         oper.add(new OperModel(1, "Зашифровать"));
         oper.add(new OperModel(2, "Расшифровать"));
+        oper.add(new OperModel(3,"Расстояние Хемминга"));
         model.addAttribute("cipher", cipher);
         model.addAttribute("Operation", oper);
         model.addAttribute("Params", params);
@@ -53,6 +57,16 @@ public class RC5Controller {
             case 2:
                 model.addAttribute("cipher", rc5Cipher.Get_Open_Text(cipherText.getCipher()));
                 model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
+                break;
+            case 3:
+                byte[] HemmingBytes0 = cipherText.getCipher().getBytes();
+                String Hemming0 = ConvertService.Get_Bit_View_Bytes(HemmingBytes0);
+                String cipherTxt = rc5Cipher.Get_Cipher_Text(cipherText.getCipher());
+                byte[] HemmingBytes1 = Hex.decodeHex(cipherTxt);
+                String Hemming1 = ConvertService.Get_Bit_View_Bytes(HemmingBytes1);
+                int h_distance = IOService.FindHammingDistance(Hemming0, Hemming1);
+                model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + Hemming0.length());
+                model.addAttribute("path", "D:\\Block_Algorithms\\Block_Ciphers\\Hemming\\RC-5\\rc5_hemming_result.txt");
                 break;
         }
 

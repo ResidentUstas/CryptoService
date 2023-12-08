@@ -38,49 +38,53 @@ public class CryptoController {
     }
 
     @PostMapping("/upload")
-    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile file, @RequestParam("Alg") String alg) {
+    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile file, @RequestParam("Alg") String alg) throws IOException {
         if (!file.isEmpty()) {
             try {
                 byte[] bytes = file.getBytes();
                 String text = new String(bytes, StandardCharsets.UTF_8);
-                CipherModel cipher = new CipherModel();
-                List<OperModel> oper = new ArrayList<>();
-                oper.add(new OperModel(1, "Зашифровать"));
-                oper.add(new OperModel(2, "Расшифровать"));
-                cipher.setCipher(text);
-                model.addAttribute("cipher", cipher);
-                model.addAttribute("Operation", oper);
-                switch (alg) {
-                    case "des":
-                        return "views/des/index";
-                    case "blowfish":
-                        return "views/blowfish/index";
-                    case "idea":
-                        return "views/idea/index";
-                    case "grasshopper":
-                        return "views/kuznechick/index";
-                    case "rc5":
-                        List<paramModel> params = new ArrayList<>();
-                        List<paramModel> dopParams = new ArrayList<>();
-                        params.add(new paramModel(16, 16));
-                        params.add(new paramModel(32, 32));
-                        params.add(new paramModel(64, 64));
-                        model.addAttribute("Params", params);
-
-                        for (int i = 0; i < 256; i++) {
-                            dopParams.add(new paramModel(i, i));
-                        }
-
-                        model.addAttribute("Parameters", dopParams);
-                        return "views/rc5/index";
-                }
-
-                return "views/Crypto/index";
+                return returnUpload(alg, model, text);
             } catch (Exception e) {
-                return "Вам не удалось загрузить файл";
+                return returnUpload(alg, model, "Ошибка загрузки!!!");
             }
         } else {
-            return "Вам не удалось загрузить файл";
+            return returnUpload(alg, model, "Файл не выбран или выбран пустой файл!");
         }
+    }
+
+    private String returnUpload(String alg, Model model, String text) {
+        CipherModel cipher = new CipherModel();
+        List<OperModel> oper = new ArrayList<>();
+        oper.add(new OperModel(1, "Зашифровать"));
+        oper.add(new OperModel(2, "Расшифровать"));
+        oper.add(new OperModel(3,"Расстояние Хемминга"));
+        cipher.setCipher(text);
+        model.addAttribute("cipher", cipher);
+        model.addAttribute("Operation", oper);
+        switch (alg) {
+            case "des":
+                return "views/des/index";
+            case "blowfish":
+                return "views/blowfish/index";
+            case "idea":
+                return "views/idea/index";
+            case "grasshopper":
+                return "views/kuznechick/index";
+            case "rc5":
+                List<paramModel> params = new ArrayList<>();
+                List<paramModel> dopParams = new ArrayList<>();
+                params.add(new paramModel(16, 16));
+                params.add(new paramModel(32, 32));
+                params.add(new paramModel(64, 64));
+                model.addAttribute("Params", params);
+
+                for (int i = 0; i < 256; i++) {
+                    dopParams.add(new paramModel(i, i));
+                }
+
+                model.addAttribute("Parameters", dopParams);
+                return "views/rc5/index";
+        }
+        return "views/Crypto/index";
     }
 }

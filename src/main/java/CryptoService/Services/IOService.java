@@ -3,6 +3,7 @@ package CryptoService.Services;
 import org.apache.commons.codec.binary.Hex;
 
 import java.io.*;
+import java.math.BigInteger;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -14,16 +15,6 @@ import java.util.stream.IntStream;
 public class IOService {
 
     public static void WriteFile(byte[] buffer, String path) {
-
-        try (FileOutputStream fos = new FileOutputStream(path, true)) {
-            fos.write(buffer, 0, buffer.length);
-        } catch (IOException ex) {
-
-            System.out.println(ex.getMessage());
-        }
-    }
-
-    public static void WriteLastBlock(byte[] buffer, String path) {
         List<Byte> buff = new ArrayList<>();
         for (int i = 0; i < buffer.length; i++) {
             if (buffer[i] != 0) {
@@ -32,7 +23,7 @@ public class IOService {
         }
 
         byte[] result = new byte[buff.size()];
-        for (int i = 0; i < buff.size(); i++){
+        for (int i = 0; i < buff.size(); i++) {
             result[i] = buff.get(i);
         }
 
@@ -91,5 +82,29 @@ public class IOService {
         String openBlockSTR = new String(data, StandardCharsets.UTF_8);
 
         return opentTextHex;
+    }
+
+    public static String stringToBinary(String s) {
+        return s
+                .chars()
+                .collect(StringBuilder::new,
+                        (sb, c) -> sb.append(Integer.toBinaryString(c)).append(' '),
+                        StringBuilder::append)
+                .toString();
+    }
+
+    public static String hexToBinary(String hex) {
+        return new BigInteger(hex, 16).toString(2);
+    }
+
+    public static int FindHammingDistance(String a, String b) {
+        int h_distance = 0;
+        for (int i = 0; i < a.length(); i++) {
+            if(a.charAt(i) != b.charAt(i)){
+                h_distance++;
+            }
+        }
+
+        return h_distance;
     }
 }

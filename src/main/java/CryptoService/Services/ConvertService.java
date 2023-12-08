@@ -74,4 +74,18 @@ public class ConvertService {
 
         return result;
     }
+
+    public static String Get_Bit_View_Bytes(byte[] byteRow) {
+        String result = "";
+        for (int b : byteRow) {
+            String binStr = Integer.toBinaryString(b & 0xFF);
+            while (binStr.length() < 8) {
+                binStr = "0" + binStr;
+            }
+
+            result += binStr;
+        }
+
+        return result;
+    }
 }

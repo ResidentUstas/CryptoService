@@ -41,7 +41,7 @@ public class IDEAcipher {
 
     public String Get_Open_Text(String CipherText) throws IOException, DecoderException {
         ideaService.Generate_Keys();
-
+        String openBlockHex = "";
         String result = "";
         IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
         while (CipherText.length() > 0) {
@@ -49,13 +49,11 @@ public class IDEAcipher {
             CipherText = CipherText.substring(16, CipherText.length());
 
             //расшифруем полученный блок
-            String openBlockHex = ideaService.Make_Cipher_Text(cipherBlock, 0);
-            //Представим шестнадцатиричный результат в десятичных байтах
-            byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-
-            IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
+            openBlockHex += ideaService.Make_Cipher_Text(cipherBlock, 0);
         }
-
+        //Представим шестнадцатиричный результат в десятичных байтах
+        byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
+        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
         result = IOService.ReadBytes("D:\\Block_Algorithms\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
         return result;
     }
