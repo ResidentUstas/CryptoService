@@ -13,7 +13,7 @@ public class Des_cipher {
         des_service.KeyExtension();
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, 16);
             OpenTextHex = OpenTextHex.substring(16, OpenTextHex.length());
@@ -30,7 +30,7 @@ public class Des_cipher {
             result += cipher_result;
         }
 
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
         return result;
     }
 
@@ -38,7 +38,7 @@ public class Des_cipher {
         des_service.KeyExtension();
         String openBlockHex = "";
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
         while (CipherText.length() > 0) {
             String cipherBlock = CipherText.substring(0, 16);
             CipherText = CipherText.substring(16, CipherText.length());
@@ -48,8 +48,8 @@ public class Des_cipher {
         }
 
         byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
-        result = IOService.ReadBytes("D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
+        IOService.WriteFile(openBytes, "D:\\Diplom\\CryptoService\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
+        result = IOService.ReadBytes("D:\\Diplom\\CryptoService\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
         return result;
     }
 }

@@ -18,7 +18,7 @@ public class IDEAcipher {
         //String OpenTextHex = "0000000100020003";
 
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\IDEA\\idea_cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\IDEA\\idea_cipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, 16);
             OpenTextHex = OpenTextHex.substring(16, OpenTextHex.length());
@@ -35,7 +35,7 @@ public class IDEAcipher {
             result += cipher_result;
         }
 
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\IDEA\\idea_cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\IDEA\\idea_cipher_result.txt");
         return result;
     }
 
@@ -43,7 +43,7 @@ public class IDEAcipher {
         ideaService.Generate_Keys();
         String openBlockHex = "";
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
         while (CipherText.length() > 0) {
             String cipherBlock = CipherText.substring(0, 16);
             CipherText = CipherText.substring(16, CipherText.length());
@@ -53,8 +53,8 @@ public class IDEAcipher {
         }
         //Представим шестнадцатиричный результат в десятичных байтах
         byte[] openBytes = Hex.decodeHex(openBlockHex.toCharArray());
-        IOService.WriteFile(openBytes, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
-        result = IOService.ReadBytes("D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
+        IOService.WriteFile(openBytes, "D:\\Diplom\\CryptoService\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
+        result = IOService.ReadBytes("D:\\Diplom\\CryptoService\\Block_Ciphers\\decipher\\IDEA\\idea_decipher_result.txt");
         return result;
     }
 }

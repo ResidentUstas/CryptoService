@@ -41,11 +41,11 @@ public class GrassHopperController {
         switch (cipherText.getMode()){
             case 1:
                 model.addAttribute("cipher", grasshopperCipher.Get_Cipher_Text(cipherText.getCipher()));
-                model.addAttribute("path", "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\Grasshopper\\grasshopper_cipher_result.txt");
+                model.addAttribute("path", "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\Grasshopper\\grasshopper_cipher_result.txt");
                 break;
             case 2:
                 model.addAttribute("cipher", grasshopperCipher.Get_Open_Text(cipherText.getCipher()));
-                model.addAttribute("path", "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
+                model.addAttribute("path", "D:\\Diplom\\CryptoService\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
                 break;
             case 3:
                 byte[] HemmingBytes0 = cipherText.getCipher().getBytes();
@@ -55,7 +55,7 @@ public class GrassHopperController {
                 String Hemming1 = ConvertService.Get_Bit_View_Bytes(HemmingBytes1);
                 int h_distance = IOService.FindHammingDistance(Hemming0, Hemming1);
                 model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + Hemming0.length());
-                model.addAttribute("path", "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\Hemming\\Grasshopper\\grasshopper_hemming_result.txt");
+                model.addAttribute("path", "D:\\Diplom\\CryptoService\\Block_Ciphers\\hemming\\Grasshopper\\grasshopper_hemming_result.txt");
                 break;
         }
 

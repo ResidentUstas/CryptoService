@@ -3,6 +3,7 @@ package CryptoService.Controllers;
 import CryptoService.Models.CipherModel;
 import CryptoService.Models.OperModel;
 import CryptoService.Models.paramModel;
+import CryptoService.Services.ConvertService;
 import CryptoService.Services.IOService;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -51,9 +52,9 @@ public class CryptoController {
         } else {
             if (file.length == 2){
                 byte[] bytes0 = file[0].getBytes();
-                String Hemming0 = new String(bytes0);
+                String Hemming0 = ConvertService.Get_Bit_View_Bytes(bytes0);
                 byte[] bytes1 = file[1].getBytes();
-                String Hemming1 = new String(bytes1);
+                String Hemming1 = ConvertService.Get_Bit_View_Bytes(bytes1);
                 int h_distance = IOService.FindHammingDistance(Hemming0, Hemming1);
                 model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + Hemming0.length());
                 return "views/hemming/index";
