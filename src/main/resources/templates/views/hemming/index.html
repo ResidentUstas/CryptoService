@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/styles/algor.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/btn.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+</head>
+<body>
+<div align="center">
+    <div th:class="mouse-parallax">
+        <div th:class="mouse-parallax-bg">
+            <p style="font-weight: bolder; color: darkgrey">Блочные алгоритмы шифрования - реализация и исследование</p>
+            <p style="font-weight:bold; color: darkgrey">Расстояние Хемминга</p>
+            <form th:method="post" th:action="@{/crypto/upload}" enctype="multipart/form-data">
+                <label class="input-file">
+                    <input type="hidden" th:name="Alg" value="hem"/>
+                    <input class="input_file" type="file" multiple="multiple" th:name="file"/>
+                    <span>Выберите файлы</span>
+                    <input type="submit" value="Посчитать" title="Посчитать расстояние Хемминга для выбранных файлов."/>
+                </label>
+            </form>
+            <p><textarea class="textarea" rows="25" cols="70" th:text="${cipher}"
+                         placeholder="Выберете два файла для сравнения..."></textarea></p>
+            <br/>
+        </div>
+    </div>
+</div>
+</body>
+</html>

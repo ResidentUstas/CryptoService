@@ -1,4 +1,4 @@
-window.addEventListener('mousemove', function(e) {
+window.addEventListener('mousemove', function (e) {
     let bg = document.querySelector('.mouse-parallax-bg');
     let input = document.querySelector('.input_file');
     let x = e.clientX / window.innerWidth;
@@ -14,7 +14,10 @@ window.addEventListener('mousemove', function(e) {
             countFiles = this.files.length;
 
         if (countFiles)
-            label.innerText = 'Файл выбран!';
+            if (countFiles == 1)
+                label.innerText = 'Файл выбран!';
+            else
+                label.innerText = 'Выбрано файлов ' + countFiles;
         else
             label.innerText = labelVal;
     });

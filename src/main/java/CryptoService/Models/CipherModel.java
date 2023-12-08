@@ -3,6 +3,7 @@ package CryptoService.Models;
 public class CipherModel {
 
     private String Cipher;
+    private String FileName;
 
     private int Mode;
 
@@ -97,5 +98,12 @@ public class CipherModel {
 
     public void setKeyBits(int keyBits) {
         this.KeyBits = keyBits;
+    }
+    public String getFileName() {
+        return FileName;
+    }
+
+    public void setFileName(String fileName) {
+        FileName = fileName;
     }
 }
