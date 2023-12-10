@@ -7,7 +7,11 @@ import org.apache.commons.codec.binary.Hex;
 import java.io.IOException;
 
 public class Des_cipher {
-    Des_Service des_service = new Des_Service();
+    Des_Service des_service;
+
+    public Des_cipher(int rounds){
+        this.des_service = new Des_Service(rounds);
+    }
 
     public String Get_Cipher_Text(String OpenText) throws IOException, DecoderException {
         des_service.KeyExtension();

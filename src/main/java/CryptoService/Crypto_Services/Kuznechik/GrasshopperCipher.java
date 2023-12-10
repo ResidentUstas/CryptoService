@@ -7,7 +7,11 @@ import org.apache.commons.codec.binary.Hex;
 import java.io.IOException;
 
 public class GrasshopperCipher {
-    private final Kuznechik_service cryptoService = new Kuznechik_service();
+    private final Kuznechik_service cryptoService;
+
+    public GrasshopperCipher(int rounds){
+        this.cryptoService = new Kuznechik_service(rounds);
+    }
 
     //Шифрует
     public String Get_Cipher_Text(String OpenText) throws IOException {

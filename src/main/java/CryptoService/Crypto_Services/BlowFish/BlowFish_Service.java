@@ -14,8 +14,12 @@ public class BlowFish_Service {
     private int[] cellResult = new int[]{0, 0};
     private String Key = "3d04182a5bb8d979973d6ba37ac18435cd";
 
+    private int Rounds;
     private final ConvertService convertService = new ConvertService();
-    private final IOService ioService = new IOService();
+
+    public BlowFish_Service(int rounds){
+        this.Rounds = rounds;
+    }
 
     public void Setup() throws DecoderException {
         if (P_array.length == 0) {
@@ -68,7 +72,7 @@ public class BlowFish_Service {
             Right = (Right << 8) | OpenBytes[k % OpenBytes.length];
         }
 
-        int[] cipher_bytes = Feistel_decipher_net(Left, Right, true);
+        int[] cipher_bytes = Feistel_decipher_net(Left, Right);
 
         String Left_str = Integer.toHexString(cipher_bytes[0]);
         String Right_str = Integer.toHexString(cipher_bytes[1]);
@@ -120,7 +124,7 @@ public class BlowFish_Service {
     }
 
     private int[] Feistel_cipher_net(int Left, int Right) {
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < Rounds; i++) {
             Left ^= P_array[i];
             Right ^= F_function(Left);
 
@@ -139,8 +143,8 @@ public class BlowFish_Service {
         return new int[]{Left, Right};
     }
 
-    private int[] Feistel_decipher_net(int Left, int Right, boolean enc) {
-        for (int i = 17; i > 1; --i) {
+    private int[] Feistel_decipher_net(int Left, int Right) {
+        for (int i = Rounds + 1; i > 1; --i) {
             Left ^= P_array[i];
             Right ^= F_function(Left);
 

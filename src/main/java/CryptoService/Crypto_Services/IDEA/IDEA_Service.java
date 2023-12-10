@@ -12,6 +12,11 @@ public class IDEA_Service {
     public final List<Integer> ReversKeys = new LinkedList<>();
     private String Key = "00010002000300040005000600070008";
     private ConvertService convertService = new ConvertService();
+    private int Rounds;
+
+    public IDEA_Service(int rounds) {
+        this.Rounds = rounds;
+    }
 
     public String Make_Cipher_Text(String text, int mode) {
         List<Integer> thisRoundKeys = mode == 1 ? RoundKeys : ReversKeys;
@@ -30,7 +35,7 @@ public class IDEA_Service {
         int x2 = arrayToInt(D3);
         int x3 = arrayToInt(D4);
         int p = 0;
-        for (int round = 0; round < 8; round++) {
+        for (int round = 0; round < Rounds; round++) {
             int y0 = mul(x0, thisRoundKeys.get(p++));
             int y1 = add(x1, thisRoundKeys.get(p++));
             int y2 = add(x2, thisRoundKeys.get(p++));
@@ -45,7 +50,6 @@ public class IDEA_Service {
             x1 = y2 ^ t2;
             x2 = y1 ^ t3;
             x3 = y3 ^ t3;
-            int t = 0;
         }
 
         int r0 = mul(x0, thisRoundKeys.get(p++));

@@ -16,6 +16,7 @@
             <form th:method="post" th:action="@{/crypto/upload}" enctype="multipart/form-data">
                 <label class="input-file">
                     <input type="hidden" th:name="Alg" value="des"/>
+                    <input type="hidden" th:name="Rounds" value="17"/>
                     <input class="input_file" type="file" th:name="file"/>
                     <span>Выберите файл</span>
                     <input type="submit" value="загрузить"/>
@@ -30,6 +31,12 @@
                 <select th:object="${cipher}" th:field="*{Mode}">
                     <option th:each="operation:${Operation}" th:value="${operation.getOperation()}"
                             th:text="${operation.getName()}"></option>
+                </select>
+                <br/>
+                <label style="color: darkgrey">Количество раундов: </label>
+                <select th:object="${cipher}" th:field="*{Rounds}">
+                    <option th:each="params:${Params}" th:value="${params.getIndex()}"
+                            th:text="${params.getParam()}"></option>
                 </select>
                 <br/>
                 <input type="submit" value="Выполнить"/>

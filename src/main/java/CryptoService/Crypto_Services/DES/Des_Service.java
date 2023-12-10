@@ -20,10 +20,14 @@ public class Des_Service {
     private int[][] sbox8 = Des_Initials.sbox8;
     private int[][][] sbox_collection = new int[][][]{sbox1, sbox2, sbox3, sbox4, sbox5, sbox6, sbox7, sbox8};
     private int[] P_Extention = Des_Initials.P_Extention;
-    private int[] RoundKeys = new int[16];
+    private int Rounds;
     private String[] RoundKeysStr = new String[16];
     private int[] Key_shifts = Des_Initials.KEY_SHIFTS;
     private final ConvertService convertService = new ConvertService();
+
+    public Des_Service(int rounds){
+        this.Rounds = rounds;
+    }
 
     public void KeyExtension() {
         if (RoundKeysStr[0] != null) {
@@ -94,7 +98,7 @@ public class Des_Service {
         String L = OpenBlock.substring(0, 32);
         String R = OpenBlock.substring(32, OpenBlock.length());
         String L0 = R;
-        for (int i = 0; i < 16; i++) {
+        for (int i = 0; i < Rounds; i++) {
             R = Des_Function(R, mode == 1 ? i : 15 - i);
             R = XOR(R, L);
             L = L0;

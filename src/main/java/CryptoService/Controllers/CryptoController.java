@@ -40,14 +40,14 @@ public class CryptoController {
     }
 
     @PostMapping("/upload")
-    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile[] file, @RequestParam("Alg") String alg) throws IOException {
+    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile[] file, @RequestParam("Alg") String alg, @RequestParam("Rounds") int rounds) throws IOException {
         if (file.length == 1) {
             try {
                 byte[] bytes = file[0].getBytes();
                 String text = new String(bytes, StandardCharsets.UTF_8);
-                return returnUpload(alg, model, text);
+                return returnUpload(alg, model, text, rounds);
             } catch (Exception e) {
-                return returnUpload(alg, model, "Ошибка загрузки!!!");
+                return returnUpload(alg, model, "Ошибка загрузки!!!", 0);
             }
         } else {
             if (file.length == 2){
@@ -71,12 +71,17 @@ public class CryptoController {
         return "views/hemming/index";
     }
 
-    private String returnUpload(String alg, Model model, String text) {
+    private String returnUpload(String alg, Model model, String text, int rounds) {
         CipherModel cipher = new CipherModel();
         List<OperModel> oper = new ArrayList<>();
         oper.add(new OperModel(1, "Зашифровать"));
         oper.add(new OperModel(2, "Расшифровать"));
         oper.add(new OperModel(3,"Расстояние Хемминга"));
+        List<paramModel> params = new ArrayList<>();
+        for (int i = 1; i < rounds; i++) {
+            params.add(new paramModel(i, i));
+        }
+        model.addAttribute("Params", params);
         cipher.setCipher(text);
         model.addAttribute("cipher", cipher);
         model.addAttribute("Operation", oper);
@@ -90,7 +95,7 @@ public class CryptoController {
             case "grasshopper":
                 return "views/kuznechick/index";
             case "rc5":
-                List<paramModel> params = new ArrayList<>();
+                params = new ArrayList<>();
                 List<paramModel> dopParams = new ArrayList<>();
                 params.add(new paramModel(16, 16));
                 params.add(new paramModel(32, 32));

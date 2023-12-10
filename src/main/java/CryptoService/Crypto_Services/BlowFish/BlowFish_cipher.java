@@ -7,7 +7,11 @@ import org.apache.commons.codec.binary.Hex;
 import java.io.IOException;
 
 public class BlowFish_cipher {
-    BlowFish_Service blowFishService = new BlowFish_Service();
+    BlowFish_Service blowFishService;
+
+    public BlowFish_cipher(int rounds){
+         this.blowFishService = new BlowFish_Service(rounds);
+    }
 
     public String Get_Cipher_Text(String OpenText) throws IOException, DecoderException {
         blowFishService.Setup();

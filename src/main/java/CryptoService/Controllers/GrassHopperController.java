@@ -3,6 +3,7 @@ package CryptoService.Controllers;
 import CryptoService.Crypto_Services.Kuznechik.GrasshopperCipher;
 import CryptoService.Models.CipherModel;
 import CryptoService.Models.OperModel;
+import CryptoService.Models.paramModel;
 import CryptoService.Services.ConvertService;
 import CryptoService.Services.IOService;
 import org.apache.commons.codec.DecoderException;
@@ -29,6 +30,11 @@ public class GrassHopperController {
         oper.add(new OperModel(1,"Зашифровать"));
         oper.add(new OperModel(2,"Расшифровать"));
         oper.add(new OperModel(3,"Расстояние Хемминга"));
+        List<paramModel> params = new ArrayList<>();
+        for (int i = 1; i < 10; i++) {
+            params.add(new paramModel(i, i));
+        }
+        model.addAttribute("Params", params);
         model.addAttribute("cipher", cipher);
         model.addAttribute("Operation", oper);
         return "views/kuznechick/index";
@@ -36,7 +42,7 @@ public class GrassHopperController {
 
     @PostMapping()
     public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText) throws DecoderException, IOException {
-        GrasshopperCipher grasshopperCipher = new GrasshopperCipher();
+        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(cipherText.getRounds());
 
         switch (cipherText.getMode()){
             case 1:

@@ -17,6 +17,11 @@ public class Kuznechik_service {
     private final List<int[]> Constants_Ci = new ArrayList<>();
     private int[] Current_Const_Ci = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     private ConvertService convertService = new ConvertService();
+    private int Rounds;
+
+    public Kuznechik_service(int rounds){
+        this.Rounds = rounds;
+    }
 
     private int Not_Linear_Transform_Table[] = new int[]{
             252, 238, 221, 17, 207, 110, 49, 22, 251, 196, 250, 218, 35, 197, 4, 77,
@@ -81,7 +86,7 @@ public class Kuznechik_service {
         SwapMass(RoundKeys.get(0), Key_i);
 
         //Проходим сеть фейстеля
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < Rounds; i++) {
             SwapMass(Open_text_bytes, period_result);
 
             //Получаем результат одной ячейки фейстеля
@@ -105,7 +110,7 @@ public class Kuznechik_service {
         Cipher_text_bytes = XOR(Key_i, Cipher_text_bytes);
 
         //Проходим сеть фейстеля
-        for (int i = 9; i > 0; i--) {
+        for (int i = Rounds; i > 0; i--) {
             SwapMass(Cipher_text_bytes, period_result);
 
             //Получаем результат одной ячейки фейстеля
