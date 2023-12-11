@@ -5,7 +5,7 @@
 }
 .mouse-parallax-bg {
     position: absolute;
-    background-image: url(fonts/fon6.gif);
+    background-image: url(fonts/fon10.gif);
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -15,7 +15,7 @@
 }
 
 .textarea{
-    background: url(fonts/fon_text1.png);
+    background: url(fonts/fon_text2.png);
     color: aliceblue;
     font-size: x-large;
 }

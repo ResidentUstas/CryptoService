@@ -67,6 +67,6 @@ public class DesController {
                 break;
         }
 
-        return "views/idea/ResultText";
+        return "views/des/ResultText";
     }
 }

@@ -40,7 +40,7 @@ public class CryptoController {
     }
 
     @PostMapping("/upload")
-    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile[] file, @RequestParam("Alg") String alg, @RequestParam("Rounds") int rounds) throws IOException {
+    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile[] file, @RequestParam("Alg") String alg, @RequestParam(value = "Rounds", required = false) int rounds) throws IOException {
         if (file.length == 1) {
             try {
                 byte[] bytes = file[0].getBytes();

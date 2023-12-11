@@ -80,3 +80,14 @@ button:hover::after, button:focus::after {
         opacity: 0;
     }
 }
+.button_image{
+    background-image: url(fonts/back.png);
+    background-size: cover;
+    position: fixed;
+    left: 0; right: 0;
+}
+.header_image{
+    background-image: url(fonts/header.png);
+    background-size: cover;
+    margin-top: 50px;
+}

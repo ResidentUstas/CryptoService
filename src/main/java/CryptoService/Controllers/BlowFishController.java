@@ -63,6 +63,6 @@ public class BlowFishController {
                 break;
         }
 
-        return "views/idea/ResultText";
+        return "views/blowfish/ResultText";
     }
 }

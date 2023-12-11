@@ -5,39 +5,44 @@
     <title>Title</title>
     <link th:href="@{/styles/algor.css}" rel="stylesheet"/>
     <link th:href="@{/styles/btn.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/button_style.css}" rel="stylesheet"/>
     <script type="text/javascript" th:src="@{/js/index.js}"></script>
 </head>
 <body>
 <div align="center">
     <div th:class="mouse-parallax">
         <div th:class="mouse-parallax-bg">
-            <p style="font-weight:bolder;color: darkgrey">Блочные алгоритмы шифрования - реализация и исследование</p>
-            <p style="font-weight:bold;color: darkgrey">IDEA</p>
+            <a th:href="@{/crypto}"><img class="button_image" width="90" height="50"></a>
+            <p style="font-weight:bolder; font-size:xx-large; color: darkorange">Блочные алгоритмы шифрования - реализация и исследование</p>
+            <p style="font-weight:bold;font-size:x-large;color: darkorange">IDEA</p>
             <form th:method="post" th:action="@{/crypto/upload}" enctype="multipart/form-data">
-                <label class="input-file">
+                <label class="double-border-button">
                     <input type="hidden" th:name="Alg" value="idea"/>
                     <input type="hidden" th:name="Rounds" value="9"/>
-                    <input class="input_file" type="file" th:name="file"/>
+                    <input style="opacity: 0; width: 0; height: 0" class="input-file" type="file" th:name="file"/>
                     <span>Выберите файл</span>
-                    <input type="submit" value="загрузить"/>
+                    <input style="opacity: 0; width: 0; height: 0" class="Submit" type="submit" value="загрузить"/>
                 </label>
             </form>
             <form th:method="POST" th:action="@{/idea}" th:object="${cipher}">
-                <p><label style="font-weight:bold; color: darkgrey">Введите текст: </label></p>
-                <p><textarea class="textarea" rows="25" cols="90" placeholder="введите текст..."
+                <label style="font-weight:bold; color: darkorange">ИЛИ</label> <br/>
+                <p><label style="font-weight:bold; color: darkorange">Введите текст: </label></p>
+                <p><textarea class="textarea" rows="22" cols="90" placeholder="введите текст..."
                              th:field="${cipher.Cipher}"></textarea></p>
                 <select th:object="${cipher}" th:field="*{Mode}">
                     <option th:each="operation:${Operation}" th:value="${operation.getOperation()}"
                             th:text="${operation.getName()}"></option>
                 </select>
                 <br/>
-                <label style="color: darkgrey">Количество раундов: </label>
+                <label style="font-weight:bolder; color: darkorange">Количество раундов: </label>
                 <select th:object="${cipher}" th:field="*{Rounds}">
                     <option th:each="params:${Params}" th:value="${params.getIndex()}"
                             th:text="${params.getParam()}"></option>
                 </select>
                 <br/>
-                <input type="submit" value="Выполнить"/>
+                <div class="wrap">
+                    <button class="button" type="submit">Выполнить</button>
+                </div>
             </form>
         </div>
     </div>

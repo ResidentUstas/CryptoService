@@ -70,6 +70,6 @@ public class RC5Controller {
                 break;
         }
 
-        return "views/idea/ResultText";
+        return "views/rc5/ResultText";
     }
 }
