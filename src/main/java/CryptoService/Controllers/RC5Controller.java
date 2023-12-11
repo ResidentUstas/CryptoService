@@ -60,12 +60,10 @@ public class RC5Controller {
                 break;
             case 3:
                 byte[] HemmingBytes0 = cipherText.getCipher().getBytes();
-                String Hemming0 = ConvertService.Get_Bit_View_Bytes(HemmingBytes0);
                 String cipherTxt = rc5Cipher.Get_Cipher_Text(cipherText.getCipher());
-                byte[] HemmingBytes1 = Hex.decodeHex(cipherTxt);
-                String Hemming1 = ConvertService.Get_Bit_View_Bytes(HemmingBytes1);
-                int h_distance = IOService.FindHammingDistance(Hemming0, Hemming1);
-                model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + Hemming0.length());
+                byte[] HemmingBytes1 = cipherTxt.getBytes();
+                int h_distance = ConvertService.Get_Hemming_Distance(HemmingBytes0, HemmingBytes1);
+                model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + HemmingBytes0.length * 8);
                 model.addAttribute("path", "D:\\Diplom\\CryptoService\\Block_Ciphers\\hemming\\RC-5\\rc5_hemming_result.txt");
                 break;
         }

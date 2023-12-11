@@ -20,7 +20,7 @@ public class BlowFish_cipher {
         String OpenTextHex = IOService.ReadBytesFromString(OpenText);
 
         String result = "";
-        IOService.WriteStringToFile(result, "D:\\Block_Algorithms\\CryptoService\\Block_Ciphers\\cipher\\BlowFish\\blowfish_cipher_result.txt");
+        IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\BlowFish\\blowfish_cipher_result.txt");
         while (OpenTextHex.length() > 0) {
             String openBlock = OpenTextHex.substring(0, 16);
             OpenTextHex = OpenTextHex.substring(16, OpenTextHex.length());

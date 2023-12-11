@@ -20,6 +20,20 @@ public class ConvertService {
         return roundKeyRow;
     }
 
+    public static int Get_Hemming_Distance(byte[] HemmingBytes0, byte[] HemmingBytes1){
+        int h_distance = 0;
+        for (int i = 0; i < HemmingBytes0.length; i++) {
+            byte n = (byte) (HemmingBytes0[i] ^ HemmingBytes1[i]);
+            int count = 0;
+            for (; n > 0; n >>= 1)
+                count += n & 1;
+
+            h_distance += count;
+        }
+
+        return h_distance;
+    }
+
     public static String Get_hex_string(int[] byteRow) {
         String hex_ci = "";
         ArrayUtils.reverse(byteRow);

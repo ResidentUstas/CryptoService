@@ -12,7 +12,7 @@
 <div align="center">
     <div th:class="mouse-parallax">
         <div th:class="mouse-parallax-bg">
-            <a th:href="@{/crypto}"><img class="button_image" width="90" height="50"></a>
+            <a style="border: #1b2631" th:href="@{/crypto}"><img class="button_image" width="90" height="60"></a>
             <p style="font-weight:bolder; font-size:xx-large; color: darkorange">Блочные алгоритмы шифрования - реализация и исследование</p>
             <p style="font-weight:bold; font-size:x-large; color: darkorange">DES</p>
             <form th:method="post" th:action="@{/crypto/upload}" enctype="multipart/form-data">
@@ -25,8 +25,7 @@
                 </label>
             </form>
             <form th:method="POST" th:action="@{/des}" th:object="${cipher}">
-                <label style="font-weight:bold; color: darkorange">ИЛИ</label> <br/>
-                <label style="font-weight:bold; color: darkorange">Введите текст: </label>
+                <label style="font-weight:bold; color: darkorange">или введите текст: </label>
                 </p>
                 <p><textarea class="textarea" rows="22" cols="89" placeholder="введите текст..."
                              th:field="${cipher.Cipher}"></textarea></p>

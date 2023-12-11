@@ -50,13 +50,20 @@ public class CryptoController {
                 return returnUpload(alg, model, "Ошибка загрузки!!!", 0);
             }
         } else {
-            if (file.length == 2){
+            if (file.length == 2) {
                 byte[] bytes0 = file[0].getBytes();
-                String Hemming0 = ConvertService.Get_Bit_View_Bytes(bytes0);
                 byte[] bytes1 = file[1].getBytes();
-                String Hemming1 = ConvertService.Get_Bit_View_Bytes(bytes1);
-                int h_distance = IOService.FindHammingDistance(Hemming0, Hemming1);
-                model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + Hemming0.length());
+                int h_distance = 0;
+                for (int i = 0; i < bytes1.length; i++) {
+                    byte n = (byte) (bytes0[i] ^ bytes1[i]);
+                    int count = 0;
+                    for (; n > 0; n >>= 1)
+                        count += n & 1;
+
+                    h_distance += count;
+                }
+
+                model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + bytes0.length * 8);
                 return "views/hemming/index";
             }
 
@@ -66,7 +73,7 @@ public class CryptoController {
     }
 
     @GetMapping("/hemming")
-    public String HemmingDistance(Model model){
+    public String HemmingDistance(Model model) {
         model.addAttribute("cipher", "");
         return "views/hemming/index";
     }
@@ -76,7 +83,7 @@ public class CryptoController {
         List<OperModel> oper = new ArrayList<>();
         oper.add(new OperModel(1, "Зашифровать"));
         oper.add(new OperModel(2, "Расшифровать"));
-        oper.add(new OperModel(3,"Расстояние Хемминга"));
+        oper.add(new OperModel(3, "Расстояние Хемминга"));
         List<paramModel> params = new ArrayList<>();
         for (int i = 1; i < rounds; i++) {
             params.add(new paramModel(i, i));

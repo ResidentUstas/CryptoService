@@ -25,8 +25,7 @@
                 </label>
             </form>
             <form th:method="POST" th:action="@{/rc5}" th:object="${cipher}">
-                <label style="font-weight:bold; color: darkorange">ИЛИ</label> <br/>
-                <p><label style="color: darkorange">Введите текст: </label></p>
+                <label style="font-weight:bold; color: darkorange">или введите текст: </label>
                 <p><textarea class="textarea" rows="20" cols="80" placeholder="введите текст..."
                              th:field="${cipher.Cipher}"></textarea></p>
                 <select th:object="${cipher}" th:field="*{Mode}">

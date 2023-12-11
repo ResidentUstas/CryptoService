@@ -85,6 +85,7 @@ button:hover::after, button:focus::after {
     background-size: cover;
     position: fixed;
     left: 0; right: 0;
+    border: 0;
 }
 .header_image{
     background-image: url(fonts/header.png);
