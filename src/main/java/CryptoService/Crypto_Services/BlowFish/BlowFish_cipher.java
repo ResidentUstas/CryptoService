@@ -9,8 +9,8 @@ import java.io.IOException;
 public class BlowFish_cipher {
     BlowFish_Service blowFishService;
 
-    public BlowFish_cipher(int rounds){
-         this.blowFishService = new BlowFish_Service(rounds);
+    public BlowFish_cipher(int rounds, int[] key){
+         this.blowFishService = new BlowFish_Service(rounds, key);
     }
 
     public String Get_Cipher_Text(String OpenText) throws IOException, DecoderException {

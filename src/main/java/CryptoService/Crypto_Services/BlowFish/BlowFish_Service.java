@@ -12,13 +12,14 @@ public class BlowFish_Service {
     private int sbox3[] = BF_Initials.sbox3;
     private int P_array[] = BF_Initials.parray;
     private int[] cellResult = new int[]{0, 0};
-    private String Key0 = "3d04182a5bb8d979973d6ba37ac18435cd";
+    private int[] Key;
 
     private int Rounds;
     private final ConvertService convertService = new ConvertService();
 
-    public BlowFish_Service(int rounds) {
+    public BlowFish_Service(int rounds, int[] key) {
         this.Rounds = rounds;
+        this.Key = key;
     }
 
     public void Setup() throws DecoderException {
@@ -89,10 +90,7 @@ public class BlowFish_Service {
     }
 
     private void P_extension() throws DecoderException {
-        String Key = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\BlowFish\\blowfish_password.txt");
-        Key = Key == "" || Key == "0" ? Key0 : Key;
-        int[] key = convertService.Get_ByteRow_From_String(Key, 8);
-        ArrayUtils.reverse(key);
+        int[] key = Key;
         int long_key = 0;
         for (int i = 0, k = 0; i < 18; i++) {
             for (int j = 0; j < 4; j++, k++) {

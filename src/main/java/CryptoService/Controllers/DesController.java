@@ -26,6 +26,8 @@ import java.util.List;
 @RequestMapping("/des")
 public class DesController {
     private String Key0 = "AABB09182736CCDD";
+    private int[] Secret = new int[] { 61, 4, 24, 42, 91, 184, 217, 121, 151, 61, 107, 163, 122, 193, 132, 53, 205, 130, 156, 49, 6, 218, 169, 100, 121, 62, 207, 117, 71, 166, 122, 21};
+
 
     @Autowired
     private ServletContext servletContext;
@@ -75,7 +77,7 @@ public class DesController {
 
     private int[] Get_Key() throws DecoderException, IOException {
         String key = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\DES\\des_password.txt");
-        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(9);
+        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(9, Secret);
         if(key == "" || key =="0"){
             key = Key0;
         }

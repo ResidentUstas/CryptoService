@@ -1,5 +1,6 @@
 package CryptoService.Controllers;
 
+import CryptoService.Crypto_Services.Kuznechik.GrasshopperCipher;
 import CryptoService.Crypto_Services.RC5.RC5cipher;
 import CryptoService.Models.CipherModel;
 import CryptoService.Models.OperModel;
@@ -8,6 +9,7 @@ import CryptoService.Services.ConvertService;
 import CryptoService.Services.IOService;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +24,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/rc5")
 public class RC5Controller {
+    private static String Key0 = "915F4619BE41B2516355A50110A9CE91";
+    String key1 = "3d04182a5bb8d979973d6ba37ac18435cd829c3106daa964793ecf7547a67a15";
+    private int[] Secret = new int[] { 61, 4, 24, 42, 91, 184, 217, 121, 151, 61, 107, 163, 122, 193, 132, 53, 205, 130, 156, 49, 6, 218, 169, 100, 121, 62, 207, 117, 71, 166, 122, 21};
     @GetMapping()
     public String Index(Model model) {
         CipherModel cipher = new CipherModel();
@@ -48,7 +53,8 @@ public class RC5Controller {
 
     @PostMapping()
     public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText) throws DecoderException, IOException {
-        RC5cipher rc5Cipher = new RC5cipher(cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord());
+        int[] Key = Get_Key();
+        RC5cipher rc5Cipher = new RC5cipher(cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord(), Key);
         switch (cipherText.getMode()) {
             case 1:
                 model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher()));
@@ -69,5 +75,25 @@ public class RC5Controller {
         }
 
         return "views/rc5/ResultText";
+    }
+
+    private int[] Get_Key() throws DecoderException, IOException {
+        String key = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\RC-5\\rc5_password.txt");
+        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(9, Secret);
+        if(key == "" || key =="0"){
+            key = Key0;
+        }
+        else{
+            key = grasshopperCipher.Get_Open_Text(key);
+        }
+
+        byte[] Key = key.getBytes();
+        int[] result = new int[Key.length];
+
+        for (int i = 0;i<Key.length;i++){
+            result[i] = Key[i];
+        }
+
+        return result;
     }
 }

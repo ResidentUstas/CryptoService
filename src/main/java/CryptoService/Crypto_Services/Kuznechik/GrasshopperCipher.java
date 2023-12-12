@@ -9,8 +9,8 @@ import java.io.IOException;
 public class GrasshopperCipher {
     private final Kuznechik_service cryptoService;
 
-    public GrasshopperCipher(int rounds){
-        this.cryptoService = new Kuznechik_service(rounds);
+    public GrasshopperCipher(int rounds, int[] key){
+        this.cryptoService = new Kuznechik_service(rounds, key);
     }
 
     //Шифрует

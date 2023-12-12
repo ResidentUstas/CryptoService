@@ -11,12 +11,13 @@ public class IDEA_Service {
 
     public final List<Integer> RoundKeys = new LinkedList<>();
     public final List<Integer> ReversKeys = new LinkedList<>();
-    private String Key0 = "00010002000300040005000600070008";
+    private int[] Key;
     private ConvertService convertService = new ConvertService();
     private int Rounds;
 
-    public IDEA_Service(int rounds) {
+    public IDEA_Service(int rounds, int[] key) {
         this.Rounds = rounds;
+        this.Key = key;
     }
 
     public String Make_Cipher_Text(String text, int mode) {
@@ -93,10 +94,7 @@ public class IDEA_Service {
     }
 
     public void Generate_Keys() {
-        String Key = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\IDEA\\idea_password.txt");
-        Key = Key == "" || Key =="0" ? Key0 : Key;
-        int[] KeyBytes = convertService.Get_ByteRow_From_String(Key, 16);
-        ArrayUtils.reverse(KeyBytes);
+        int[] KeyBytes = Key;
         for (int j = 0; j < 7; j++) {
             for (int i = 0; i < 16; i++) {
                 int[] key_i = new int[2];

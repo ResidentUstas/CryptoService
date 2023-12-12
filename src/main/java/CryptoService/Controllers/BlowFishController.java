@@ -1,6 +1,7 @@
 package CryptoService.Controllers;
 
 import CryptoService.Crypto_Services.BlowFish.BlowFish_cipher;
+import CryptoService.Crypto_Services.Kuznechik.GrasshopperCipher;
 import CryptoService.Models.CipherModel;
 import CryptoService.Models.OperModel;
 import CryptoService.Models.paramModel;
@@ -21,6 +22,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/blowfish")
 public class BlowFishController {
+    private String Key0 = "3d04182a5bb8d979973d6ba37ac18435cd";
+    private int[] Secret = new int[] { 61, 4, 24, 42, 91, 184, 217, 121, 151, 61, 107, 163, 122, 193, 132, 53, 205, 130, 156, 49, 6, 218, 169, 100, 121, 62, 207, 117, 71, 166, 122, 21};
+
     @GetMapping()
     public String Index(Model model)  {
         CipherModel cipher = new CipherModel();
@@ -40,8 +44,8 @@ public class BlowFishController {
 
     @PostMapping()
     public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText) throws DecoderException, IOException {
-        BlowFish_cipher blowFishCipher = new BlowFish_cipher(cipherText.getRounds());
-
+        int[] Key = Get_Key();
+        BlowFish_cipher blowFishCipher = new BlowFish_cipher(cipherText.getRounds(), Key);
         switch (cipherText.getMode()){
             case 1:
 
@@ -63,5 +67,25 @@ public class BlowFishController {
         }
 
         return "views/blowfish/ResultText";
+    }
+
+    private int[] Get_Key() throws DecoderException, IOException {
+        String key = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\BlowFish\\blowfish_password.txt");
+        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(9, Secret);
+        if(key == "" || key =="0"){
+            key = Key0;
+        }
+        else{
+            key = grasshopperCipher.Get_Open_Text(key);
+        }
+
+        byte[] Key = key.getBytes();
+        int[] result = new int[Key.length];
+
+        for (int i = 0;i<Key.length;i++){
+            result[i] = Key[i];
+        }
+
+        return result;
     }
 }

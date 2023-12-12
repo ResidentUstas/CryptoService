@@ -1,5 +1,6 @@
 package CryptoService.Crypto_Services.RC5;
 
+import CryptoService.Services.ConvertService;
 import CryptoService.Services.IOService;
 
 import java.math.BigInteger;
@@ -8,7 +9,7 @@ import java.util.List;
 
 public class RC5_Service {
     //private static String Key = "cca86c95d579197eec83352b066e933c";
-    private static String Key0 = "915F4619BE41B2516355A50110A9CE91";
+    private static int[] Key_rc5;
     public static final List<BigInteger> RoundKeysWords = new LinkedList<>();
     public static final List<String> RoundKeysWordsStr = new LinkedList<>();
     public static final List<BigInteger> WideKeysTable = new LinkedList<>();
@@ -24,13 +25,14 @@ public class RC5_Service {
 
     }
 
-    RC5_Service(int w, int r, int b, String p_const, String q_const) {
+    RC5_Service(int w, int r, int b, String p_const, String q_const, int[] key) {
         this.W = w;
         this.R = r;
         this.b = b;
         this.P_const = new BigInteger(p_const, 16);
         this.Q_const = new BigInteger(q_const, 16);
         this.Module = new BigInteger(String.valueOf(Math.round(Math.pow(2, W))));
+        this.Key_rc5 = key;
         Split_Key_to_Words();
         Get_Wide_Keys();
         Mixing();
@@ -197,8 +199,7 @@ public class RC5_Service {
 
     private static void Split_Key_to_Words() {
         RoundKeysWords.clear();
-        String Key = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\RC-5\\rc5_password.txt");
-        Key = Key == "" || Key =="0" ? Key0 : Key;
+        String Key = ConvertService.Get_View_Bytes(Key_rc5);
 
         if (Key.length() % 2 != 0) {
             Key += "0";

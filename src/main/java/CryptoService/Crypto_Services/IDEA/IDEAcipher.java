@@ -10,8 +10,8 @@ public class IDEAcipher {
 
     private final IDEA_Service ideaService;
 
-    public IDEAcipher(int rounds){
-        this.ideaService = new IDEA_Service(rounds);
+    public IDEAcipher(int rounds, int[] key){
+        this.ideaService = new IDEA_Service(rounds, key);
     }
     public String Get_Cipher_Text(String OpenText) throws IOException {
         ideaService.Generate_Keys();

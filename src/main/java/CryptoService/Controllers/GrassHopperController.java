@@ -22,6 +22,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/grassHop")
 public class GrassHopperController {
+    private String Key0 = "3d04182a5bb8d979973d6ba37ac18435cd829c3106daa964793ecf7547a67a15";
+    private int[] Secret = new int[] { 61, 4, 24, 42, 91, 184, 217, 121, 151, 61, 107, 163, 122, 193, 132, 53, 205, 130, 156, 49, 6, 218, 169, 100, 121, 62, 207, 117, 71, 166, 122, 21};
 
     @GetMapping()
     public String Index(Model model)  {
@@ -42,7 +44,8 @@ public class GrassHopperController {
 
     @PostMapping()
     public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText) throws DecoderException, IOException {
-        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(cipherText.getRounds());
+        int[] Key = Get_Key();
+        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(cipherText.getRounds(), Key);
 
         switch (cipherText.getMode()){
             case 1:
@@ -64,5 +67,25 @@ public class GrassHopperController {
         }
 
         return "views/kuznechick/ResultText";
+    }
+
+    private int[] Get_Key() throws DecoderException, IOException {
+        String key = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\Grasshopper\\grasshopper_password.txt");
+        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(9, Secret);
+        if(key == "" || key =="0"){
+            key = Key0;
+        }
+        else{
+            key = grasshopperCipher.Get_Open_Text(key);
+        }
+
+        byte[] Key = key.getBytes();
+        int[] result = new int[Key.length];
+
+        for (int i = 0;i<Key.length;i++){
+            result[i] = Key[i];
+        }
+
+        return result;
     }
 }

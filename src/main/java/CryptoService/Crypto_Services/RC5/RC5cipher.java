@@ -9,7 +9,7 @@ public class RC5cipher {
 
     private String p_sixteen = "B7E1";
     private String q_sixteen = "9E37";
-
+    private int[] Key;
     private String p_thirtyTwo = "B7E15163";
     private String q_thirtyTwo = "9E3779B9";
 
@@ -21,13 +21,13 @@ public class RC5cipher {
     private int KeyBits;
     private String[] pq_choice = new String[2];
     private  RC5_Service rc5_service = new RC5_Service();
-    public RC5cipher(int rounds, int wordLength, int keyBits, int word){
+    public RC5cipher(int rounds, int wordLength, int keyBits, int word, int[] key){
         this.Rounds = rounds;
         this.WordLength = wordLength;
         this.KeyBits = keyBits;
         this.Word = word;
         this.pq_choice = Get_PQ_Constants(this.Word);
-        this.rc5_service = new RC5_Service(WordLength, Rounds, KeyBits, pq_choice[0], pq_choice[1]);
+        this.rc5_service = new RC5_Service(WordLength, Rounds, KeyBits, pq_choice[0], pq_choice[1], key);
     }
 
     public String Get_Cipher_Text(String OpenText) throws IOException {

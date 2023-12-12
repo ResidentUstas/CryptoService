@@ -13,12 +13,17 @@ public class Kuznechik_service {
 
     private final int[] LinearTransformRow = new int[] {1, 148, 32, 133, 16, 194, 192, 1, 251, 1, 192, 194, 16, 133, 32, 148};
     public final List<int[]> RoundKeys = new LinkedList<>();
-    private String Key0 = "3d04182a5bb8d979973d6ba37ac18435cd829c3106daa964793ecf7547a67a15";
+    private int[] Key;
     private List<Integer> Galua_Field_Mutable_Table = new ArrayList<>();
     private final List<int[]> Constants_Ci = new ArrayList<>();
     private int[] Current_Const_Ci = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
     private ConvertService convertService = new ConvertService();
     private int Rounds;
+
+    public Kuznechik_service(int rounds, int[] key){
+        this.Rounds = rounds;
+        this.Key = key;
+    }
 
     public Kuznechik_service(int rounds){
         this.Rounds = rounds;
@@ -145,11 +150,6 @@ public class Kuznechik_service {
 
     // генерация рауновых ключей
     public void Generate_Round_Keys() {
-        String Key1 = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\Grasshopper\\grasshopper_password.txt");
-        Key1 = Key1 == "" || Key1 =="0" ? Key0 : Key1;
-        String Key_str = Key1.substring(0, 64);
-        int[] Key = convertService.Get_ByteRow_From_String(Key_str, 32);
-        ArrayUtils.reverse(Key);
         int[] K1 = Arrays.copyOfRange(Key, 16, 32);
         int[] K2 = Arrays.copyOfRange(Key, 0, 16);
         int[] K_period = new int[16];

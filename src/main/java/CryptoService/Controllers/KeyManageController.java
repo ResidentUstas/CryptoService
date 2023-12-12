@@ -22,6 +22,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/key")
 public class KeyManageController {
+    private int[] Secret = new int[] { 61, 4, 24, 42, 91, 184, 217, 121, 151, 61, 107, 163, 122, 193, 132, 53, 205, 130, 156, 49, 6, 218, 169, 100, 121, 62, 207, 117, 71, 166, 122, 21};
+
     @GetMapping()
     public String Index(Model model)  {
         CipherModel cipher = new CipherModel();
@@ -40,7 +42,7 @@ public class KeyManageController {
     @PostMapping()
     public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText) throws DecoderException, IOException {
         String key = cipherText.getCipher();
-        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(9);
+        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(9, Secret);
         switch (cipherText.getMode()) {
             case 1:
                 key = grasshopperCipher.Get_Cipher_Text(key);
