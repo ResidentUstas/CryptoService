@@ -8,9 +8,10 @@ import java.io.IOException;
 
 public class Des_cipher {
     Des_Service des_service;
+    int[] Key;
 
-    public Des_cipher(int rounds){
-        this.des_service = new Des_Service(rounds);
+    public Des_cipher(int rounds, int[] key){
+        this.des_service = new Des_Service(rounds, key);
     }
 
     public String Get_Cipher_Text(String OpenText) throws IOException, DecoderException {

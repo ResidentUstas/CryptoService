@@ -1,6 +1,7 @@
 package CryptoService.Crypto_Services.IDEA;
 
 import CryptoService.Services.ConvertService;
+import CryptoService.Services.IOService;
 import org.apache.commons.lang3.ArrayUtils;
 
 import java.util.LinkedList;
@@ -10,7 +11,7 @@ public class IDEA_Service {
 
     public final List<Integer> RoundKeys = new LinkedList<>();
     public final List<Integer> ReversKeys = new LinkedList<>();
-    private String Key = "00010002000300040005000600070008";
+    private String Key0 = "00010002000300040005000600070008";
     private ConvertService convertService = new ConvertService();
     private int Rounds;
 
@@ -92,6 +93,8 @@ public class IDEA_Service {
     }
 
     public void Generate_Keys() {
+        String Key = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\IDEA\\idea_password.txt");
+        Key = Key == "" || Key =="0" ? Key0 : Key;
         int[] KeyBytes = convertService.Get_ByteRow_From_String(Key, 16);
         ArrayUtils.reverse(KeyBytes);
         for (int j = 0; j < 7; j++) {

@@ -87,6 +87,13 @@ button:hover::after, button:focus::after {
     left: 0; right: 0;
     border: 0;
 }
+.key_image{
+    background-image: url(fonts/key.PNG);
+    background-size: cover;
+    position: fixed;
+    left: 0; right: 0;
+    border: 0;
+}
 .header_image{
     background-image: url(fonts/header.png);
     background-size: cover;

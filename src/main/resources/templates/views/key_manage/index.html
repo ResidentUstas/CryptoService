@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/styles/algor.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/btn.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/button_style.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+</head>
+<body>
+<div align="center">
+    <div th:class="mouse-parallax">
+        <div th:class="mouse-parallax-bg">
+            <a th:href="@{/crypto}"><img class="button_image" width="90" height="50"></a>
+            <p style="font-weight: bolder; color: darkorange">Блочные алгоритмы шифрования - реализация и исследование</p>
+            <p style="font-weight:bold; color: darkorange">Установить ключ шифрования</p>
+            <form th:method="POST" th:action="@{/key}" th:object="${cipher}">
+                <select th:object="${cipher}" th:field="*{Mode}">
+                    <option th:each="operation:${Operation}" th:value="${operation.getOperation()}"
+                            th:text="${operation.getName()}"></option>
+                </select>
+                <label style="font-weight:bold; color: darkorange">или введите ключ: </label>
+                </p>
+                <p><textarea class="textarea" rows="5" cols="89" placeholder="введите текст..."
+                             th:field="${cipher.Cipher}"></textarea></p>
+                <br/>
+                <div class="wrap">
+                    <button class="button" type="submit">Выполнить</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</body>
+</html>

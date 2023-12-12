@@ -1,6 +1,7 @@
 package CryptoService.Controllers;
 
 import CryptoService.Crypto_Services.DES.Des_cipher;
+import CryptoService.Crypto_Services.Kuznechik.GrasshopperCipher;
 import CryptoService.Models.CipherModel;
 import CryptoService.Models.OperModel;
 import CryptoService.Models.paramModel;
@@ -9,12 +10,14 @@ import CryptoService.Services.IOService;
 import jakarta.servlet.ServletContext;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
+import org.slf4j.bridge.SLF4JBridgeHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +25,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/des")
 public class DesController {
+    private String Key0 = "AABB09182736CCDD";
+
     @Autowired
     private ServletContext servletContext;
 
@@ -44,8 +49,8 @@ public class DesController {
 
     @PostMapping()
     public String Encrypt(Model model, @ModelAttribute("cipher") CipherModel cipherText) throws DecoderException, IOException {
-        Des_cipher desCipher = new Des_cipher(cipherText.getRounds());
-
+        int[] Key = Get_Key();
+        Des_cipher desCipher = new Des_cipher(cipherText.getRounds(), Key);
         switch (cipherText.getMode()) {
             case 1:
                 model.addAttribute("cipher", desCipher.Get_Cipher_Text(cipherText.getCipher()));
@@ -66,5 +71,25 @@ public class DesController {
         }
 
         return "views/des/ResultText";
+    }
+
+    private int[] Get_Key() throws DecoderException, IOException {
+        String key = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\DES\\des_password.txt");
+        GrasshopperCipher grasshopperCipher = new GrasshopperCipher(9);
+        if(key == "" || key =="0"){
+            key = Key0;
+        }
+        else{
+            key = grasshopperCipher.Get_Open_Text(key);
+        }
+
+        byte[] Key = key.getBytes();
+        int[] result = new int[Key.length];
+
+        for (int i = 0;i<Key.length;i++){
+            result[i] = Key[i];
+        }
+
+        return result;
     }
 }

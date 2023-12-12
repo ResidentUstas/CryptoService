@@ -102,4 +102,15 @@ public class ConvertService {
 
         return result;
     }
+
+    public static String Get_View_Bytes(int[] byteRow) {
+        String result = "";
+        for (int b : byteRow) {
+            char c=(char)b;
+
+            result += c;
+        }
+
+        return result;
+    }
 }

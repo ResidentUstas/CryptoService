@@ -12,12 +12,12 @@ public class BlowFish_Service {
     private int sbox3[] = BF_Initials.sbox3;
     private int P_array[] = BF_Initials.parray;
     private int[] cellResult = new int[]{0, 0};
-    private String Key = "3d04182a5bb8d979973d6ba37ac18435cd";
+    private String Key0 = "3d04182a5bb8d979973d6ba37ac18435cd";
 
     private int Rounds;
     private final ConvertService convertService = new ConvertService();
 
-    public BlowFish_Service(int rounds){
+    public BlowFish_Service(int rounds) {
         this.Rounds = rounds;
     }
 
@@ -89,7 +89,8 @@ public class BlowFish_Service {
     }
 
     private void P_extension() throws DecoderException {
-
+        String Key = IOService.ReadFile("D:\\Diplom\\CryptoService\\Block_Ciphers\\secrets\\BlowFish\\blowfish_password.txt");
+        Key = Key == "" || Key == "0" ? Key0 : Key;
         int[] key = convertService.Get_ByteRow_From_String(Key, 8);
         ArrayUtils.reverse(key);
         int long_key = 0;
@@ -144,7 +145,7 @@ public class BlowFish_Service {
     }
 
     private int[] Feistel_decipher_net(int Left, int Right) {
-        for (int i = Rounds + 1; i > 1; --i) {
+        for (int i = 17; i > 1; --i) {
             Left ^= P_array[i];
             Right ^= F_function(Left);
 
@@ -158,7 +159,8 @@ public class BlowFish_Service {
         Left = swap;
 
         Left ^= P_array[0];
-        Right ^= P_array[1];
+        if (Rounds > 1)
+            Right ^= P_array[1];
 
         return new int[]{Left, Right};
     }

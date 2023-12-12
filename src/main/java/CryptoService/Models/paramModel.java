@@ -4,6 +4,7 @@ public class paramModel {
 
     private int param;
     private int index;
+    private String Algor;
 
     public paramModel() {
     }
@@ -27,5 +28,13 @@ public class paramModel {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getAlgor() {
+        return Algor;
+    }
+
+    public void setAlgor(String algor) {
+        Algor = algor;
     }
 }

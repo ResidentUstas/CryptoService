@@ -1,10 +1,11 @@
 package CryptoService.Crypto_Services.DES;
 
 import CryptoService.Services.ConvertService;
+import CryptoService.Services.IOService;
 import org.apache.commons.lang3.ArrayUtils;
 
 public class Des_Service {
-    private String Key = "AABB09182736CCDD";
+    private int[] Key;
     private int[] PC1 = Des_Initials.PC1;
     private int[] PC2 = Des_Initials.PC2;
     private int[] IPb = Des_Initials.IP_back;
@@ -25,8 +26,9 @@ public class Des_Service {
     private int[] Key_shifts = Des_Initials.KEY_SHIFTS;
     private final ConvertService convertService = new ConvertService();
 
-    public Des_Service(int rounds){
+    public Des_Service(int rounds, int[] key){
         this.Rounds = rounds;
+        this.Key = key;
     }
 
     public void KeyExtension() {
@@ -34,9 +36,7 @@ public class Des_Service {
             return;
         }
 
-        int[] keyBytes = convertService.Get_ByteRow_From_String(Key, 8);
-        ArrayUtils.reverse(keyBytes);
-        String key_bits = convertService.Get_Bit_View(keyBytes);
+        String key_bits = convertService.Get_Bit_View(Key);
         key_bits = Permutation(PC1, key_bits);
         String Ci = key_bits.substring(0, 28);
         String Di = key_bits.substring(28, key_bits.length());
@@ -99,7 +99,7 @@ public class Des_Service {
         String R = OpenBlock.substring(32, OpenBlock.length());
         String L0 = R;
         for (int i = 0; i < Rounds; i++) {
-            R = Des_Function(R, mode == 1 ? i : 15 - i);
+            R = Des_Function(R, mode == 1 ? i : Rounds - i - 1);
             R = XOR(R, L);
             L = L0;
             L0 = R;
