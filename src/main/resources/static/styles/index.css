@@ -14,3 +14,11 @@ body {
     flex-direction: column;
     flex-wrap: wrap;
 }
+.main-class {
+    font-family:"Times New Roman", sans-serif;
+    color: darkorange;
+    font-size: 90px;
+    position: fixed;
+    top: 45%;
+    left: 20%;
+}
