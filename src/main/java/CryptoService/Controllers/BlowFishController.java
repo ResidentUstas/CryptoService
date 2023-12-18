@@ -58,9 +58,9 @@ public class BlowFishController {
                 break;
             case 3:
                 String OpenTextHex = IOService.ReadBytesFromString(cipherText.getCipher());
-                byte[] HemmingBytes0 = OpenTextHex.getBytes();
+                byte[] HemmingBytes0 = Hex.decodeHex(OpenTextHex);
                 String cipherTxt = blowFishCipher.Get_Cipher_Text(cipherText.getCipher());
-                byte[] HemmingBytes1 = cipherTxt.getBytes();
+                byte[] HemmingBytes1 = Hex.decodeHex(cipherTxt);
                 int h_distance = ConvertService.Get_Hemming_Distance(HemmingBytes0, HemmingBytes1);
                 model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + HemmingBytes0.length * 8);
                 model.addAttribute("path", "D:\\Diplom\\CryptoService\\Block_Ciphers\\hemming\\BlowFish\\blowfish_hemming_result.txt");

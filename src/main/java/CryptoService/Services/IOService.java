@@ -65,6 +65,17 @@ public class IOService {
         }
     }
 
+    public static String ReadFileStraight(InputStream in) {
+        try {
+            byte[] inStr = in.readAllBytes();
+            String s = new String(inStr);
+            return s;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return "0";
+        }
+    }
+
     public static String ReadBytes(String pathStr) throws IOException {
         Path path = Paths.get(pathStr);
 

@@ -5,6 +5,8 @@ import CryptoService.Models.OperModel;
 import CryptoService.Models.paramModel;
 import CryptoService.Services.ConvertService;
 import CryptoService.Services.IOService;
+import org.apache.commons.codec.DecoderException;
+import org.apache.commons.codec.binary.Hex;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -14,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.imageio.stream.IIOByteBuffer;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -40,7 +43,7 @@ public class CryptoController {
     }
 
     @PostMapping("/upload")
-    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile[] file, @RequestParam("Alg") String alg, @RequestParam(value = "Rounds", required = false) int rounds) throws IOException {
+    public String handleFileUpload(Model model, @RequestParam("file") MultipartFile[] file, @RequestParam("Alg") String alg, @RequestParam(value = "Rounds", required = false) int rounds) throws IOException, DecoderException {
         if (file.length == 1) {
             try {
                 byte[] bytes = file[0].getBytes();
@@ -51,11 +54,16 @@ public class CryptoController {
             }
         } else {
             if (file.length == 2) {
+                String s1 = IOService.ReadFileStraight(file[0].getInputStream());
+                String s2 = IOService.ReadFileStraight(file[1].getInputStream());
                 byte[] bytes0 = file[0].getBytes();
                 byte[] bytes1 = file[1].getBytes();
+                byte[] bytes2 = Hex.decodeHex(s1);
+                byte[] bytes3 = Hex.decodeHex(s2);
+
                 int h_distance = 0;
-                for (int i = 0; i < bytes1.length; i++) {
-                    byte n = (byte) (bytes0[i] ^ bytes1[i]);
+                for (int i = 0; i < bytes2.length; i++) {
+                    byte n = (byte) (bytes2[i] ^ bytes3[i]);
                     int count = 0;
                     for (; n > 0; n >>= 1)
                         count += n & 1;
@@ -63,7 +71,7 @@ public class CryptoController {
                     h_distance += count;
                 }
 
-                model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + bytes0.length * 8);
+                model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + bytes2.length * 8);
                 return "views/hemming/index";
             }
 
