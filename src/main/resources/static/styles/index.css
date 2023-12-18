@@ -22,3 +22,7 @@ body {
     top: 45%;
     left: 20%;
 }
+
+.Algor_name:hover {
+    transform: scale(1.2);
+}
