@@ -63,11 +63,12 @@ public class DesController {
                 model.addAttribute("path", "D:\\Diplom\\CryptoService\\Block_Ciphers\\decipher\\DES\\des_decipher_result.txt");
                 break;
             case 3:
-                byte[] HemmingBytes0 = cipherText.getCipher().getBytes();
+                String OpenTextHex = IOService.ReadBytesFromString(cipherText.getCipher());
+                byte[] HemmingBytes0 = OpenTextHex.getBytes();
                 String cipherTxt = desCipher.Get_Cipher_Text(cipherText.getCipher());
                 byte[] HemmingBytes1 = cipherTxt.getBytes();
                 int h_distance = ConvertService.Get_Hemming_Distance(HemmingBytes0, HemmingBytes1);
-                model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + HemmingBytes0.length * 8);
+                model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + HemmingBytes1.length * 8);
                 model.addAttribute("path", "D:\\Diplom\\CryptoService\\Block_Ciphers\\hemming\\DES\\des_hemming_result.txt");
                 break;
         }

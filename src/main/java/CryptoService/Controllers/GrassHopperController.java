@@ -57,7 +57,8 @@ public class GrassHopperController {
                 model.addAttribute("path", "D:\\Diplom\\CryptoService\\Block_Ciphers\\decipher\\Grasshopper\\grasshopper_decipher_result.txt");
                 break;
             case 3:
-                byte[] HemmingBytes0 = cipherText.getCipher().getBytes();
+                String OpenTextHex = IOService.ReadBytesFromString(cipherText.getCipher());
+                byte[] HemmingBytes0 = OpenTextHex.getBytes();
                 String cipherTxt = grasshopperCipher.Get_Cipher_Text(cipherText.getCipher());
                 byte[] HemmingBytes1 = cipherTxt.getBytes();
                 int h_distance = ConvertService.Get_Hemming_Distance(HemmingBytes0, HemmingBytes1);
