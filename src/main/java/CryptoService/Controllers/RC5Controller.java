@@ -92,7 +92,7 @@ public class RC5Controller {
             key = grasshopperCipher.Get_Open_Text(key);
         }
 
-        byte[] Key = Hex.decodeHex(key);
+        byte[] Key = key.getBytes();
         int[] result = new int[Key.length];
 
         for (int i = 0;i<Key.length;i++){
