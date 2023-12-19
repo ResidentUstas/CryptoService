@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://thymleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:href="@{/styles/algor.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/btn.css}" rel="stylesheet"/>
+    <link th:href="@{/styles/button_style.css}" rel="stylesheet"/>
+    <script type="text/javascript" th:src="@{/js/index.js}"></script>
+</head>
+<body>
+<div align="center">
+    <div th:class="mouse-parallax">
+        <div th:class="mouse-parallax-bg">
+            <a th:href="@{/Crypto}"><img class="button_image" src="data:image/gif;base64,R0lGODlhAQABAPcAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACH5BAEAAP8ALAAAAAABAAEAAAgEAP8FBAA7" width="90" height="50"></a>
+            <p style="font-weight: bolder; color: darkorange">Блочные алгоритмы шифрования - реализация и исследование</p>
+            <p style="font-weight:bold; color: darkorange">Лавинный эффект</p>
+            <form th:method="post" th:action="@{/lavina}" enctype="multipart/form-data" th:object="${cipher}">
+                <label class="double-border-button">
+                    <input type="hidden" th:name="Rounds" value="17"/>
+                    <input style="opacity: 0; width: 0; height: 0" class="input-file" multiple="multiple" type="file" th:name="file"/>
+                    <span>Выберите файлы</span>
+                    <input style="opacity: 0; width: 0; height: 0" class="Submit" type="submit" value="Посчитать" title="Посчитать расстояние Хемминга для выбранных файлов."/>
+                </label>
+                <br/>
+                <label style="font-weight:bolder; color: darkorange"> -- Система счисления: </label>
+                <select th:object="${cipher}" th:field="*{SystemCh}">
+                    <option th:each="sys:${SystemCh}" th:value="${sys.getOperation()}"
+                            th:text="${sys.getName()}"></option>
+                </select>
+            </form>
+            <p><textarea class="textarea" rows="25" cols="70"
+                         placeholder="Выберете два файла для сравнения..."></textarea></p>
+            <br/>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+</body>
+</html>
