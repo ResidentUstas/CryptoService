@@ -51,6 +51,11 @@
                     <option th:each="params:${Parameters}" th:value="${params.getIndex()}"
                             th:text="${params.getParam()}"></option>
                 </select>
+                <label style="font-weight:bolder; color: darkorange"> -- Система счисления: </label>
+                <select th:object="${cipher}" th:field="*{SystemCh}">
+                    <option th:each="sys:${SystemCh}" th:value="${sys.getOperation()}"
+                            th:text="${sys.getName()}"></option>
+                </select>
                 <br/>
                 <br/>
                 <div class="wrap">

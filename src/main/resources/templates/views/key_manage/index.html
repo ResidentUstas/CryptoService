@@ -32,6 +32,12 @@
                 <p><textarea class="textarea" rows="5" cols="89" placeholder="введите текст..."
                              th:field="${cipher.Cipher}"></textarea></p>
                 <br/>
+                <label style="font-weight:bolder; color: darkorange">Система счисления: </label>
+                <select th:object="${cipher}" th:field="*{SystemCh}">
+                    <option th:each="sys:${SystemCh}" th:value="${sys.getOperation()}"
+                            th:text="${sys.getName()}"></option>
+                </select>
+                <br>
                 <div class="wrap">
                     <button class="button" type="submit">Выполнить</button>
                 </div>
