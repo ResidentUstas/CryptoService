@@ -7,7 +7,7 @@ RUN mvn clean package -DskipTests
 # Package stage
 #
 FROM openjdk:17-jdk-slim
-COPY --from=build /target/*.jar *.jar
+COPY --from=build /target/*.jar BlockAlgorithms.jar
 # ENV PORT=8080
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","*.jar"]
+ENTRYPOINT ["java","-jar","BlockAlgorithms.jar"]
