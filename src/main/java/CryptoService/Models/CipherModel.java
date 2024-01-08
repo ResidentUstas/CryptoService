@@ -19,6 +19,8 @@ public class CipherModel {
 
     private int KeySize;
 
+    private int SystemCh;
+
     public CipherModel() {
 
     }
@@ -105,5 +107,13 @@ public class CipherModel {
 
     public void setFileName(String fileName) {
         FileName = fileName;
+    }
+
+    public int getSystemCh() {
+        return SystemCh;
+    }
+
+    public void setSystemCh(int systemCh) {
+        SystemCh = systemCh;
     }
 }

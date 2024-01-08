@@ -13,11 +13,11 @@ public class IDEAcipher {
     public IDEAcipher(int rounds, int[] key){
         this.ideaService = new IDEA_Service(rounds, key);
     }
-    public String Get_Cipher_Text(String OpenText) throws IOException {
+    public String Get_Cipher_Text(String OpenText, int sys) throws IOException {
         ideaService.Generate_Keys();
 
         //Получаем шестнадцатиричное представление текста
-        String OpenTextHex = IOService.ReadBytesFromString(OpenText);
+        String OpenTextHex = sys == 1 ? IOService.ReadBytesFromString(OpenText) : OpenText;
         //String OpenTextHex = "0000000100020003";
 
         String result = "";

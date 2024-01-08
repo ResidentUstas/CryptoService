@@ -39,6 +39,10 @@ public class DesController {
         oper.add(new OperModel(1, "Зашифровать"));
         oper.add(new OperModel(2, "Расшифровать"));
         oper.add(new OperModel(3, "Расстояние Хемминга"));
+        List<OperModel> sysCh = new ArrayList<>();
+        sysCh.add(new OperModel(1, "Dec"));
+        sysCh.add(new OperModel(2, "Hex"));
+        model.addAttribute("SystemCh", sysCh);
         List<paramModel> params = new ArrayList<>();
         for (int i = 1; i < 17; i++) {
             params.add(new paramModel(i, i));
@@ -55,7 +59,7 @@ public class DesController {
         Des_cipher desCipher = new Des_cipher(cipherText.getRounds(), Key);
         switch (cipherText.getMode()) {
             case 1:
-                model.addAttribute("cipher", desCipher.Get_Cipher_Text(cipherText.getCipher()));
+                model.addAttribute("cipher", desCipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getSystemCh()));
                 model.addAttribute("path", "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
                 break;
             case 2:
@@ -65,7 +69,7 @@ public class DesController {
             case 3:
                 String OpenTextHex = IOService.ReadBytesFromString(cipherText.getCipher());
                 byte[] HemmingBytes0 = Hex.decodeHex(OpenTextHex);
-                String cipherTxt = desCipher.Get_Cipher_Text(cipherText.getCipher());
+                String cipherTxt = desCipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getSystemCh());
                 byte[] HemmingBytes1 = Hex.decodeHex(cipherTxt);
                 int h_distance = ConvertService.Get_Hemming_Distance(HemmingBytes0, HemmingBytes1);
                 model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + HemmingBytes1.length * 8);
@@ -86,7 +90,7 @@ public class DesController {
             key = grasshopperCipher.Get_Open_Text(key);
         }
 
-        byte[] Key = key.getBytes();
+        byte[] Key = Hex.decodeHex(key);
         int[] result = new int[Key.length];
 
         for (int i = 0;i<Key.length;i++){

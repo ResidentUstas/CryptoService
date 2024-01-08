@@ -89,9 +89,12 @@ public class CryptoController {
     private String returnUpload(String alg, Model model, String text, int rounds) {
         CipherModel cipher = new CipherModel();
         List<OperModel> oper = new ArrayList<>();
+        List<OperModel> sysCh = new ArrayList<>();
         oper.add(new OperModel(1, "Зашифровать"));
         oper.add(new OperModel(2, "Расшифровать"));
         oper.add(new OperModel(3, "Расстояние Хемминга"));
+        sysCh.add(new OperModel(1, "Dec"));
+        sysCh.add(new OperModel(2, "Hex"));
         List<paramModel> params = new ArrayList<>();
         for (int i = 1; i < rounds; i++) {
             params.add(new paramModel(i, i));
@@ -100,6 +103,8 @@ public class CryptoController {
         cipher.setCipher(text);
         model.addAttribute("cipher", cipher);
         model.addAttribute("Operation", oper);
+        model.addAttribute("SystemCh", sysCh);
+
         switch (alg) {
             case "des":
                 return "views/des/index";

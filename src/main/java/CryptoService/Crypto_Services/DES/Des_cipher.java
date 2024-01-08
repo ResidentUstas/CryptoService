@@ -1,5 +1,6 @@
 package CryptoService.Crypto_Services.DES;
 
+import CryptoService.Services.ConvertService;
 import CryptoService.Services.IOService;
 import org.apache.commons.codec.DecoderException;
 import org.apache.commons.codec.binary.Hex;
@@ -13,9 +14,10 @@ public class Des_cipher {
         this.des_service = new Des_Service(rounds, key);
     }
 
-    public String Get_Cipher_Text(String OpenText) throws IOException, DecoderException {
+    public String Get_Cipher_Text(String OpenText, int sys) throws IOException, DecoderException {
         des_service.KeyExtension();
-        String OpenTextHex = IOService.ReadBytesFromString(OpenText);
+
+        String OpenTextHex = sys == 1 ? IOService.ReadBytesFromString(OpenText) : OpenText;
         String result = "";
         IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\DES\\des_cipher_result.txt");
         while (OpenTextHex.length() > 0) {

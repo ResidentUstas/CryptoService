@@ -47,6 +47,10 @@ public class RC5Controller {
             dopParams.add(new paramModel(i, i));
         }
 
+        List<OperModel> sysCh = new ArrayList<>();
+        sysCh.add(new OperModel(1, "Dec"));
+        sysCh.add(new OperModel(2, "Hex"));
+        model.addAttribute("SystemCh", sysCh);
         model.addAttribute("Parameters", dopParams);
         return "views/rc5/index";
     }
@@ -57,7 +61,7 @@ public class RC5Controller {
         RC5cipher rc5Cipher = new RC5cipher(cipherText.getRounds(), cipherText.getWord(), cipherText.getKeyBits(), cipherText.getWord(), Key);
         switch (cipherText.getMode()) {
             case 1:
-                model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher()));
+                model.addAttribute("cipher", rc5Cipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getSystemCh()));
                 model.addAttribute("path", "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\RC-5\\rc5_cipher_result.txt");
                 break;
             case 2:
@@ -67,7 +71,7 @@ public class RC5Controller {
             case 3:
                 String OpenTextHex = IOService.ReadBytesFromString(cipherText.getCipher());
                 byte[] HemmingBytes0 = Hex.decodeHex(OpenTextHex);
-                String cipherTxt = rc5Cipher.Get_Cipher_Text(cipherText.getCipher());
+                String cipherTxt = rc5Cipher.Get_Cipher_Text(cipherText.getCipher(), cipherText.getSystemCh());
                 byte[] HemmingBytes1 = Hex.decodeHex(cipherTxt);
                 int h_distance = ConvertService.Get_Hemming_Distance(HemmingBytes0, HemmingBytes1);
                 model.addAttribute("cipher", "Расстояние Хемминга для данного текста равняется: " + h_distance + "\r\nвсего бит: " + HemmingBytes0.length * 8);

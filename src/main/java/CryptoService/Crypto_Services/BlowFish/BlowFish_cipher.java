@@ -13,11 +13,11 @@ public class BlowFish_cipher {
          this.blowFishService = new BlowFish_Service(rounds, key);
     }
 
-    public String Get_Cipher_Text(String OpenText) throws IOException, DecoderException {
+    public String Get_Cipher_Text(String OpenText, int sys) throws IOException, DecoderException {
         blowFishService.Setup();
 
         //Получаем шестнадцатиричное представление текста
-        String OpenTextHex = IOService.ReadBytesFromString(OpenText);
+        String OpenTextHex = sys == 1 ? IOService.ReadBytesFromString(OpenText) : OpenText;
 
         String result = "";
         IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\BlowFish\\blowfish_cipher_result.txt");

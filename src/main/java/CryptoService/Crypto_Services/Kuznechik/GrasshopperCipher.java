@@ -14,7 +14,7 @@ public class GrasshopperCipher {
     }
 
     //Шифрует
-    public String Get_Cipher_Text(String OpenText) throws IOException {
+    public String Get_Cipher_Text(String OpenText, int sys) throws IOException {
         //генерируем итерационные константы
         cryptoService.Generate_Constants_Ci();
 
@@ -22,7 +22,7 @@ public class GrasshopperCipher {
         cryptoService.Generate_Round_Keys();
 
         //Получаем шестнадцатиричное представление текста
-        String OpenTextHex = IOService.ReadBytesFromString(OpenText);
+        String OpenTextHex = sys == 1 ? IOService.ReadBytesFromString(OpenText) : OpenText;
 
         String result = "";
         IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\cipher\\Grasshopper\\grasshopper_cipher_result.txt");

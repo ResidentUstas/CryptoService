@@ -30,9 +30,9 @@ public class RC5cipher {
         this.rc5_service = new RC5_Service(WordLength, Rounds, KeyBits, pq_choice[0], pq_choice[1], key);
     }
 
-    public String Get_Cipher_Text(String OpenText) throws IOException {
+    public String Get_Cipher_Text(String OpenText, int sys) throws IOException {
         //Получаем шестнадцатиричное представление текста
-        String OpenTextHex = IOService.ReadBytesFromString(OpenText);
+        String OpenTextHex = sys == 1 ? IOService.ReadBytesFromString(OpenText) : OpenText;
 
         String result = "";
         IOService.WriteStringToFile(result, "D:\\Diplom\\CryptoService\\Block_Ciphers\\decipher\\RC-5\\rc5_decipher_result.txt");
