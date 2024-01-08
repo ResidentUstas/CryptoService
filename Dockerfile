@@ -1,10 +1,13 @@
-FROM docker.io/tomcat:9.0.68-jdk17
+#
+FROM maven:3.8.2-jdk-11 AS build
+COPY . .
+RUN mvn clean package -DskipTests
 
-COPY /target/*.war /usr/local/tomcat/webapps/samplewarapp.war
-
-RUN addgroup  springboot && adduser tomcat
-RUN usermod -G springboot tomcat
-RUN chown -R tomcat /usr/local/tomcat
-USER tomcat
-
+#
+# Package stage
+#
+FROM openjdk:11-jdk-slim
+COPY --from=build /target/demo-0.0.1-SNAPSHOT.jar demo.jar
+# ENV PORT=8080
 EXPOSE 8080
+ENTRYPOINT ["java","-jar","demo.jar"]
